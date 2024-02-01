@@ -1,0 +1,5 @@
+Hello future Mario here are some possible bugs:
+
+C2665: forgot to add public e.g.
+	class someName : Systems -> class someName : public Systems 
+
