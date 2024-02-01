@@ -6,6 +6,7 @@ Game* game = nullptr;
 float gDeltaT{};
 int gFrameNumber = 0;
 
+// some comment
 int main(int argc, char* arvg[])
 {
 	const int FPS = 60;
