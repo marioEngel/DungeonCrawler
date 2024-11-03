@@ -1,4 +1,5 @@
 #pragma once
+#include "../Math/Vector2D.h"
 
 /* Coordinate system
  *     x
@@ -31,4 +32,7 @@
 struct Movement
 {
 	float speed = 128.0f;
+	Vector2D<float> direction{ 0, 0 };
+	// currently if true: shoult never move
+	bool isStationary = false;
 };

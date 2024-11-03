@@ -1,4 +1,7 @@
 #include "Collision.h"
+#include <iostream>
+#include <fstream>
+#include "../../Misc/MistFunctions.h"
 
 CollisionDataSub calc_RectVsCirc_distVec(SDL_Rect& rect, float& circ_radius, SDL_Rect& circ_AABB, bool playerRect)
 {
@@ -7,12 +10,16 @@ CollisionDataSub calc_RectVsCirc_distVec(SDL_Rect& rect, float& circ_radius, SDL
 
 	if (check_RectVsCirc(rect, circ_radius, circCentre))
 	{
+		// testing
+		//std::ofstream outFile("C:/Users/Mario/Desktop/GameDev/directionVals.txt", std::ios::app);
+		
 		Line directionLine{ calc_Rect_center(rect) , circCentre };
 
 		eRectangleSide tmpSide = side_RectVsLine(rect, directionLine, circCentre);
 		printRectangleSide(tmpSide);
 		int tmpAmount{ 0 };
-		std::cout << directionVec << '\n';
+		std::cout << "directionVec1: " << directionVec << '\n';
+
 
 		switch (tmpSide)
 		{
@@ -21,8 +28,26 @@ CollisionDataSub calc_RectVsCirc_distVec(SDL_Rect& rect, float& circ_radius, SDL
 			directionVec.scaleToY(float(tmpAmount));
 			break;
 		case BOT:
-			tmpAmount = (rect.y + rect.h) - (circCentre[1] - circ_radius);
-			directionVec.scaleToY(float(-tmpAmount));
+			if (circCentre[0] < rect.x)
+			{
+				Line diag_botLeft_topRight = Line{rtnCorner(rect, eRectCorner::BotLeft), rtnCorner(rect, eRectCorner::TopRight) };
+				std::vector<Vector2D<float>> crossPoints = crossPoints_CircVsLine(circ_radius, circCentre, diag_botLeft_topRight);
+				int index_crossPoints = 0;
+				if (crossPoints[1].returnXval() > crossPoints[0].returnXval())
+				{
+					index_crossPoints = 1;
+				}
+				directionVec = crossPoints[index_crossPoints] - rtnCorner(rect, eRectCorner::BotLeft);
+			}
+			else if (circCentre[0] > (rect.x + rect.w))
+			{
+
+			}
+			else
+			{
+				tmpAmount = (rect.y + rect.h) - (circCentre[1] - circ_radius);
+				directionVec.scaleToY(float(-tmpAmount));
+			}
 			break;
 		case LEFT:
 			tmpAmount = (circCentre[0] + circ_radius) - rect.x;
@@ -37,7 +62,34 @@ CollisionDataSub calc_RectVsCirc_distVec(SDL_Rect& rect, float& circ_radius, SDL
 		}
 
 		std::cout << "amount: " << tmpAmount << '\n';
-		std::cout << directionVec << '\n' << '\n';
+		std::cout << "directionVec1: " << directionVec << '\n' << '\n';
+
+		//if (outFile.is_open())
+		//{
+		//	outFile << directionVec.returnXval();
+		//	outFile << " ";
+		//	outFile << directionVec.returnYval();
+		//	outFile << " ";
+		//	outFile << tmpAmount;
+		//	outFile << " ";
+		//	outFile << rect.x;
+		//	outFile << " ";
+		//	outFile << rect.y;
+		//	outFile << " ";
+		//	outFile << rect.h;
+		//	outFile << " ";
+		//	outFile << rect.w;
+		//	outFile << " ";
+		//	outFile << circCentre.returnXval();
+		//	outFile << " ";
+		//	outFile << circCentre.returnYval();
+		//	outFile << " ";
+		//	outFile << circ_radius;
+		//	outFile << " ";
+		//	outFile << "\n";
+
+		//	outFile.close();
+		//}
 
 		if (playerRect)
 		{
@@ -205,7 +257,7 @@ eRectangleSide side_RectVsLine(SDL_Rect& rect, Line& line, Vector2D<float>& circ
 		}
 	}
 
-	std::cout << lessCrossPoints.size() << '\n';
+	//std::cout << lessCrossPoints.size() << '\n';
 
 	if (lessCrossPoints.size() == 2)
 	{

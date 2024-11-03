@@ -20,5 +20,5 @@
 
 struct MoveDecision
 {
-	Vector2D<float> direction{ 0.0, 0.0 };
+	Vector2D<float> direction{ 0, 0 };
 };

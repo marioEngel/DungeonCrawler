@@ -1,7 +1,7 @@
 #pragma once
 
 // check if object should loock for collisions 
-struct isCollision
+struct IsCollision
 {
 	bool checkCollision = false;
 };

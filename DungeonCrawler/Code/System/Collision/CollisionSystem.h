@@ -9,7 +9,6 @@ public:
 	void check_General();
 	void react();
 
-	
 	void create_HitboxRender();
 	void render_Hitbox();
 

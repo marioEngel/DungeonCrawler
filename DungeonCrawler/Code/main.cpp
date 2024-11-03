@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include "Game.h"
+#include <fstream>
 
 Game* game = nullptr;
 
@@ -10,13 +11,19 @@ int gFrameNumber = 0;
 int main(int argc, char* arvg[])
 {
 	const int FPS = 60;
-	const int FrameDelay = 1000 / 60;
+	const int FrameDelay = 1000 / FPS;
 	Uint32 frameStart;
 	Uint32 frameTime;
 
 	game = new Game();
 	game->init("Test", 800, 600, 0);
 	game->initEntities();
+
+	//std::ofstream outFile("C:/Users/Mario/Desktop/GameDev/directionVals.txt", std::ios::out | std::ios::trunc);
+	//if (outFile.is_open()) 
+	//{
+	//	outFile.close();  // Close the file after truncating
+	//}
 
 	while (game->gameRunning())
 	{

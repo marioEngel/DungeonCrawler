@@ -11,7 +11,7 @@ public:
 
 	bool gameRunning();
 	void clean();
-	void init(const char* text, int width, int hight, int flag = 0);
+	void init(const char* text, int width, int height, int flag = 0);
 	void makeEnd();
 
 	void initEntities();
@@ -20,6 +20,8 @@ public:
 
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
+	static int screenWidth;
+	static int screenHeight;
 
 private:
 	bool isRunning = true;

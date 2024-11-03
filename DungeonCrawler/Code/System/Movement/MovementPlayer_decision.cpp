@@ -1,19 +1,21 @@
-#include "MovementDecision.h"
-#include "../ECS/Coordinator.h"
-#include "../System/KeyInput/KeyboardInput.h"
-#include "../Component/InputComp.h"
-#include "../Component/MoveDecisionComp.h"
-#include "Dungeon/Dungeon.h"
+#include "MovementPlayer_decision.h"
+#include "../../ECS/Coordinator.h"
+#include "../../System/KeyInput/KeyboardInput.h"
+#include "../../Component/InputComp.h"
+#include "../../Component/MoveDecisionComp.h"
+#include "../Dungeon/Dungeon.h"
+#include "../../Component/MovementComp.h"
 
 extern Coordinator gCoordinator;
 extern KeyboardInput gKeyboardInput;
 
-void MovementDecisionSystem::update()
+void MovementPlayer_decisionSystem::update()
 {
 	for (auto& const entity : mEntities)
 	{
 		auto& input = gCoordinator.GetComponent<InputKeys>(entity);
 		auto& decision = gCoordinator.GetComponent<MoveDecision>(entity);
+		auto& movement = gCoordinator.GetComponent<Movement>(entity);
 
 		decision.direction = Vector2D<float>{ 0.0, 0.0 };
 
@@ -40,7 +42,7 @@ void MovementDecisionSystem::update()
 		}
 
 		decision.direction.normalize();
-
+		movement.direction = decision.direction;
 		//std::cout << decision.direction << std::endl;
 	}
 }

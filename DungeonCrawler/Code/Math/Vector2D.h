@@ -23,6 +23,9 @@ public:
 	Vector2D<T> flip();
 	Vector2D<T> flipX();
 	Vector2D<T> flipY();
+
+	T returnXval();
+	T returnYval();
 	
 	// operator overloading
 	friend Vector2D operator+(const Vector2D& firstVector, const Vector2D& secondVector)
@@ -216,4 +219,16 @@ template <typename T>
 Vector2D<T> Vector2D<T>::flipY()
 {
 	return Vector2D<T>(mVecVal[0], -mVecVal[1]);
+}
+
+template <typename T>
+T Vector2D<T>::returnXval()
+{
+	return mVecVal[0];
+}
+
+template <typename T>
+T Vector2D<T>::returnYval()
+{
+	return mVecVal[1];
 }

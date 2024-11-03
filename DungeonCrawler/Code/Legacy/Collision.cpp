@@ -7,44 +7,43 @@ extern int gFrameNumber;
 // simple collision test for geometries
 bool check_RectVsRect(SDL_Rect& rect1, SDL_Rect& rect2)
 {
-	bool returnBool = false;
+	bool rtnBool = false;
 
 	if ((rect1.x + rect1.w) > rect2.x &&
 		rect1.x < (rect2.x + rect2.w) &&
 		(rect1.y + rect1.h) > rect2.y &&
 		rect1.y < (rect2.y + rect2.h))
 	{
-		returnBool = true;
+		rtnBool = true;
 	}
 
-	return returnBool;
+	return rtnBool;
 }
 
 bool check_RectVsPoint(SDL_Rect& rect, Vector2D<float>& vec)
 {
-	bool returnBool = false;
+	bool rtnBool = false;
 
 	if (int(vec[0]) >= rect.x &&
 		int(vec[0]) <= (rect.x + rect.w) &&
 		int(vec[1]) >= rect.y &&
 		int(vec[1]) <= (rect.y + rect.h) )
 	{
-		returnBool = true;
+		rtnBool = true;
 	}
 
-	return returnBool;
+	return rtnBool;
 }
 
 bool check_RectVsCirc(SDL_Rect& rect, float& circ_radius, Vector2D<float> pos)
 {
-	bool collision = false;
+	bool rtnBool = false;
 	std::vector<Vector2D<float>> rtnCrossPoints{};
 
 	Line topLine = create_Line(eRectangleSide::TOP, rect);
 	Line botLine = create_Line(eRectangleSide::BOT, rect);
 	Line leftLine = create_Line(eRectangleSide::LEFT, rect);
 	Line rightLine = create_Line(eRectangleSide::RIGHT, rect);
-
 
 	if (check_determinante(circ_radius, pos, topLine))
 	{
@@ -84,27 +83,29 @@ bool check_RectVsCirc(SDL_Rect& rect, float& circ_radius, Vector2D<float> pos)
 	
 		if (check_PointVsRectEdge(rect, rtnCrossPoints[i]))
 		{
-			collision = true;
+			rtnBool = true;
 		}
 	}
 
-	return collision;
+	return rtnBool;
 }
 
 bool check_CircleVsCircle(float& radius1, Vector2D<float>& position1, float& radius2, Vector2D<float>& position2)
 {
-	bool returnBool = false;
+	bool rtnBool = false;
+
 	if ((position2 - position1).calc_amountSquared() < ((radius1 + radius2) * (radius1 + radius2)))
 	{
-		returnBool = true;
+		rtnBool = true;
 	}
 
-	return returnBool;
+	return rtnBool;
 }
 
 bool check_PointVsRectEdge(SDL_Rect& rect, Vector2D<float>& point)
 {
 	bool rtnBool = false;
+
 	float leftSide = float(rect.x);
 	float rightSide = float(rect.x + rect.w);
 	float topSide = float(rect.y + rect.h);
@@ -129,7 +130,10 @@ bool check_Geometry_AABB(Geometry& geom1, Vector2D<float>& pos1, Geometry& geom2
 	return check_RectVsRect(geom1_AABB, geom2_AABB);
 }
 
-CollisionDataSub check_Geometry_arbitrary(Geometry& geom1, Vector2D<float>& pos1, Geometry& geom2, Vector2D<float>& pos2)
+CollisionDataSub check_Geometry_arbitrary(
+	Geometry& geom1, Vector2D<float>& pos1, Movement& mov1,
+	Geometry& geom2, Vector2D<float>& pos2, Movement& mov2
+)
 {
 	if (geom1.return_GeomType() == geom2.return_GeomType())
 	{
@@ -201,7 +205,6 @@ CollisionDataSub check_Geometry_arbitrary(Geometry& geom1, Vector2D<float>& pos1
 			return CollisionDataSub{ Vector2D<float> {}, false };
 			break;
 		}
-
 	}
 }
 

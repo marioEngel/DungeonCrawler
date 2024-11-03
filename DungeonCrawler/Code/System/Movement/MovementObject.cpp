@@ -16,7 +16,6 @@ void MovementObjectSystem::update()
 		auto& normalPos = gCoordinator.GetComponent<Position>(entity);
 		auto& direction = gCoordinator.GetComponent<FaceDirection>(entity);
 
-
 		normalPos.pos = normalPos.pos + Vector2D<float>(
 			std::cos(direction.angle) * movement.speed * gDeltaT, 
 			-std::sin(direction.angle) * movement.speed * gDeltaT
