@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 enum eButtonState
 {
@@ -18,7 +18,7 @@ public:
 	void getPrevKeys();
 	eButtonState getButtonState(int number);
 
-	uint8_t prevKeys[SDL_NUM_SCANCODES];
-	const uint8_t* currKeys;
+	bool prevKeys[SDL_SCANCODE_COUNT];
+	const bool* currKeys;
 };
 

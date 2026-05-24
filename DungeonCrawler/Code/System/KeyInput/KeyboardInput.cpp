@@ -1,10 +1,10 @@
 #include "KeyboardInput.h"
 #include "../../Game.h"
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 KeyboardInput::KeyboardInput()
 {
-	memset(prevKeys, 0, SDL_NUM_SCANCODES);
+	memset(prevKeys, 0, SDL_SCANCODE_COUNT);
 	currKeys = SDL_GetKeyboardState(NULL);
 }
 
@@ -16,7 +16,7 @@ void KeyboardInput::registerInput()
 
 void KeyboardInput::getPrevKeys()
 {
-	memcpy(prevKeys, currKeys, SDL_NUM_SCANCODES);
+	memcpy(prevKeys, currKeys, SDL_SCANCODE_COUNT);
 }
 
 eButtonState KeyboardInput::getButtonState(int number)

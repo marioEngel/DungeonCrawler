@@ -6,6 +6,7 @@ class GeomCircle : public Geometry
 {
 public:
 	GeomCircle(float inWidth, float inHeight, float inRadius);
+	GeomCircle(float inWidth, float inHeight, float inRadius, eGeomType inGeomType);
 	~GeomCircle();
 
 	void print_Stuff() const override;

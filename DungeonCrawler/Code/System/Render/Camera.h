@@ -1,5 +1,5 @@
 #pragma once
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include "../../ECS/ECS.h"
 
 class Camera
@@ -12,6 +12,6 @@ public:
 
 	void CheckCollision(Entity player);
 
-	SDL_Rect mCamera;
-	SDL_Rect mCameraEdge;
+	SDL_FRect mCamera;
+	SDL_FRect mCameraEdge;
 };

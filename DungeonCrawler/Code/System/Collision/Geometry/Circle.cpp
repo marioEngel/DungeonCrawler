@@ -6,6 +6,12 @@ GeomCircle::GeomCircle(float inWidth, float inHeight, float inRadius) :
 {
 }
 
+GeomCircle::GeomCircle(float inWidth, float inHeight, float inRadius, eGeomType inGeomType) :
+	Geometry(inWidth, inHeight, inGeomType),
+	mRadius{ inRadius }
+{
+}
+
 GeomCircle::~GeomCircle()
 {
 }

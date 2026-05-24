@@ -8,6 +8,13 @@ GeomRectangle::GeomRectangle(float inWidth, float inHeight, float inRectWidht, f
 {
 }
 
+GeomRectangle::GeomRectangle(float inWidth, float inHeight, float inRectWidht, float inRectHeight, eGeomType inGeomType) :
+	Geometry(inWidth, inHeight, inGeomType),
+	mRectWidth{ inRectWidht },
+	mRectHeight{ inRectHeight }
+{
+}
+
 GeomRectangle::~GeomRectangle()
 {
 }

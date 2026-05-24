@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 using Matrix = std::vector<std::vector<int>>;
 

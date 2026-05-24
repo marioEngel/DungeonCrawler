@@ -1,6 +1,6 @@
 #include "Collision.h"
 
-bool check_RectVsRect(SDL_Rect& rect1, SDL_Rect& rect2)
+bool check_RectVsRect(SDL_FRect& rect1, SDL_FRect& rect2)
 {
 	bool rtnBool = false;
 
@@ -15,14 +15,14 @@ bool check_RectVsRect(SDL_Rect& rect1, SDL_Rect& rect2)
 	return rtnBool;
 }
 
-bool check_RectVsPoint(SDL_Rect& rect, Vector2D<float>& vec)
+bool check_RectVsPoint(SDL_FRect& rect, Vector2D<float>& vec)
 {
 	bool rtnBool = false;
 
-	if (int(vec[0]) >= rect.x &&
-		int(vec[0]) <= (rect.x + rect.w) &&
-		int(vec[1]) >= rect.y &&
-		int(vec[1]) <= (rect.y + rect.h))
+	if (vec[0] >= rect.x &&
+		vec[0] <= (rect.x + rect.w) &&
+		vec[1] >= rect.y &&
+		vec[1] <= (rect.y + rect.h))
 	{
 		rtnBool = true;
 	}
@@ -30,7 +30,7 @@ bool check_RectVsPoint(SDL_Rect& rect, Vector2D<float>& vec)
 	return rtnBool;
 }
 
-bool check_RectVsCirc(SDL_Rect& rect, float& circ_radius, Vector2D<float> pos)
+bool check_RectVsCirc(SDL_FRect& rect, float& circ_radius, Vector2D<float> pos)
 {
 	bool rtnBool = false;
 	std::vector<Vector2D<float>> rtnCrossPoints{};
@@ -96,14 +96,14 @@ bool check_CircleVsCircle(float& radius1, Vector2D<float>& position1, float& rad
 	return rtnBool;
 }
 
-bool check_PointVsRectEdge(SDL_Rect& rect, Vector2D<float>& point)
+bool check_PointVsRectEdge(SDL_FRect& rect, Vector2D<float>& point)
 {
 	bool rtnBool = false;
 
-	float leftSide = float(rect.x);
-	float rightSide = float(rect.x + rect.w);
-	float topSide = float(rect.y + rect.h);
-	float botSide = float(rect.y);
+	float leftSide = rect.x;
+	float rightSide = rect.x + rect.w;
+	float topSide = rect.y + rect.h;
+	float botSide = rect.y;
 
 	if ((point[0] > leftSide && point[0] < rightSide) || floatsEqual(point[0], leftSide) || floatsEqual(point[0], rightSide))
 	{
@@ -118,8 +118,8 @@ bool check_PointVsRectEdge(SDL_Rect& rect, Vector2D<float>& point)
 // more advanced collision test for geometries
 bool check_Geometry_AABB(Geometry& geom1, Vector2D<float>& pos1, Geometry& geom2, Vector2D<float>& pos2)
 {
-	SDL_Rect geom1_AABB = geom1.return_AABB(pos1);
-	SDL_Rect geom2_AABB = geom2.return_AABB(pos2);
+	SDL_FRect geom1_AABB = geom1.return_AABB(pos1);
+	SDL_FRect geom2_AABB = geom2.return_AABB(pos2);
 
 	return check_RectVsRect(geom1_AABB, geom2_AABB);
 }
@@ -208,132 +208,5 @@ bool check_firstPointCloser(Vector2D<float>& point1, Vector2D<float>& point2, Ve
 	else
 	{
 		return false;
-	}
-}
-
-CollisionDataSub check_Geometry_arbitrary(
-	Geometry& geom1, Vector2D<float>& pos1, Movement& mov1,
-	Geometry& geom2, Vector2D<float>& pos2, Movement& mov2
-)
-{
-	if (geom1.return_GeomType() == geom2.return_GeomType())
-	{
-		switch (geom1.return_GeomType())
-		{
-		case eGeomType::RECTANGLE:
-			// one object is stationary 
-			if (mov1.isStationary || mov2.isStationary)
-			{
-				// move object which is not stationary
-				if (mov1.isStationary)
-				{
-					std::array<float, 2> rect1 = geom1.return_para_Rect();
-					std::array<float, 2> rect2 = geom2.return_para_Rect();
-
-					SDL_Rect collRect1 = create_Rect(pos1, rect1);
-					SDL_Rect collRect2 = create_Rect(pos2, rect2);
-
-					return calc_RectVsRect_distVec(collRect2, collRect1, mov2.direction);
-				}
-				else
-				{
-					std::array<float, 2> rect1 = geom1.return_para_Rect();
-					std::array<float, 2> rect2 = geom2.return_para_Rect();
-
-					SDL_Rect collRect1 = create_Rect(pos1, rect1);
-					SDL_Rect collRect2 = create_Rect(pos2, rect2);
-
-					return calc_RectVsRect_distVec(collRect1, collRect2, mov1.direction);
-				}
-			}
-			// both objects are moving
-			// more difficult
-			else
-			{
-				std::cout << "One object not stationary (Collision_check.cpp)\n";
-				return CollisionDataSub{ Vector2D<float> {}, false };
-			}
-			break;
-		case eGeomType::CIRCLE:
-			// one object is stationary 
-			if (mov1.isStationary || mov2.isStationary)
-			{
-				if (mov2.isStationary)
-				{
-					std::array<float, 1> circ1 = geom1.return_para_Circ();
-					std::array<float, 1> circ2 = geom2.return_para_Circ();
-
-					SDL_Rect collRect1_2 = geom1.return_AABB(pos1);
-					SDL_Rect collRect2_2 = geom2.return_AABB(pos2);
-
-					return calc_CircVsCirc_distVec(circ1[0], collRect1_2, circ2[0], collRect2_2);
-				}
-				else
-				{
-					std::array<float, 1> circ1 = geom1.return_para_Circ();
-					std::array<float, 1> circ2 = geom2.return_para_Circ();
-
-					SDL_Rect collRect1_2 = geom1.return_AABB(pos1);
-					SDL_Rect collRect2_2 = geom2.return_AABB(pos2);
-
-					return calc_CircVsCirc_distVec(circ2[0], collRect2_2, circ1[0], collRect1_2);
-				}
-			}
-			// both objects are moving
-			// more difficult	
-			else
-			{
-				std::cout << "One object not stationary (Collision_check.cpp)\n";
-				return CollisionDataSub{ Vector2D<float> {}, false };
-			}
-			break;
-		default:
-			std::cout << "somethings wrong\n";
-			return CollisionDataSub{ Vector2D<float> {}, false };
-			break;
-		}
-	}
-	else
-	{
-		switch (geom1.return_GeomType() + geom2.return_GeomType())
-		{
-			// Rectangle vs Circle 
-		case 6:
-		{
-			std::array<float, 1> circlePara;
-			std::array<float, 2> rectanglePara;
-			SDL_Rect circAABB{};
-			SDL_Rect collRect{};
-			if (geom1.return_GeomType() == eGeomType::RECTANGLE)
-			{
-				rectanglePara = geom1.return_para_Rect();
-				collRect = create_Rect(pos1, rectanglePara);
-				circlePara = geom2.return_para_Circ();
-				circAABB = geom2.return_AABB(pos2);
-
-				return calc_RectVsCirc_distVec(collRect, circlePara[0], circAABB, true, mov2.direction);
-			}
-			else
-			{
-				rectanglePara = geom2.return_para_Rect();
-				collRect = create_Rect(pos2, rectanglePara);
-				circlePara = geom1.return_para_Circ();
-				circAABB = geom1.return_AABB(pos1);
-
-				return calc_RectVsCirc_distVec(collRect, circlePara[0], circAABB, false, mov1.direction);
-			}
-			break;
-		}
-		// Rectangle vs Circular Section 
-		case 10:
-			break;
-			// Circle vs Circular Section
-		case 12:
-			break;
-		default:
-			std::cout << "somethings wrong (check_Geometry_arbitrary)\n";
-			return CollisionDataSub{ Vector2D<float> {}, false };
-			break;
-		}
 	}
 }

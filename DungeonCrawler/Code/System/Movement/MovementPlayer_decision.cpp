@@ -1,10 +1,10 @@
 #include "MovementPlayer_decision.h"
 #include "../../ECS/Coordinator.h"
 #include "../../System/KeyInput/KeyboardInput.h"
-#include "../../Component/InputComp.h"
-#include "../../Component/MoveDecisionComp.h"
+#include "../../Component/Comp_InputKeys.h"
+#include "../../Component/Comp_DirectionDecision.h"
 #include "../Dungeon/Dungeon.h"
-#include "../../Component/MovementComp.h"
+#include "../../Component/Comp_Movement.h"
 
 extern Coordinator gCoordinator;
 extern KeyboardInput gKeyboardInput;
@@ -14,7 +14,7 @@ void MovementPlayer_decisionSystem::update()
 	for (auto& const entity : mEntities)
 	{
 		auto& input = gCoordinator.GetComponent<InputKeys>(entity);
-		auto& decision = gCoordinator.GetComponent<MoveDecision>(entity);
+		auto& decision = gCoordinator.GetComponent<DirectionDecision>(entity);
 		auto& movement = gCoordinator.GetComponent<Movement>(entity);
 
 		decision.direction = Vector2D<float>{ 0.0, 0.0 };
@@ -51,7 +51,7 @@ void MovementPlayer_decisionSystem::update()
 //{
 //	for (auto& const entity : mEntities)
 //	{
-//		auto& decision = gCoordinator.GetComponent<MoveDecision>(entity);
+//		auto& decision = gCoordinator.GetComponent<DirectionDecision>(entity);
 //		auto& matrixPos = gCoordinator.GetComponent<MatrixPosition>(entity);
 //
 //		Vector2D<int> tmpDirection{};
@@ -83,7 +83,7 @@ void MovementPlayer_decisionSystem::update()
 	{
 		for (auto& const entity : mEntities)
 		{
-			auto& decision = gCoordinator.GetComponent<MoveDecision>(entity);
+			auto& decision = gCoordinator.GetComponent<DirectionDecision>(entity);
 
 			std::cout << "decision direction: " << decision.direction << '\n' <<
 				"decision input cooldown: " << decision.inputCooldown << '\n' <<

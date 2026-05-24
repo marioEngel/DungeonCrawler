@@ -1,6 +1,6 @@
 #include "Collision.h"
 
-std::vector<Vector2D<float>> crossPoints_RectVsLine(SDL_Rect& rect, Line& line)
+std::vector<Vector2D<float>> crossPoints_RectVsLine(SDL_FRect& rect, Line& line)
 {
 	std::vector<Vector2D<float>> rtnCrossPoints;
 
@@ -36,7 +36,7 @@ std::vector<Vector2D<float>> crossPoints_RectVsLine(SDL_Rect& rect, Line& line)
 	return rtnCrossPoints;
 }
 
-std::vector<Vector2D<float>> crossPoints_RectOpenVsLine(SDL_Rect& rect, Line& line)
+std::vector<Vector2D<float>> crossPoints_RectOpenVsLine(SDL_FRect& rect, Line& line)
 {
 	std::vector<Vector2D<float>> rtnCrossPoints;
 
@@ -170,13 +170,13 @@ std::vector<Vector2D<float>> crossPoints_CircVsLine(float& circ_radius, Vector2D
 	switch (line.return_Linestyle())
 	{
 	case eLineStyle::HORIZONTAL:
+	{
 		par_a = 1.0f;
 		par_b = -2.0f * pos[0];
 		par_c = pos[0] * pos[0] + pos[1] * pos[1] - circ_radius * circ_radius +
 			line.return_Offset_t() * line.return_Offset_t() - 2.0f * line.return_Offset_t() * pos[1];
 
 		determinante = par_b * par_b - 4.0f * par_a * par_c;
-		//std::cout << determinante << '\n';
 
 		if (determinante < 0.0f)
 		{
@@ -204,7 +204,9 @@ std::vector<Vector2D<float>> crossPoints_CircVsLine(float& circ_radius, Vector2D
 		}
 
 		break;
+	}
 	case eLineStyle::VERTICAL:
+	{
 		par_a = 1.0f;
 		par_b = -2.0f * pos[1];
 		par_c = pos[0] * pos[0] + pos[1] * pos[1] - circ_radius * circ_radius +
@@ -238,11 +240,15 @@ std::vector<Vector2D<float>> crossPoints_CircVsLine(float& circ_radius, Vector2D
 			rtnVec.push_back(Vector2D<float> { tmpX, tmpY2 });
 		}
 		break;
+	}
 	case eLineStyle::NORMAL:
-		par_a = (1.0f + line.return_Slope_m() * line.return_Slope_m());
-		par_b = 2.0f * (line.return_Slope_m() * line.return_Offset_t() - pos[0] - line.return_Slope_m() * pos[1]);
+	{
+		par_a = 1;
+		par_b = 2.0f * (line.return_Slope_m() * line.return_Offset_t() - pos[0] - line.return_Slope_m() * pos[1])
+			/ (1.0f + line.return_Slope_m() * line.return_Slope_m()) ;
 		par_c = (pos[0] * pos[0] + pos[1] * pos[1] - circ_radius * circ_radius
-			+ line.return_Offset_t() * line.return_Offset_t() - 2.0f * line.return_Offset_t() * pos[1]);
+			+ line.return_Offset_t() * line.return_Offset_t() - 2.0f * line.return_Offset_t() * pos[1]) 
+			/ (1.0f + line.return_Slope_m() * line.return_Slope_m());
 
 		determinante = par_b * par_b - 4.0f * par_a * par_c;
 		//std::cout << determinante << '\n';
@@ -252,6 +258,11 @@ std::vector<Vector2D<float>> crossPoints_CircVsLine(float& circ_radius, Vector2D
 			rtnVec.push_back(Vector2D<float>{ 0.0f, 0.0f });
 			std::cout << "something wrong Mario\n determinante negatice\n";
 
+			// probably very close to zero and because of rounding errors negative
+			float tmpX = -par_b / (2.0f * par_a);
+			float tmpY = line.return_Slope_m() * tmpX + line.return_Offset_t();
+
+			rtnVec.push_back(Vector2D<float> { tmpX, tmpY });
 		}
 		else if (floatsEqual(determinante, 0.0f))
 		{
@@ -274,6 +285,7 @@ std::vector<Vector2D<float>> crossPoints_CircVsLine(float& circ_radius, Vector2D
 			rtnVec.push_back(Vector2D<float> { tmpX2, tmpY2 });
 		}
 		break;
+	}
 	default:
 		break;
 	}
@@ -281,7 +293,7 @@ std::vector<Vector2D<float>> crossPoints_CircVsLine(float& circ_radius, Vector2D
 	return rtnVec;
 }
 
-std::vector<Vector2D<float>> crossPoints_RectVsCirc(SDL_Rect& rect, float& circ_radius, Vector2D<float>& pos)
+std::vector<Vector2D<float>> crossPoints_RectVsCirc(SDL_FRect& rect, float& circ_radius, Vector2D<float>& pos)
 {
 	std::vector<Vector2D<float>> rtnCrossPoints;
 

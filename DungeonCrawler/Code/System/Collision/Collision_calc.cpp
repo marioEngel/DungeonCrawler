@@ -1,44 +1,40 @@
-#include "Collision.h"
+ #include "Collision.h"
 
-CollisionDataSub calc_RectVsRect_distVec(SDL_Rect& rect1, SDL_Rect& rect2, Vector2D<float> rect1_direction)
+CollisionDataSub calc_RectVsRect_distVec(SDL_FRect& rect1, SDL_FRect& rect2, Vector2D<float> rect1_direction, Vector2D<float> rect2_direction)
 {
-	if (check_RectVsRect(rect1, rect2))
+	/*
+	1. Calculate the cross points between the line of movement of one rectangle and the other rectangle
+	2. Do it again for the other rectangle
+	3. Chose the cross points which are clossest to the rectangle
+	*/
+	// First Rectangle
+	Line directionLine{ calc_Rect_center(rect1), calc_Rect_center(rect1) + rect1_direction };
+
+	// first rect
+	std::vector<float> distanceCrossPointsRect1{};
+	std::vector<Vector2D<float>> crossPointsRect1 = crossPoints_RectVsLine(rect1, directionLine);
+	for (size_t i = 0; i < crossPointsRect1.size(); i++)
 	{
-		//Vector2D<float> directionVec = calc_Rect_center(rect2) - calc_Rect_center(rect1);
-		//Line directionLine{ calc_Rect_center(rect1), calc_Rect_center(rect2) };
-		Line directionLine{ calc_Rect_center(rect1), calc_Rect_center(rect1) + rect1_direction };
-
-		// first rect
-		std::vector<float> distanceCrossPointsRect1{};
-		std::vector<Vector2D<float>> crossPointsRect1 = crossPoints_RectVsLine(rect1, directionLine);
-		for (size_t i = 0; i < crossPointsRect1.size(); i++)
-		{
-			distanceCrossPointsRect1.push_back((calc_Rect_center(rect2) - crossPointsRect1[i]).calc_amountSquared());
-		}
-		auto it1 = std::min_element(std::begin(distanceCrossPointsRect1), std::end(distanceCrossPointsRect1));
-		int index1 = std::distance(std::begin(distanceCrossPointsRect1), it1);
-
-		// second rect
-		std::vector<float> distanceCrossPointsRect2{};
-		std::vector<Vector2D<float>> crossPointsRect2 = crossPoints_RectOpenVsLine(rect2, directionLine);
-		for (size_t i = 0; i < crossPointsRect2.size(); i++)
-		{
-			distanceCrossPointsRect2.push_back((crossPointsRect1[index1] - crossPointsRect2[i]).calc_amountSquared());
-		}
-		auto it2 = std::min_element(std::begin(distanceCrossPointsRect2), std::end(distanceCrossPointsRect2));
-		int index2 = std::distance(std::begin(distanceCrossPointsRect2), it2);
-
-		Vector2D<float> finalRect = crossPointsRect2[index2] - crossPointsRect1[index1];
-
-		return CollisionDataSub{ finalRect, true };
+		distanceCrossPointsRect1.push_back((calc_Rect_center(rect2) - crossPointsRect1[i]).calc_amountSquared());
 	}
-	else
+	auto it1 = std::min_element(std::begin(distanceCrossPointsRect1), std::end(distanceCrossPointsRect1));
+	int index1 = std::distance(std::begin(distanceCrossPointsRect1), it1);
+
+	// second rect
+	std::vector<float> distanceCrossPointsRect2{};
+	std::vector<Vector2D<float>> crossPointsRect2 = crossPoints_RectOpenVsLine(rect2, directionLine);
+	for (size_t i = 0; i < crossPointsRect2.size(); i++)
 	{
-		return CollisionDataSub{ Vector2D<float>{0.0f, 0.0f}, false };
+		distanceCrossPointsRect2.push_back((crossPointsRect1[index1] - crossPointsRect2[i]).calc_amountSquared());
 	}
+	auto it2 = std::min_element(std::begin(distanceCrossPointsRect2), std::end(distanceCrossPointsRect2));
+	int index2 = std::distance(std::begin(distanceCrossPointsRect2), it2);
+
+	Vector2D<float> finalRect = crossPointsRect1[index1] - crossPointsRect2[index2];
+	return CollisionDataSub{ finalRect, true };
 }
 
-CollisionDataSub calc_CircVsCirc_distVec(float& circ1_radius, SDL_Rect& circ1_AABB, float& circ2_radius, SDL_Rect& circ2_AABB)
+CollisionDataSub calc_CircVsCirc_distVec(float& circ1_radius, SDL_FRect& circ1_AABB, float& circ2_radius, SDL_FRect& circ2_AABB)
 {
 	Vector2D<float> circ1_center = calc_Rect_center(circ1_AABB);
 	Vector2D<float> circ2_center = calc_Rect_center(circ2_AABB);
@@ -77,21 +73,35 @@ CollisionDataSub calc_CircVsCirc_distVec(float& circ1_radius, SDL_Rect& circ1_AA
 	}
 }
 
-CollisionDataSub calc_RectVsCirc_distVec(SDL_Rect& rect, float& circ_radius, SDL_Rect& circ_AABB, bool playerRect, Vector2D<float> playerd_direction)
+CollisionDataSub calc_RectVsCirc_distVec(SDL_FRect& rect, float& circ_radius, SDL_FRect& circ_AABB, Vector2D<float> rect_dir, Vector2D<float> circ_dir)
 {
 	Vector2D<float> circCentre = calc_Rect_center(circ_AABB);
-	//Vector2D<float> directionVec = circCentre - calc_Rect_center(rect);
-	Vector2D<float> directionVec = playerd_direction;
+	Vector2D<float> directionVec{};
+	bool isPlayerRect;
+
+	// check which direction is bigger (which is not zero and therefore the player)
+	if (rect_dir.calc_amountSquared() < circ_dir.calc_amountSquared())
+	{
+		directionVec = circ_dir;
+		isPlayerRect = false;
+	}
+	else
+	{
+		directionVec = rect_dir;
+		isPlayerRect = true;
+	}
+
 
 	if (check_RectVsCirc(rect, circ_radius, circCentre))
 	{
 		Line directionLine{ calc_Rect_center(rect) , circCentre };
 		eRectangleSide tmpSide = side_RectVsLine(rect, directionLine, circCentre);
-		int tmpAmount{ 0 };
+		float tmpAmount{ 0.0f };
 
 		switch (tmpSide)
 		{
 		case TOP:
+		{
 			if (circCentre[0] < rect.x)
 			{
 				Line diag_topLeft_botRight = Line{ rtnCorner(rect, eRectCorner::TopLeft), rtnCorner(rect, eRectCorner::BotRight) };
@@ -117,10 +127,13 @@ CollisionDataSub calc_RectVsCirc_distVec(SDL_Rect& rect, float& circ_radius, SDL
 			else
 			{
 				tmpAmount = (circCentre[1] + circ_radius) - rect.y;
+				directionVec = Vector2D<float>{ 0.0f, 1.0f };
 				directionVec.scaleToY(float(tmpAmount));
 			}
 			break;
+		}
 		case BOT:
+		{
 			if (circCentre[0] < rect.x)
 			{
 				Line diag_botLeft_topRight = Line{ rtnCorner(rect, eRectCorner::BotLeft), rtnCorner(rect, eRectCorner::TopRight) };
@@ -146,10 +159,15 @@ CollisionDataSub calc_RectVsCirc_distVec(SDL_Rect& rect, float& circ_radius, SDL
 			else
 			{
 				tmpAmount = (rect.y + rect.h) - (circCentre[1] - circ_radius);
+				directionVec = Vector2D<float>{ 0.0f, -1.0f };
 				directionVec.scaleToY(float(-tmpAmount));
 			}
 			break;
+		}
 		case LEFT:
+		{
+			Vector2D<float> prevDirectionVec = directionVec;
+
 			if (circCentre[1] < rect.y)
 			{
 				Line diag_topLeft_botRight = Line{ rtnCorner(rect, eRectCorner::TopLeft), rtnCorner(rect, eRectCorner::BotRight) };
@@ -175,10 +193,13 @@ CollisionDataSub calc_RectVsCirc_distVec(SDL_Rect& rect, float& circ_radius, SDL
 			else
 			{
 				tmpAmount = (circCentre[0] + circ_radius) - rect.x;
-				directionVec.scaleToX(float(tmpAmount));
+				directionVec = Vector2D<float>{ 1.0f, 0.0f };
+				directionVec.scaleToX(tmpAmount);
 			}
 			break;
+		}
 		case RIGHT:
+		{
 			if (circCentre[1] < rect.y)
 			{
 				Line diag_botLeft_topRight = Line{ rtnCorner(rect, eRectCorner::BotLeft), rtnCorner(rect, eRectCorner::TopRight) };
@@ -204,14 +225,16 @@ CollisionDataSub calc_RectVsCirc_distVec(SDL_Rect& rect, float& circ_radius, SDL
 			else
 			{
 				tmpAmount = (rect.x + rect.w) - (circCentre[0] - circ_radius);
+				directionVec = Vector2D<float>{ -1.0f, 0.0f };
 				directionVec.scaleToX(float(-tmpAmount));
 			}
 			break;
+		}
 		default:
 			break;
 		}
 
-		if (playerRect)
+		if (isPlayerRect)
 		{
 			return CollisionDataSub{ directionVec, true };
 		}

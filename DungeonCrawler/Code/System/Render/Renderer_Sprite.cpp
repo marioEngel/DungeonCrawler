@@ -1,7 +1,7 @@
  #include "Renderer_Sprite.h"
 #include "../../ECS/Coordinator.h"
-#include "../../Component/TextureComp.h"
-#include "../../Component/PositionComp.h"
+#include "../../Component/Comp_Texture.h"
+#include "../../Component/Comp_Position.h"
 #include "TextureFunc.h"
 #include "../../Game.h"
 #include "Camera.h"
@@ -15,12 +15,12 @@ void RendererSpriteSystem::initRenderertex()
 {
 	if (renderertex_sprite == nullptr)
 	{
-		renderertex_sprite = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Game::screenWidth, Game::screenWidth);
+		renderertex_sprite = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Game::screenWidth, Game::screenHeight);
 	}
 	
 	SDL_SetRenderTarget(Game::renderer, renderertex_sprite);
 	SDL_RenderClear(Game::renderer);
-	SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 0);
+	SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
 }
 
 void RendererSpriteSystem::loadTexture()
@@ -29,9 +29,9 @@ void RendererSpriteSystem::loadTexture()
 	{
 		auto& texture = gCoordinator.GetComponent<Texture>(entity);
 
-		if (texture.textureSDL == nullptr)
+		if (texture.SDL == nullptr)
 		{
-			texture.textureSDL = LoadTexture(texture.path, Game::renderer);
+			texture.SDL = LoadTexture(texture.path, Game::renderer);
 		}
 	}
 }
@@ -43,32 +43,31 @@ void RendererSpriteSystem::render()
 		auto& texture = gCoordinator.GetComponent<Texture>(entity);
 		auto& position = gCoordinator.GetComponent<Position>(entity);
 
-		if(texture.textureSDL != nullptr)	
+		if(texture.SDL != nullptr)
 		{
-			SDL_Rect srcRec;
-			SDL_Rect destRec;
+			SDL_FRect srcRec;
+			SDL_FRect destRec;
 
 			srcRec.x = 0;
 			srcRec.y = 0;
-			srcRec.w = texture.textureWidth;
-			srcRec.h = texture.textureHeight;
+			srcRec.w = texture.width;
+			srcRec.h = texture.height;
 
-			destRec.x = int(position.pos[0]);
-			destRec.y = int(position.pos[1]);
-			//destRec.x = int(position.pos[0]) - texture.textureWidth / 2;
-			//destRec.y = int(position.pos[1]) - texture.textureWidth / 2;
-			destRec.w = texture.textureWidth * texture.scale;
-			destRec.h = texture.textureHeight * texture.scale;
+			destRec.x = position.pos[0];
+			destRec.y = position.pos[1];
+			destRec.w = texture.width * texture.scale;
+			destRec.h = texture.height * texture.scale;
 
 			if (check_RectVsRect(gCamera.mCamera, destRec))
 			{
 				destRec.x -= gCamera.mCamera.x;
 				destRec.y -= gCamera.mCamera.y;
-				SDL_RenderCopyEx(Game::renderer, texture.textureSDL, &srcRec, &destRec, texture.angle, NULL, SDL_FLIP_NONE);
+				SDL_RenderTextureRotated(Game::renderer, texture.SDL, &srcRec, &destRec, texture.angle, NULL, SDL_FLIP_NONE);
 			}
 		}
 	}
 	SDL_SetRenderTarget(Game::renderer, NULL);
+
 }
 
 SDL_Texture* RendererSpriteSystem::rtnRenderertex()

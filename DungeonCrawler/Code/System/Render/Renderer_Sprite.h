@@ -1,6 +1,6 @@
 #pragma once
 #include "../../ECS/System.h"
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 class RendererSpriteSystem : public Systems
 {

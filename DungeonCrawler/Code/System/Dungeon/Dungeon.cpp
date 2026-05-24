@@ -1,7 +1,7 @@
 #include "Dungeon.h"
 #include "../../ECS/Coordinator.h"
-#include <SDL.h>
-#include "../../Component/TileMapComp.h"
+#include <SDL3/SDL.h>
+#include "../../Component/Comp_TileMap.h"
 
 extern Coordinator gCoordinator;
 

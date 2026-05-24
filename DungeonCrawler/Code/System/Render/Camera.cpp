@@ -1,21 +1,21 @@
 #include "Camera.h"
 #include "../../ECS/Coordinator.h"
-#include "../../Component/PositionComp.h"
+#include "../../Component/Comp_Position.h"
 #include "../Collision/Collision.h"
 
 extern Coordinator gCoordinator;
 
 Camera::Camera()
 {
-	mCamera.x = 0;
-	mCamera.y = 0;
-	mCamera.w = 800;
-	mCamera.h = 600;
+	mCamera.x = 0.0f;
+	mCamera.y = 0.0f;
+	mCamera.w = 800.0f;
+	mCamera.h = 600.0f;
 
-	mCameraEdge.x = 50;
-	mCameraEdge.y = 50;
-	mCameraEdge.w = 700;
-	mCameraEdge.h = 500;
+	mCameraEdge.x = 50.0f;
+	mCameraEdge.y = 50.0f;
+	mCameraEdge.w = 700.0f;
+	mCameraEdge.h = 500.0f;
 
 }
 

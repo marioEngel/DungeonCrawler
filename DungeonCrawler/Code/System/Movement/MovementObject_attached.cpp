@@ -1,10 +1,10 @@
 #include "MovementObject_attached.h"
 #include "../../ECS/Coordinator.h"
-#include "../../Component/AttachedToComp.h"
-#include "../../Component/PositionComp.h"
-#include "../../Component/TextureComp.h"
-#include "../../Component/TextureLightComp.h"
-#include "../../Misc/MistFunctions.h"
+#include "../../Component/Comp_AttachedTo.h"
+#include "../../Component/Comp_Position.h"
+#include "../../Component/Comp_Texture.h"
+#include "../../Component/Comp_TextureLight.h"
+#include "../../Misc/MiscFunctions.h"
 
 extern Coordinator gCoordinator;
 

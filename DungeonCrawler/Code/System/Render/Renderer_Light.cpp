@@ -1,13 +1,15 @@
 #include "Renderer_Light.h"
 #include "../../ECS/Coordinator.h"
-#include "../../Component/TextureLightComp.h"
-#include "../../Component/PositionComp.h"
+#include "../../Component/Comp_TextureLight.h"
+#include "../../Component/Comp_Position.h"
 #include "TextureFunc.h"
 #include "../../Game.h"
 #include "Camera.h"
 #include <filesystem>
 #include "../Collision/Collision.h"
-#include "../../Misc/MistFunctions.h"
+#include "../../Misc/MiscFunctions.h"
+#include "Renderer_Misc.h"
+
 
 extern Coordinator gCoordinator;
 extern Camera gCamera;
@@ -30,43 +32,43 @@ void RendererLightSystem::loadTexture()
 	{
 		auto& texture = gCoordinator.GetComponent<TextureLight>(entity);
 
-		if (texture.textureSDL == nullptr)
-		{
-			texture.textureSDL = LoadTexture(texture.path, Game::renderer);
+		if (texture.SDL == nullptr)
+		{	
+			texture.SDL = my_apply(texture.function, std::tuple_cat(std::make_tuple(Game::renderer), texture.functionParams));
 		}
 	}
 }
 
 void RendererLightSystem::render()
 {
+	SDL_RenderClear(Game::renderer);
 	for (auto& const entity : mEntities)
 	{	
 		auto& texture = gCoordinator.GetComponent<TextureLight>(entity);
 		auto& position = gCoordinator.GetComponent<Position>(entity);
 
-		SDL_RenderClear(Game::renderer);
-		SDL_SetRenderTarget(Game::renderer, renderertex_light);
-
-		if (texture.textureSDL != nullptr)
+		if (texture.SDL != nullptr)
 		{
-			SDL_Rect srcRec;
-			SDL_Rect destRec;
+			SDL_FRect srcRec;
+			SDL_FRect destRec;
 
 			srcRec.x = 0;
 			srcRec.y = 0;
-			srcRec.w = texture.textureWidth;
-			srcRec.h = texture.textureHeight;
+			srcRec.w = texture.width;
+			srcRec.h = texture.height;
 
-			destRec.x = int(position.pos[0]);
-			destRec.y = int(position.pos[1]);
-			destRec.w = texture.textureWidth * texture.scale;
-			destRec.h = texture.textureHeight * texture.scale;
+			destRec.x = position.pos[0];
+			destRec.y = position.pos[1];
+			destRec.w = texture.width;
+			destRec.h = texture.height;
 
 			if (check_RectVsRect(gCamera.mCamera, destRec))
 			{
 				destRec.x -= gCamera.mCamera.x;
 				destRec.y -= gCamera.mCamera.y;
-				SDL_RenderCopyEx(Game::renderer, texture.textureSDL, &srcRec, &destRec, texture.angle, NULL, SDL_FLIP_NONE);
+				SDL_SetTextureBlendMode(texture.SDL, SDL_BLENDMODE_ADD);
+				SDL_SetTextureColorMod(texture.SDL, texture.colorRGB.r, texture.colorRGB.g, texture.colorRGB.b);
+				 SDL_RenderTextureRotated(Game::renderer, texture.SDL, &srcRec, &destRec, texture.angle, NULL, SDL_FLIP_NONE);
 			}
 		}
 	}

@@ -1,17 +1,17 @@
 #pragma once
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <vector>
 
 // simple Texture
 struct Texture
 {
 	const char* path;
-	int textureHeight;
-	int textureWidth;
-	int scale;
+	float width;
+	float height;
+	float scale;
 	double angle;
 
-	SDL_Texture* textureSDL = NULL;
+	SDL_Texture* SDL = NULL;
 };
 
 

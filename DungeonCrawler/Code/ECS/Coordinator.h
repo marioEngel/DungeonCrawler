@@ -4,7 +4,6 @@
 #include "EntityManager.h"
 #include "SystemManager.h"
 
-
 class Coordinator
 {
 public:
@@ -66,6 +65,12 @@ public:
 	T& GetComponent(Entity entity)
 	{
 		return mComponentManager->GetComponent<T>(entity);
+	}
+
+	template<typename T>
+	bool CheckComponent(Entity entity)
+	{
+		return mComponentManager->CheckComponent<T>(entity);
 	}
 
 	template<typename T>

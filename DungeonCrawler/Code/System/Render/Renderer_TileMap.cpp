@@ -1,7 +1,7 @@
 #include "Renderer_TileMap.h"
 #include "../../ECS/Coordinator.h"
 #include "TextureFunc.h"
-#include "../../Component/TileMapComp.h"
+#include "../../Component/Comp_TileMap.h"
 #include "../../Game.h"
 #include "../Collision/Collision.h"
 #include "Camera.h"
@@ -50,24 +50,24 @@ void RendererTileMapSystem::render()
 		{
 			for (int j = 0; j < tileMap.matrix[i].size(); j++)
 			{
-				SDL_Rect srcRec;
-				SDL_Rect destRec;
+				SDL_FRect srcRec;
+				SDL_FRect destRec;
 
 				srcRec.x = 0;
 				srcRec.y = 0;
-				srcRec.w = 32;
-				srcRec.h = 32;
+				srcRec.w = 32.0f;
+				srcRec.h = 32.0f;
 
-				destRec.x = 32 * j;
-				destRec.y = 32 * i;
-				destRec.w = 32;
-				destRec.h = 32;
+				destRec.x = 32.0f * j;
+				destRec.y = 32.0f * i;
+				destRec.w = 32.0f;
+				destRec.h = 32.0f;
 
 				if (check_RectVsRect(gCamera.mCamera, destRec))
 				{
 					destRec.x -= gCamera.mCamera.x;
 					destRec.y -= gCamera.mCamera.y;
-					SDL_RenderCopy(Game::renderer, tileMap.textures[tileMap.matrix[i][j]], &srcRec, &destRec);
+					SDL_RenderTexture(Game::renderer, tileMap.textures[tileMap.matrix[i][j]], &srcRec, &destRec);
 				}
 			}
 		}

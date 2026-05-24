@@ -6,6 +6,7 @@ class GeomRectangle : public Geometry
 {
 public:
 	GeomRectangle(float inWidth, float inHeight, float inRectWidht, float inRectHeight);
+	GeomRectangle(float inWidth, float inHeight, float inRectWidht, float inRectHeight, eGeomType inGeomType);
 	~GeomRectangle();
 
 	void print_Stuff() const override;

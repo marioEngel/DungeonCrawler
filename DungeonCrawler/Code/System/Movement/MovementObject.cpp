@@ -1,9 +1,9 @@
 #include "MovementObject.h"
 #include "../../ECS/Coordinator.h"
-#include "../../Component/MovementComp.h"
-#include <SDL.h>
-#include "../../Component/PositionComp.h"
-#include "../../Component/FaceDirection.h"
+#include "../../Component/Comp_Movement.h"
+#include <SDL3/SDL.h>
+#include "../../Component/Comp_Position.h"
+#include "../../Component/Comp_FaceDirection.h"
 
 extern Coordinator gCoordinator;
 extern float gDeltaT;

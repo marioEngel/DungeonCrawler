@@ -6,24 +6,30 @@ SDL_Texture* LoadTexture(const char* path, SDL_Renderer* tmpRenderer)
 	//SDL_RenderClear(Game::renderer);
 	SDL_Surface* tmpSurface = IMG_Load(path);
 	SDL_Texture* tmpTexture = SDL_CreateTextureFromSurface(tmpRenderer, tmpSurface);
-	SDL_FreeSurface(tmpSurface);
+	SDL_DestroySurface(tmpSurface);
 
 	return tmpTexture;
 }
 
-SDL_Texture* LoadTexture2(const char* path, SDL_Renderer* tmpRenderer)
+SDL_Texture* LoadTextureText(TTF_Font* font, std::string text, SDL_Renderer* tmpRenderer, SDL_Color color)
 {
-	//SDL_RenderClear(Game::renderer);
-	SDL_Surface* tmpSurface = IMG_Load(path);
+	SDL_Surface* tmpSurface = TTF_RenderText_Blended(font, text.c_str(), 0, color);
 	SDL_Texture* tmpTexture = SDL_CreateTextureFromSurface(tmpRenderer, tmpSurface);
-	SDL_FreeSurface(tmpSurface);
 
-	SDL_SetTextureBlendMode(tmpTexture, SDL_BLENDMODE_ADD);
-	std::cout << "here\n";
+	if (!tmpSurface) printf("Render error: %s\n", SDL_GetError());
+	if (!tmpTexture) printf("Texture error: %s\n", SDL_GetError());
+
+	SDL_DestroySurface(tmpSurface);
+
 	return tmpTexture;
 }
 
-void drawAndClear(SDL_Texture* rendTex1, SDL_Texture* rendTex2, SDL_Texture* rendTex3)
+void drawAndClear(
+	SDL_Texture* rendTex1,	// render tile map 
+	SDL_Texture* rendTex2,  // render sprites
+	SDL_Texture* rendTex3,   // render light
+	SDL_Texture* rendTex4  // render UI/text
+)
 {	
 	SDL_SetRenderTarget(Game::renderer, NULL);
 	SDL_RenderClear(Game::renderer);
@@ -31,10 +37,14 @@ void drawAndClear(SDL_Texture* rendTex1, SDL_Texture* rendTex2, SDL_Texture* ren
 	SDL_SetTextureBlendMode(rendTex1, SDL_BLENDMODE_BLEND);
 	SDL_SetTextureBlendMode(rendTex2, SDL_BLENDMODE_BLEND);
 	SDL_SetTextureBlendMode(rendTex3, SDL_BLENDMODE_MOD);
+	SDL_SetTextureBlendMode(rendTex4, SDL_BLENDMODE_BLEND);
 
-	SDL_RenderCopy(Game::renderer, rendTex1, NULL, NULL);
-	SDL_RenderCopy(Game::renderer, rendTex2, NULL, NULL);
-	SDL_RenderCopy(Game::renderer, rendTex3, NULL, NULL);
+	SDL_FRect tmpScreen{ 0, 0, float(Game::screenWidth), float(Game::screenHeight) };
+
+	SDL_RenderTexture(Game::renderer, rendTex1, NULL, NULL);	
+	SDL_RenderTexture(Game::renderer, rendTex2, NULL, &tmpScreen);
+	//SDL_RenderTexture(Game::renderer, rendTex3, NULL, NULL);
+	//SDL_RenderTexture(Game::renderer, rendTex4, NULL, NULL);
 
 	SDL_RenderPresent(Game::renderer);
 	SDL_RenderClear(Game::renderer);

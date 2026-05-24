@@ -37,7 +37,7 @@ int main(int argc, char* arvg[])
 		frameTime = SDL_GetTicks() - frameStart;
 		gDeltaT = float(frameTime / 1000.0f);
 
-		//std::cout << 1.0f / (gDeltaT) << std::endl;
+		//astd::cout << 1.0f / (gDeltaT) << std::endl;
 		//if (FrameDelay > frameTime)
 		//{
 		//	SDL_Delay(FrameDelay - frameTime);

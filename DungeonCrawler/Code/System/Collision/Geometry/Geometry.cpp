@@ -11,15 +11,15 @@ Geometry::~Geometry()
 {
 }
 
-SDL_Rect Geometry::return_AABB(Vector2D<float> positionPoint) const
+SDL_FRect Geometry::return_AABB(Vector2D<float> positionPoint) const
 {
 	//int tmpX = int(positionPoint[0] - mHalveWidth);
 	//int tmpY = int(positionPoint[1] - mHalveHeight);
-	int tmpX = int(positionPoint[0]);
-	int tmpY = int(positionPoint[1]);
-	int tmpW = 2 * int(mHalveWidth);
-	int tmpH = 2 * int(mHalveHeight);
-	return SDL_Rect{ tmpX, tmpY, tmpW, tmpH };
+	float tmpX = positionPoint[0];
+	float tmpY = positionPoint[1];
+	float tmpW = 2 * mHalveWidth;
+	float tmpH = 2 * mHalveHeight;
+	return SDL_FRect{ tmpX, tmpY, tmpW, tmpH };
 }
 
 eGeomType Geometry::return_GeomType() const
@@ -34,6 +34,13 @@ std::array<float, 2> Geometry::return_para_Rect() const
 	return std::array<float, 2> {0.0f, 0.0f};
 }
 
+std::array<float, 3> Geometry::return_para_RecR() const
+{
+	std::cout << "You did something wrong Mario (return_para_RecR)\n";
+
+	return std::array<float, 3> {0.0f, 0.0f, 0.0f};
+}
+
 std::array<float, 1> Geometry::return_para_Circ() const
 {
 	std::cout << "You did something wrong Mario (return_para_Circ)\n"; 
@@ -41,9 +48,25 @@ std::array<float, 1> Geometry::return_para_Circ() const
 	return std::array<float, 1> {0.0f};
 }
 
-std::array<float, 2> Geometry::return_para_Sect() const
+std::array<float, 4> Geometry::return_para_CirS() const
 {
-	std::cout << "You did something wrong Mario (return_para_Sect)\n";
+	std::cout << "You did something wrong Mario (return_para_CirS)\n";
+
+	return std::array<float, 4> {0.0f, 0.0f, 0.0f, 0.0f};
+}
+
+std::array<float, 2> Geometry::return_para_Poin() const
+
+{
+	std::cout << "You did something wrong Mario (return_para_Poin)\n";
 
 	return std::array<float, 2> {0.0f, 0.0f};
 }
+
+std::array<float, 2> Geometry::return_para_Line() const
+{
+	std::cout << "You did something wrong Mario (return_para_Line)\n";
+
+	return std::array<float, 2> {0.0f, 0.0f};
+}
+

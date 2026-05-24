@@ -52,6 +52,12 @@ public:
 		return GetComponentArray<T>()->GetData(entity);
 	}
 
+	template<typename T>
+	bool CheckComponent(Entity entity)
+	{
+		return GetComponentArray<T>()->CheckComponent(entity);
+	}
+
 	// notifize every componentarray
 	// delete entity if it has it
 	void EntityDestroyed(Entity entity)

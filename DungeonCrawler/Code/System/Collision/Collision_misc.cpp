@@ -1,32 +1,32 @@
 #include "Collision.h"
 
-SDL_Rect create_Rect(Vector2D<float>& cornerPoint, std::array<float, 2>& remainderData)
+SDL_FRect create_Rect(Vector2D<float>& cornerPoint, std::array<float, 2>& remainderData)
 {
-	int tmpX = int(cornerPoint[0]);
-	int tmpY = int(cornerPoint[1]);
-	int tmpW = int(remainderData[0]);
-	int tmpH = int(remainderData[0]);
-	return SDL_Rect{ tmpX, tmpY, tmpW, tmpH };
+	float tmpX = cornerPoint[0];
+	float tmpY = cornerPoint[1];
+	float tmpW = remainderData[0];
+	float tmpH = remainderData[0];
+	return SDL_FRect{ tmpX, tmpY, tmpW, tmpH };
 }
 
-void print_Rect_data(SDL_Rect& rect)
+void print_Rect_data(SDL_FRect& rect)
 {
 	std::cout << "rectangle data: x:" << rect.x << " y:" << rect.y << " h:" << rect.h << " w:" << rect.w << std::endl;
 	std::cout << "middle point: " << calc_Rect_center(rect) << std::endl;
 }
 
-Vector2D<float> calc_Rect_center(SDL_Rect& rect)
+Vector2D<float> calc_Rect_center(SDL_FRect& rect)
 {
 	return Vector2D<float> {rect.x + rect.w / 2.0f, rect.y + rect.h / 2.0f };
 }
 
-Line create_Line(eRectangleSide side, SDL_Rect& rect)
+Line create_Line(eRectangleSide side, SDL_FRect& rect)
 {
 	// y-axis inverted
-	Vector2D<float> corner_topLeft{ float(rect.x), float(rect.y) };
-	Vector2D<float> corner_topRight{ float(rect.x + rect.w), float(rect.y) };
-	Vector2D<float> corner_botLeft{ float(rect.x), float(rect.y + rect.h) };
-	Vector2D<float> corner_botRight{ float(rect.x + rect.w), float(rect.y + rect.h) };
+	Vector2D<float> corner_topLeft{ rect.x, rect.y };
+	Vector2D<float> corner_topRight{ rect.x + rect.w, rect.y };
+	Vector2D<float> corner_botLeft{ rect.x, rect.y + rect.h };
+	Vector2D<float> corner_botRight{ rect.x + rect.w, rect.y + rect.h };
 
 
 	switch (side)
@@ -50,7 +50,7 @@ Line create_Line(eRectangleSide side, SDL_Rect& rect)
 	}
 }
 
-eRectangleSide side_RectVsLine(SDL_Rect& rect, Line& line, Vector2D<float>& circleCentre)
+eRectangleSide side_RectVsLine(SDL_FRect& rect, Line& line, Vector2D<float>& circleCentre)
 {
 	std::vector<Vector2D<float>> crossPoints{};
 	std::vector<Vector2D<float>> lessCrossPoints{};
@@ -84,8 +84,6 @@ eRectangleSide side_RectVsLine(SDL_Rect& rect, Line& line, Vector2D<float>& circ
 			}
 		}
 	}
-
-	//std::cout << lessCrossPoints.size() << '\n';
 
 	if (lessCrossPoints.size() == 2)
 	{
@@ -159,21 +157,21 @@ void printRectangleSide(eRectangleSide& tmpSide)
 	}
 }
 
-Vector2D<float> rtnCorner(SDL_Rect& rect, eRectCorner rtnCorner)
+Vector2D<float> rtnCorner(SDL_FRect& rect, eRectCorner rtnCorner)
 {
 	switch (rtnCorner)
 	{
 	case TopRight:
-		return Vector2D<float> { float(rect.x + rect.w), float(rect.y)};
+		return Vector2D<float> { (rect.x + rect.w), rect.y};
 		break;
 	case TopLeft:
-		return Vector2D<float> { float(rect.x), float(rect.y)};
+		return Vector2D<float> { rect.x, rect.y};
 		break;
 	case BotRight:
-		return Vector2D<float> { float(rect.x + rect.w), float(rect.y + rect.h)};
+		return Vector2D<float> { (rect.x + rect.w), (rect.y + rect.h)};
 		break;
 	case BotLeft:
-		return Vector2D<float> { float(rect.x), float(rect.y + rect.h)};
+		return Vector2D<float> { rect.x, (rect.y + rect.h)};
 		break;
 	default:
 		std::cout << "Somethings wrong Mario in Vector2D<float> rtnCorner(SDL_Rect& rect, eRectCorner rtnCorner) \n";

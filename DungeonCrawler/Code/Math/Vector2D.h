@@ -103,7 +103,7 @@ T Vector2D<T>::calc_amount()
 	return std::sqrt(mVecVal[0] * mVecVal[0] + mVecVal[1] * mVecVal[1]);
 }
 
-
+// returns angle in rad
 template <typename T>
 float calc_angle(Vector2D<T> vectorStart, Vector2D<T> vectorEnd, bool flip)
 {
@@ -190,6 +190,10 @@ Vector2D<T> directionNorm(Vector2D<T> vect)
 template <typename T>
 void Vector2D<T>::scaleToX(T xScale)
 {
+	if (mVecVal[0] == 0)
+	{
+		std::cout << "!!! Division by 0 in scaleToX !!!" << std::endl;
+	}
 	T superScale = xScale / mVecVal[0];
 	mVecVal[0] *= superScale;
 	mVecVal[1] *= superScale;
@@ -198,6 +202,10 @@ void Vector2D<T>::scaleToX(T xScale)
 template <typename T>
 void Vector2D<T>::scaleToY(T yScale)
 {
+	if (mVecVal[1] == 0)
+	{
+		std::cout << "!!! Division by 0 in scaleToY !!!" << std::endl;
+	}
 	T superScale = yScale / mVecVal[1];
 	mVecVal[0] *= superScale;
 	mVecVal[1] *= superScale;
