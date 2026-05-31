@@ -13,6 +13,7 @@
 #include "Component/Is_Object.h"
 #include "Component/Is_Collision.h"
 #include "Component/Is_Light.h"
+#include "Component/Comp_Mass.h"
 #include "Component/Comp_Movement.h"
 #include "Component/Comp_DirectionDecision.h"
 #include "Component/Comp_Position.h"
@@ -96,7 +97,7 @@ void Game::init(const char* text, int width, int height, int flag)
 	// register all components, alphabetical order
 	gCoordinator.RegisterComponent<Affiliation>();
 	gCoordinator.RegisterComponent<FaceDirection>();
-	gCoordinator.RegisterComponent<Comp_Hitbox>();
+	gCoordinator.RegisterComponent<Hitbox>();
 	gCoordinator.RegisterComponent<IsCollision>();
 	gCoordinator.RegisterComponent<IsPlayer>();
 	gCoordinator.RegisterComponent<IsObject>();
@@ -111,6 +112,7 @@ void Game::init(const char* text, int width, int height, int flag)
 	gCoordinator.RegisterComponent<AttachedTo>();
 	gCoordinator.RegisterComponent<IsUI>();
 	gCoordinator.RegisterComponent<Text>();
+	gCoordinator.RegisterComponent<Mass>();
 
 	// register all systems, forward declaration, signature
 	rendererSpriteSystem = gCoordinator.RegisterSystem<RendererSpriteSystem>();
@@ -187,9 +189,11 @@ void Game::init(const char* text, int width, int height, int flag)
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Position>());
-		signature.set(gCoordinator.GetComponentType<Comp_Hitbox>());
+		signature.set(gCoordinator.GetComponentType<Hitbox>());
 		signature.set(gCoordinator.GetComponentType<Movement>());
 		signature.set(gCoordinator.GetComponentType<IsCollision>());
+		signature.set(gCoordinator.GetComponentType<Mass>());
+		signature.set(gCoordinator.GetComponentType<Mass>());
 		gCoordinator.SetSystemSignature<CollisionSystem>(signature);
 	}
 }

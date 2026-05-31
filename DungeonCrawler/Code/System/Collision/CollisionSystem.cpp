@@ -9,6 +9,7 @@
 #include "../Render/Camera.h"
 #include "../../Game.h"
 #include <iterator>
+#include "../../Component/Comp_Mass.h"
 
 extern Coordinator gCoordinator;
 extern Camera gCamera;
@@ -21,25 +22,25 @@ void CollisionSystem::check_AABB()
 	for (size_t i = 0; i < mEntities.size(); i++)
 	{
 		auto it = std::next(mEntities.begin(), i);
-		auto& entity = *it;
-		auto& checkCollision = gCoordinator.GetComponent<IsCollision>(entity);
+		auto& originEntity = *it;
+		auto& checkCollision = gCoordinator.GetComponent<IsCollision>(originEntity);
 
 		if (checkCollision.checkCollision) {
-			auto& originComp_Hitbox = gCoordinator.GetComponent<Comp_Hitbox>(entity);
-			auto& originPosition = gCoordinator.GetComponent<Position>(entity);
-			SDL_FRect originAABB = originComp_Hitbox.geomComp_Hitbox->return_AABB(originPosition.pos);
+			auto& originHitbox = gCoordinator.GetComponent<Hitbox>(originEntity);
+			auto& originPosition = gCoordinator.GetComponent<Position>(originEntity);
+			SDL_FRect originAABB = originHitbox.geomHitbox->return_AABB(originPosition.pos);
 
 			for (size_t j = i + 1; j < mEntities.size(); ++j) 
 			{
 				auto it2 = std::next(mEntities.begin(), j);
-				auto& otherEntity = *it2;
-				auto& targetComp_Hitbox = gCoordinator.GetComponent<Comp_Hitbox>(otherEntity);
-				auto& targetPosition = gCoordinator.GetComponent<Position>(otherEntity);
-				SDL_FRect targetAABB = targetComp_Hitbox.geomComp_Hitbox->return_AABB(targetPosition.pos);
+				auto& targetEntity = *it2;
+				auto& targetHitbox = gCoordinator.GetComponent<Hitbox>(targetEntity);
+				auto& targetPosition = gCoordinator.GetComponent<Position>(targetEntity);
+				SDL_FRect targetAABB = targetHitbox.geomHitbox->return_AABB(targetPosition.pos);
 
 				if (check_RectVsRect(originAABB, targetAABB))
 				{
-					mCollisionData.push_back(CollisionData{ std::array<Entity, 2> {entity, otherEntity}, Vector2D<float> {}, true });
+					mCollisionData.push_back(CollisionData{ std::array<Entity, 2> {originEntity, targetEntity}, Contact{ Vector2D<float> { }, 0.0f, true} });
 				}
 			}
 		}
@@ -52,22 +53,25 @@ void CollisionSystem::check_General()
 
 	for (size_t i = 0; i < mCollisionData.size(); i++)
 	{
-		auto& originComp_Hitbox = gCoordinator.GetComponent<Comp_Hitbox>(mCollisionData[i].collisionPair[0]);
-		auto& originPosition = gCoordinator.GetComponent<Position>(mCollisionData[i].collisionPair[0]);
-		auto& origionMovement = gCoordinator.GetComponent<Movement>(mCollisionData[i].collisionPair[0]);
+		Entity originEnt = mCollisionData[i].collisionPair[0];
+		Entity targEnt = mCollisionData[i].collisionPair[1];
 
-		auto& targetComp_Hitbox = gCoordinator.GetComponent<Comp_Hitbox>(mCollisionData[i].collisionPair[1]);
-		auto& targetPosition = gCoordinator.GetComponent<Position>(mCollisionData[i].collisionPair[1]);
-		auto& targetMovement = gCoordinator.GetComponent<Movement>(mCollisionData[i].collisionPair[1]);
+		auto& originHitbox = gCoordinator.GetComponent<Hitbox>(originEnt);
+		auto& originPosition = gCoordinator.GetComponent<Position>(originEnt);
+		auto& origionMovement = gCoordinator.GetComponent<Movement>(originEnt);
 
-		CollisionDataSub tmpCollisionData = check_Geometry_arbitrary(
-			*originComp_Hitbox.geomComp_Hitbox, originPosition.pos, origionMovement,
-			*targetComp_Hitbox.geomComp_Hitbox, targetPosition.pos, targetMovement
+		auto& targetHitbox = gCoordinator.GetComponent<Hitbox>(targEnt);
+		auto& targetPosition = gCoordinator.GetComponent<Position>(targEnt);
+		auto& targetMovement = gCoordinator.GetComponent<Movement>(targEnt);
+
+		Contact tmpCollisionData = check_Geometry_arbitrary(
+			*originHitbox.geomHitbox, originPosition.pos, origionMovement,
+			*targetHitbox.geomHitbox, targetPosition.pos, targetMovement
 		);
 
-		if (tmpCollisionData.collided)
+		if (tmpCollisionData.valid)
 		{
-			tmpData.push_back(CollisionData{ mCollisionData[i].collisionPair, tmpCollisionData.normDirection, true });
+			tmpData.push_back(CollisionData{ std::array<Entity, 2>{originEnt, targEnt},	tmpCollisionData });
 		}
 	}
 
@@ -80,34 +84,55 @@ void CollisionSystem::react()
 	for (size_t i = 0; i < mCollisionData.size(); i++)
 	{
 		auto& originPosition = gCoordinator.GetComponent<Position>(mCollisionData[i].collisionPair[0]);
+		auto& originMass = gCoordinator.GetComponent<Mass>(mCollisionData[i].collisionPair[0]);
+		auto& targetPosition = gCoordinator.GetComponent<Position>(mCollisionData[i].collisionPair[1]);
+		auto& targetMass = gCoordinator.GetComponent<Mass>(mCollisionData[i].collisionPair[1]);
 
-		originPosition.pos = originPosition.pos + mCollisionData[i].normDirection; //+ directionNorm(mCollisionData[i].normDirection);
+		float originWeight{};
+		float targetWeight{};
+
+		if (originMass.unmoveable)
+		{
+			targetPosition.pos = targetPosition.pos + mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
+		}
+		else if (targetMass.unmoveable)
+		{
+			originPosition.pos = originPosition.pos - mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
+		}
+		else
+		{
+			originWeight = originMass.mass / (originMass.mass + targetMass.mass);
+			targetWeight = targetMass.mass / (originMass.mass + targetMass.mass);
+
+			originPosition.pos = originPosition.pos - originWeight * mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
+			targetPosition.pos = targetPosition.pos + targetWeight * mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
+		}
 	}
-
+ 
 	mCollisionData.clear();
 }
 
-bool CollisionSystem::check_specificComp_Hitbox(Entity& entity)
+bool CollisionSystem::check_specificHitbox(Entity& entity)
 {
-	auto& originComp_Hitbox = gCoordinator.GetComponent<Comp_Hitbox>(entity);
+	auto& originHitbox = gCoordinator.GetComponent<Hitbox>(entity);
 	auto& originPosition = gCoordinator.GetComponent<Position>(entity);
-	SDL_FRect originAABB = originComp_Hitbox.geomComp_Hitbox->return_AABB(originPosition.pos);
+	SDL_FRect originAABB = originHitbox.geomHitbox->return_AABB(originPosition.pos);
 
 	for (auto& const objectEntity : mEntities)
 	{
-		SDL_FRect originAABB = originComp_Hitbox.geomComp_Hitbox->return_AABB(originPosition.pos);
+		SDL_FRect originAABB = originHitbox.geomHitbox->return_AABB(originPosition.pos);
 
 			for (auto& const otherEntity : mEntities)
 			{
 				if (!(entity == otherEntity))
 				{
-					auto& targetComp_Hitbox = gCoordinator.GetComponent<Comp_Hitbox>(otherEntity);
+					auto& targetHitbox = gCoordinator.GetComponent<Hitbox>(otherEntity);
 					auto& targetPosition = gCoordinator.GetComponent<Position>(otherEntity);
-					SDL_FRect targetAABB = targetComp_Hitbox.geomComp_Hitbox->return_AABB(targetPosition.pos);
+					SDL_FRect targetAABB = targetHitbox.geomHitbox->return_AABB(targetPosition.pos);
 
 					if (check_RectVsRect(originAABB, targetAABB))
 					{
-						mCollisionData.push_back(CollisionData{ std::array<Entity, 2> {entity, otherEntity}, Vector2D<float> {}, true });
+						mCollisionData.push_back(CollisionData{ std::array<Entity, 2> {entity, otherEntity}, Contact{ Vector2D<float> { }, 0.0f, true} });
 					}
 				}
 			}
@@ -115,24 +140,24 @@ bool CollisionSystem::check_specificComp_Hitbox(Entity& entity)
 	return false;
 }
 
-void CollisionSystem::create_Comp_HitboxRender()
+void CollisionSystem::create_HitboxRender()
 {
 	for (auto& const entity : mEntities)
 	{
-		auto& originComp_Hitbox = gCoordinator.GetComponent<Comp_Hitbox>(entity);
+		auto& originHitbox = gCoordinator.GetComponent<Hitbox>(entity);
 
-		if (originComp_Hitbox.textureSDL == nullptr)
+		if (originHitbox.textureSDL == nullptr)
 		{
-			originComp_Hitbox.textureSDL = LoadTexture(originComp_Hitbox.path);
+			originHitbox.textureSDL = LoadTexture(originHitbox.path);
 		}
 	}
 }
 
-void CollisionSystem::render_Comp_Hitbox()
+void CollisionSystem::render_Hitbox()
 {
 	for (auto& const entity : mEntities)
 	{
-		auto& texture = gCoordinator.GetComponent<Comp_Hitbox>(entity);
+		auto& texture = gCoordinator.GetComponent<Hitbox>(entity);
 		auto& position = gCoordinator.GetComponent<Position>(entity);
 
 		if (texture.textureSDL != nullptr)

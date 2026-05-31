@@ -23,6 +23,7 @@
 #include "Component/Comp_AttachedTo.h"
 #include "Component/Comp_Text.h"
 #include "Component/Is_UI.h"
+#include "Component/Comp_Mass.h"
 // --------Systems---------------------- 
 #include "System/Render/Renderer_Sprite.h"
 #include "System/Render/Renderer_TileMap.h"
@@ -53,7 +54,6 @@ extern std::shared_ptr<RendererSpriteSystem> rendererSpriteSystem;
 extern std::shared_ptr<RendererTileMapSystem> rendererTileMapSystem;
 extern std::shared_ptr<RendererLightSystem> rendererLightSystem;
 extern std::shared_ptr<RendererUISystem> rendererUISystem;
-
 extern std::shared_ptr<MovementPlayerSystem> movementPlayerSystem;
 extern std::shared_ptr<MovementPlayer_decisionSystem> movementPlayer_DecisionSystem;
 extern std::shared_ptr<DirectionPlayerSystem> directionPlayerSystem;
@@ -69,9 +69,9 @@ bool Game::gameRunning()
 
 void Game::initEntities()
 {
-	GeomRectangle playerComp_Hitbox_Rect{ 16.0f, 16.0f, 32.0f, 32.0f };
-	GeomCircle playerComp_Hitbox_Circ{ 16.0f, 16.0f, 16.0f };
-	GeomRectangle torch_Comp_Hitbox{ 8.0f, 8.0f, 16.0f, 16.0f };
+	GeomRectangle playerHitbox_Rect{ 16.0f, 16.0f, 32.0f, 32.0f };
+	GeomCircle playerHitbox_Circ{ 16.0f, 16.0f, 16.0f };
+	GeomRectangle torch_Hitbox{ 8.0f, 8.0f, 16.0f, 16.0f };
 
 	gPlayerEntity = gCoordinator.CreateEntity();
 	{
@@ -84,11 +84,12 @@ void Game::initEntities()
 		gCoordinator.AddComponent<Affiliation>(gPlayerEntity, Affiliation{ eAffKind::Player });
 		gCoordinator.AddComponent<DirectionDecision>(gPlayerEntity, DirectionDecision{});
 		gCoordinator.AddComponent<FaceDirection>(gPlayerEntity, FaceDirection{});
-		//gCoordinator.AddComponent<Comp_Hitbox>(gPlayerEntity, Comp_Hitbox{
-		//	std::make_shared<GeomRectangle>(playerComp_Hitbox_Rect), eCollisionType::PHYSICAL, "Picture/FullPinkEdge.png", 32, 32, 1, 0.0 });
-		gCoordinator.AddComponent<Comp_Hitbox>(gPlayerEntity, Comp_Hitbox{ 
-			std::make_shared<GeomCircle>(playerComp_Hitbox_Circ), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
+		//gCoordinator.AddComponent<Hitbox>(gPlayerEntity, Hitbox{
+			//std::make_shared<GeomRectangle>(playerHitbox_Rect), eCollisionType::PHYSICAL, "Picture/FullPinkEdge.png", 32, 32, 1, 0.0 });
+		gCoordinator.AddComponent<Hitbox>(gPlayerEntity, Hitbox{ 
+			std::make_shared<GeomCircle>(playerHitbox_Circ), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
 		gCoordinator.AddComponent<IsCollision>(gPlayerEntity, IsCollision{ true });
+		gCoordinator.AddComponent<Mass>(gPlayerEntity, Mass{ 50 });
 	}
 
 	for (size_t i = 0; i < 16; i++)
@@ -98,25 +99,49 @@ void Game::initEntities()
 		gCoordinator.AddComponent<Texture>(tmpEntity, Texture{ "Picture/FullPinkEdge.png", 32, 32, 1, 0.0 });
 	}
 	
-	Entity testComp_Hitbox = gCoordinator.CreateEntity();
+	Entity testHitbox = gCoordinator.CreateEntity();
 	{
-		gCoordinator.AddComponent<Position>(testComp_Hitbox, Position{ Vector2D<float>(400.0f, 150.0f) });
-		gCoordinator.AddComponent<Texture>(testComp_Hitbox, Texture{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
-		gCoordinator.AddComponent<Comp_Hitbox>(testComp_Hitbox, Comp_Hitbox{ 
-			std::make_shared<GeomRectangle>(playerComp_Hitbox_Rect), eCollisionType::PHYSICAL, "Picture/FullPinkEdge.png", 32, 32, 1, 0.0 });
-		gCoordinator.AddComponent<IsCollision>(testComp_Hitbox, IsCollision{ false });
-		gCoordinator.AddComponent<Movement>(testComp_Hitbox, Movement{ 0, Vector2D<float> {}, true });
+		gCoordinator.AddComponent<Position>(testHitbox, Position{ Vector2D<float>(400.0f, 150.0f) });
+		gCoordinator.AddComponent<Texture>(testHitbox, Texture{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
+		gCoordinator.AddComponent<Hitbox>(testHitbox, Hitbox{ 
+			std::make_shared<GeomRectangle>(playerHitbox_Rect), eCollisionType::PHYSICAL, "Picture/FullPinkEdge.png", 32, 32, 1, 0.0 });
+		gCoordinator.AddComponent<IsCollision>(testHitbox, IsCollision{ });
+		gCoordinator.AddComponent<Movement>(testHitbox, Movement{ 0, Vector2D<float> {}, true });
+		gCoordinator.AddComponent<Mass>(testHitbox, Mass{ 10, true });
 	}
 
-	Entity testComp_Hitbox2 = gCoordinator.CreateEntity();
+	Entity testHitbox2 = gCoordinator.CreateEntity();
 	{
-		gCoordinator.AddComponent<Position>(testComp_Hitbox2, Position{ Vector2D<float>(500.0f, 150.0f) });
-		gCoordinator.AddComponent<Texture>(testComp_Hitbox2, Texture{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
-		gCoordinator.AddComponent<Comp_Hitbox>(testComp_Hitbox2, Comp_Hitbox{ 
-			std::make_shared<GeomCircle>(playerComp_Hitbox_Circ), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
-		gCoordinator.AddComponent<IsCollision>(testComp_Hitbox2, IsCollision{ false });
-		gCoordinator.AddComponent<Movement>(testComp_Hitbox2, Movement{ 0, Vector2D<float> {}, true });
+		gCoordinator.AddComponent<Position>(testHitbox2, Position{ Vector2D<float>(500.0f, 150.0f) });
+		gCoordinator.AddComponent<Texture>(testHitbox2, Texture{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
+		gCoordinator.AddComponent<Hitbox>(testHitbox2, Hitbox{ 
+			std::make_shared<GeomCircle>(playerHitbox_Circ), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
+		gCoordinator.AddComponent<IsCollision>(testHitbox2, IsCollision{ });
+		gCoordinator.AddComponent<Movement>(testHitbox2, Movement{ 0, Vector2D<float> {}, true });
+		gCoordinator.AddComponent<Mass>(testHitbox2, Mass{ 10, true });
 	}
+
+	//Entity testHitbox3 = gCoordinator.CreateEntity();
+	//{
+	//	gCoordinator.AddComponent<Position>(testHitbox3, Position{ Vector2D<float>(550.0f, 150.0f) });
+	//	gCoordinator.AddComponent<Texture>(testHitbox3, Texture{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
+	//	gCoordinator.AddComponent<Hitbox>(testHitbox3, Hitbox{
+	//		std::make_shared<GeomCircle>(playerHitbox_Circ), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
+	//	gCoordinator.AddComponent<IsCollision>(testHitbox3, IsCollision{ });
+	//	gCoordinator.AddComponent<Movement>(testHitbox3, Movement{ 0, Vector2D<float> {}, true });
+	//	gCoordinator.AddComponent<Mass>(testHitbox3, Mass{ 100 });
+	//}
+
+	//Entity testHitbox4 = gCoordinator.CreateEntity();
+	//{
+	//	gCoordinator.AddComponent<Position>(testHitbox4, Position{ Vector2D<float>(600.0f, 150.0f) });
+	//	gCoordinator.AddComponent<Texture>(testHitbox4, Texture{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
+	//	gCoordinator.AddComponent<Hitbox>(testHitbox4, Hitbox{
+	//		std::make_shared<GeomCircle>(playerHitbox_Circ), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
+	//	gCoordinator.AddComponent<IsCollision>(testHitbox4, IsCollision{ });
+	//	gCoordinator.AddComponent<Movement>(testHitbox4, Movement{ 0, Vector2D<float> {}, true });
+	//	gCoordinator.AddComponent<Mass>(testHitbox4, Mass{ 1, true });
+	//}
 
 	Entity lightSource = gCoordinator.CreateEntity();
 	{
@@ -136,8 +161,8 @@ void Game::initEntities()
 	//{
 	//	gCoordinator.AddComponent<Position>(torch, Position{ Vector2D<float>(100, 100) });
 	//	gCoordinator.AddComponent<Texture>(torch, Texture{ "Picture/torch.png", 16, 16, 1, 0.0 });
-	//	gCoordinator.AddComponent<Comp_Hitbox>(torch, 
-	//		Comp_Hitbox{ std::make_shared<GeomRectangle>(torch_Comp_Hitbox), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
+	//	gCoordinator.AddComponent<Hitbox>(torch, 
+	//		Hitbox{ std::make_shared<GeomRectangle>(torch_Hitbox), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
 	//}
 	//Entity torch_light = gCoordinator.CreateEntity();
 	//{
@@ -152,11 +177,11 @@ void Game::initEntities()
 	//	gCoordinator.AddComponent<TextureLight>(lightSource2, TextureLight{ "Picture/light.png", 720, 720, 1, 0, ColorValues{255, 204, 153} });
 	//	gCoordinator.AddComponent<Is_Light>(lightSource2, Is_Light{ true });
 	//}
-	//Entity testComp_Hitbox3 = gCoordinator.CreateEntity();
-	//gCoordinator.AddComponent<Position>(testComp_Hitbox3, Position{ Vector2D<float>(465.0f, 150.0f) });
-	//gCoordinator.AddComponent<Texture>(testComp_Hitbox3, TextureLight{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
-	//gCoordinator.AddComponent<Comp_Hitbox>(testComp_Hitbox3, Comp_Hitbox{ std::make_shared<GeomCircle>(tmpCircle),  "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
-	//gCoordinator.AddComponent<Is_Collision>(testComp_Hitbox3, Is_Collision{ false });
+	//Entity testHitbox3 = gCoordinator.CreateEntity();
+	//gCoordinator.AddComponent<Position>(testHitbox3, Position{ Vector2D<float>(465.0f, 150.0f) });
+	//gCoordinator.AddComponent<Texture>(testHitbox3, TextureLight{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
+	//gCoordinator.AddComponent<Hitbox>(testHitbox3, Hitbox{ std::make_shared<GeomCircle>(tmpCircle),  "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
+	//gCoordinator.AddComponent<Is_Collision>(testHitbox3, Is_Collision{ false });
 
 	Entity testText = gCoordinator.CreateEntity();
 	{
@@ -200,7 +225,14 @@ void Game::update()
 		collisionSystem->check_General();
 		collisionSystem->react();
 		
+		//for (int i = 0; i < 5; i++) {       // iteration count tunable
+		//	collisionSystem->react();
+		//	collisionSystem->recheck_General(); // narrowphase only, skip broadphase
+		//}
+
 		gCamera.CheckCollision(gPlayerEntity);
+
+
 	}
 
 	// Mouse test delete late
@@ -221,11 +253,11 @@ void Game::update()
 		rendererSpriteSystem->loadTexture();
 		rendererSpriteSystem->initRenderertex();
 
-		//tmp for checking Comp_Hitboxes not working
-		bool renderComp_Hitbox = true;
-		collisionSystem->create_Comp_HitboxRender();
-		if (renderComp_Hitbox) {
-			collisionSystem->render_Comp_Hitbox();
+		//tmp for checking Hitboxes not working
+		bool renderHitbox = true;
+		if (renderHitbox) {
+			collisionSystem->create_HitboxRender();
+			collisionSystem->render_Hitbox();
 		}
 		
 		rendererSpriteSystem->render();

@@ -22,6 +22,7 @@ public:
 	virtual void print_Stuff() const = 0;
 	eGeomType return_GeomType() const;
 	SDL_FRect return_AABB(Vector2D<float> positionPoint) const;
+	Vector2D<float> return_AABB_Center(Vector2D<float> positionPoint) const;
 
 	// virtual function for specific geometries maybe there are better solutions for this
 	// default trash definition bottom

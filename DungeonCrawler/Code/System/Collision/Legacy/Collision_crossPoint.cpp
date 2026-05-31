@@ -56,7 +56,7 @@ std::vector<Vector2D<float>> crossPoints_RectOpenVsLine(SDL_FRect& rect, Line& l
 
 	Vector2D<float> tmpCrossPoint4 = crossPoint_LineVsLine(line, rightLine);
 	rtnCrossPoints.push_back(tmpCrossPoint4);
-	
+
 	return rtnCrossPoints;
 }
 
@@ -245,9 +245,9 @@ std::vector<Vector2D<float>> crossPoints_CircVsLine(float& circ_radius, Vector2D
 	{
 		par_a = 1;
 		par_b = 2.0f * (line.return_Slope_m() * line.return_Offset_t() - pos[0] - line.return_Slope_m() * pos[1])
-			/ (1.0f + line.return_Slope_m() * line.return_Slope_m()) ;
+			/ (1.0f + line.return_Slope_m() * line.return_Slope_m());
 		par_c = (pos[0] * pos[0] + pos[1] * pos[1] - circ_radius * circ_radius
-			+ line.return_Offset_t() * line.return_Offset_t() - 2.0f * line.return_Offset_t() * pos[1]) 
+			+ line.return_Offset_t() * line.return_Offset_t() - 2.0f * line.return_Offset_t() * pos[1])
 			/ (1.0f + line.return_Slope_m() * line.return_Slope_m());
 
 		determinante = par_b * par_b - 4.0f * par_a * par_c;

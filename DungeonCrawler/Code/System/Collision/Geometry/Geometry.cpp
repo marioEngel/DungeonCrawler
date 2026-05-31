@@ -22,6 +22,12 @@ SDL_FRect Geometry::return_AABB(Vector2D<float> positionPoint) const
 	return SDL_FRect{ tmpX, tmpY, tmpW, tmpH };
 }
 
+Vector2D<float> Geometry::return_AABB_Center(Vector2D<float> positionPoint) const
+{
+	return Vector2D<float> {positionPoint[0] + mHalveWidth, positionPoint[1] + mHalveHeight};
+}
+
+
 eGeomType Geometry::return_GeomType() const
 {
 	return mGeomType;

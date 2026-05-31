@@ -17,6 +17,14 @@ Vector2D<float> rtnCenter(Position& position, TextureLight& texture);
 
 Vector2D<float> rtnCenterEntity(Entity entity);
 
+
+template<typename T>
+T clamp(T val, T lo, T hi) {
+	return val < lo ? lo : (val > hi ? hi : val);
+}
+
+
+// for rendering light doing ??
 template <typename Func, typename Tuple, std::size_t... I>
 auto apply_helper(Func&& f, Tuple&& t, std::index_sequence<I...>) {
 	return f(std::get<I>(std::forward<Tuple>(t))...);

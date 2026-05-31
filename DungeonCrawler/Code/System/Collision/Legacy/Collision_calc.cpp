@@ -1,6 +1,6 @@
- #include "Collision.h"
+#include "Collision.h"
 
-CollisionDataSub calc_RectVsRect_distVec(SDL_FRect& rect1, SDL_FRect& rect2, Vector2D<float> rect1_direction, Vector2D<float> rect2_direction)
+CollisionDataSub calc_RectVsRect_distVec(SDL_FRect & rect1, SDL_FRect & rect2, Vector2D<float> rect1_direction, Vector2D<float> rect2_direction)
 {
 	/*
 	1. Calculate the cross points between the line of movement of one rectangle and the other rectangle

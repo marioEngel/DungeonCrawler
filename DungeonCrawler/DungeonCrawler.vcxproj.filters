@@ -44,7 +44,6 @@
     <ClInclude Include="Code\System\Collision\Geometry\Geometry.h" />
     <ClInclude Include="Code\Component\Comp_Hitbox.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Rectangle.h" />
-    <ClInclude Include="Code\Component\Is_Collision.h" />
     <ClInclude Include="Code\System\Collision\CollisionSystem.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Line.h" />
     <ClInclude Include="Code\Math\GeneralMathStuff.h" />
@@ -70,6 +69,8 @@
     <ClInclude Include="Code\Component\Is_UI.h" />
     <ClInclude Include="Code\Component\Comp_TextureText.h" />
     <ClInclude Include="Code\Component\Comp_Text.h" />
+    <ClInclude Include="Code\Component\Comp_Mass.h" />
+    <ClInclude Include="Code\Component\Is_Collision.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\System\Render\TextureFunc.cpp" />
@@ -93,10 +94,7 @@
     <ClCompile Include="Code\Math\GeneralMathStuff.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\Circle_Sector.cpp" />
     <ClCompile Include="Code\System\Render\Renderer_Light.cpp" />
-    <ClCompile Include="Code\System\Collision\Collision_check.cpp" />
     <ClCompile Include="Code\System\Collision\Collision_misc.cpp" />
-    <ClCompile Include="Code\System\Collision\Collision_calc.cpp" />
-    <ClCompile Include="Code\System\Collision\Collision_crossPoint.cpp" />
     <ClCompile Include="Code\System\Movement\MovementObject_attached.cpp" />
     <ClCompile Include="Code\Misc\MiscFunctions.cpp" />
     <ClCompile Include="Code\System\PlayerAction\PlayerAction.cpp" />
@@ -110,6 +108,8 @@
     <ClCompile Include="Code\System\Text\textClass.cpp" />
     <ClCompile Include="Code\System\Render\Renderer_UI.cpp" />
     <ClCompile Include="Code\main.cpp" />
+    <ClCompile Include="Code\System\Collision\Collision_contact.cpp" />
+    <ClCompile Include="Code\System\Collision\Collision_check.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Picture\Drone.png" />

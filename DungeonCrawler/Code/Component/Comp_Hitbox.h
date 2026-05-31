@@ -7,9 +7,9 @@ enum eCollisionType
 	ACTION			// Register action, click on stuff etc.
 };
 
-struct Comp_Hitbox
+struct Hitbox
 {
-	std::shared_ptr<Geometry> geomComp_Hitbox;
+	std::shared_ptr<Geometry> geomHitbox;
 	eCollisionType collisionType;
 
 	// for testing
