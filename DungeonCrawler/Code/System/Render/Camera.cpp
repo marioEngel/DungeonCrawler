@@ -12,11 +12,8 @@ Camera::Camera()
 	mCamera.w = 800.0f;
 	mCamera.h = 600.0f;
 
-	mCameraEdge.x = 50.0f;
-	mCameraEdge.y = 50.0f;
-	mCameraEdge.w = 700.0f;
-	mCameraEdge.h = 500.0f;
-
+	mEdgeWidth = 150.0f;
+	mEdgeHight = 150.0f;
 }
 
 Camera::~Camera()
@@ -29,45 +26,30 @@ void Camera::CheckCollision(Entity player)
 
 	//std::cout << position.pos << '\n';
 
-	if (check_RectVsPoint(mCamera, position.pos) && !check_RectVsPoint(mCameraEdge, position.pos))
+	if (check_RectVsPoint(mCamera, position.pos))
 	{
-		if (int(position.pos[0]) < mCameraEdge.x)
+		if (int(position.pos[0]) < (mCamera.x + mEdgeWidth))
 		{
-			mCamera.x -= (mCameraEdge.x - int(position.pos[0]));
-			mCameraEdge.x -= (mCameraEdge.x - int(position.pos[0]));
+			mCamera.x -= ((mCamera.x + mEdgeWidth) - int(position.pos[0]));
 		}
-		else if (int(position.pos[0]) > (mCameraEdge.x + mCameraEdge.w))
+		else if (int(position.pos[0]) > (mCamera.x + mCamera.w - mEdgeWidth))
 		{
-			mCamera.x += (int(position.pos[0]) - (mCameraEdge.x + mCameraEdge.w));
-			mCameraEdge.x += (int(position.pos[0]) - (mCameraEdge.x + mCameraEdge.w));
+			mCamera.x += (int(position.pos[0]) - (mCamera.x + mCamera.w - mEdgeWidth));
 		}
 
-		if (int(position.pos[1]) < mCameraEdge.y)
+		if (int(position.pos[1]) < (mCamera.y + mEdgeHight))
 		{
-			mCamera.y -= (mCameraEdge.y - int(position.pos[1]));
-			mCameraEdge.y -= (mCameraEdge.y - int(position.pos[1]));
+			mCamera.y -= ((mCamera.y + mEdgeHight) - int(position.pos[1]));
 		}
-		else if (int(position.pos[1]) > (mCameraEdge.y + mCameraEdge.h))
+		else if (int(position.pos[1]) > (mCamera.y + mCamera.h - mEdgeHight))
 		{
-			mCamera.y += (int(position.pos[1]) - (mCameraEdge.y + mCameraEdge.h));
-			mCameraEdge.y += (int(position.pos[1]) - (mCameraEdge.y + mCameraEdge.h));
+			mCamera.y += (int(position.pos[1]) - (mCamera.y + mCamera.h - mEdgeHight));
 		}
 	}
 }
 
-
-//Camera::Camera(int width, int hight)
-//{
-//	mCamera.x = 0;
-//	mCamera.y = 0;
-//	mCamera.w = width;
-//	mCamera.h = hight;
-//}
-//
-//Camera::Camera(int width, int hight, int xpos, int ypos)
-//{
-//	mCamera.x = xpos;
-//	mCamera.y = ypos;
-//	mCamera.w = width;
-//	mCamera.h = hight;
-//}
+void Camera::transformToBaseCoord(Vector2D<float>& cameraCoord)
+{
+	Vector2D<float> camerePos{ mCamera.x, mCamera.y };
+	cameraCoord = cameraCoord + camerePos;
+}

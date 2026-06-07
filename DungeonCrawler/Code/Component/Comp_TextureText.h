@@ -5,6 +5,5 @@
 
 struct TextureText
 {
-
 	SDL_Texture* SDL = NULL;
 };

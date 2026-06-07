@@ -11,7 +11,7 @@
 extern Coordinator gCoordinator;
 extern Camera gCamera;
 
-void RendererSpriteSystem::initRenderertex()
+void RendererSystem_Sprite::initRenderertex()
 {
 	if (renderertex_sprite == nullptr)
 	{
@@ -23,7 +23,7 @@ void RendererSpriteSystem::initRenderertex()
 	SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
 }
 
-void RendererSpriteSystem::loadTexture()
+void RendererSystem_Sprite::loadTexture()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -36,7 +36,7 @@ void RendererSpriteSystem::loadTexture()
 	}
 }
 
-void RendererSpriteSystem::render()
+void RendererSystem_Sprite::render()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -70,7 +70,7 @@ void RendererSpriteSystem::render()
 
 }
 
-SDL_Texture* RendererSpriteSystem::rtnRenderertex()
+SDL_Texture* RendererSystem_Sprite::rtnRenderertex()
 {
 	return renderertex_sprite;
 }

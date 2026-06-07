@@ -71,6 +71,9 @@
     <ClInclude Include="Code\Component\Comp_Text.h" />
     <ClInclude Include="Code\Component\Comp_Mass.h" />
     <ClInclude Include="Code\Component\Is_Collision.h" />
+    <ClInclude Include="Code\System\Render\Render.h" />
+    <ClInclude Include="Code\Characters\CharacterTemplate.h" />
+    <ClInclude Include="Code\System\Dungeon\Chunk.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\System\Render\TextureFunc.cpp" />
@@ -110,6 +113,7 @@
     <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\System\Collision\Collision_contact.cpp" />
     <ClCompile Include="Code\System\Collision\Collision_check.cpp" />
+    <ClCompile Include="Code\Characters\CharacterTemplate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Picture\Drone.png" />

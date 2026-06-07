@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\Characters\CharacterTemplate.h" />
     <ClInclude Include="Code\Component\Comp_AttachedTo.h" />
     <ClInclude Include="Code\Component\Comp_FaceDirection.h" />
     <ClInclude Include="Code\Component\Comp_Hitbox.h" />
@@ -57,6 +58,7 @@
     <ClInclude Include="Code\System\Collision\Geometry\Circle_Sector.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Line.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Point.h" />
+    <ClInclude Include="Code\System\Dungeon\Chunk.h" />
     <ClInclude Include="Code\System\Movement\DirectionPlayer.h" />
     <ClInclude Include="Code\System\Dungeon\Dungeon.h" />
     <ClInclude Include="Code\System\KeyInput\KeyboardInput.h" />
@@ -67,6 +69,7 @@
     <ClInclude Include="Code\System\KeyInput\Mouse.h" />
     <ClInclude Include="Code\System\PlayerAction\PlayerAction.h" />
     <ClInclude Include="Code\System\Render\Camera.h" />
+    <ClInclude Include="Code\System\Render\Render.h" />
     <ClInclude Include="Code\System\Render\Renderer_Misc.h" />
     <ClInclude Include="Code\System\Render\Renderer_Sprite.h" />
     <ClInclude Include="Code\System\Render\Renderer_TileMap.h" />
@@ -83,6 +86,7 @@
     <ClInclude Include="Code\System\Text\textClass.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Code\Characters\CharacterTemplate.cpp" />
     <ClCompile Include="Code\Game.cpp" />
     <ClCompile Include="Code\GameInit.cpp" />
     <ClCompile Include="Code\main.cpp" />

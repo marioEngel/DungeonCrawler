@@ -45,10 +45,10 @@ KeyboardInput gKeyboardInput;
 DungeonSystem gDungeonSystem;
 
 // systems forward declaration
-std::shared_ptr<RendererSpriteSystem> rendererSpriteSystem;
-std::shared_ptr<RendererTileMapSystem> rendererTileMapSystem;
-std::shared_ptr<RendererLightSystem> rendererLightSystem;
-std::shared_ptr<RendererUISystem> rendererUISystem;
+std::shared_ptr<RendererSystem_Sprite> rendererSystem_Sprite;
+std::shared_ptr<RendererSystem_TileMap> rendererSystem_TileMap;
+std::shared_ptr<RendererSystem_Light> rendererSystem_Light;
+std::shared_ptr<RendererSystem_UI> rendererSystem_UI;
 std::shared_ptr<MovementPlayerSystem> movementPlayerSystem;
 std::shared_ptr<MovementPlayer_decisionSystem> movementPlayer_DecisionSystem;
 std::shared_ptr<DirectionPlayerSystem> directionPlayerSystem;
@@ -115,34 +115,34 @@ void Game::init(const char* text, int width, int height, int flag)
 	gCoordinator.RegisterComponent<Mass>();
 
 	// register all systems, forward declaration, signature
-	rendererSpriteSystem = gCoordinator.RegisterSystem<RendererSpriteSystem>();
+	rendererSystem_Sprite = gCoordinator.RegisterSystem<RendererSystem_Sprite>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Texture>());
 		signature.set(gCoordinator.GetComponentType<Position>());
-		gCoordinator.SetSystemSignature<RendererSpriteSystem>(signature);
+		gCoordinator.SetSystemSignature<RendererSystem_Sprite>(signature);
 	}
-	rendererTileMapSystem = gCoordinator.RegisterSystem<RendererTileMapSystem>();
+	rendererSystem_TileMap = gCoordinator.RegisterSystem<RendererSystem_TileMap>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<TileMap>());
-		gCoordinator.SetSystemSignature<RendererTileMapSystem>(signature);
+		gCoordinator.SetSystemSignature<RendererSystem_TileMap>(signature);
 	}
-	rendererLightSystem = gCoordinator.RegisterSystem<RendererLightSystem>();
+	rendererSystem_Light = gCoordinator.RegisterSystem<RendererSystem_Light>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<IsLight>());
 		signature.set(gCoordinator.GetComponentType<Position>());
 		signature.set(gCoordinator.GetComponentType<TextureLight>());
-		gCoordinator.SetSystemSignature<RendererLightSystem>(signature);
+		gCoordinator.SetSystemSignature<RendererSystem_Light>(signature);
 	}
-	rendererUISystem = gCoordinator.RegisterSystem<RendererUISystem>();
+	rendererSystem_UI = gCoordinator.RegisterSystem<RendererSystem_UI>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<IsUI>());
 		signature.set(gCoordinator.GetComponentType<Position>());
 		signature.set(gCoordinator.GetComponentType<Text>());
-		gCoordinator.SetSystemSignature<RendererUISystem>(signature);
+		gCoordinator.SetSystemSignature<RendererSystem_UI>(signature);
 	}
 	movementPlayerSystem = gCoordinator.RegisterSystem<MovementPlayerSystem>();
 	{

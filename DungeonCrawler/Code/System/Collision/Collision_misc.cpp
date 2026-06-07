@@ -28,3 +28,11 @@ Vector2D<float> safeNormalize(Vector2D<float> vec, Vector2D<float> fallback) {
 	float scale = 1.f / std::sqrt(length);
 	return { vec[0] * scale, vec[1] * scale };
 }
+
+//======================================
+// why doesnt sdl have this?
+bool compareRect(const SDL_Rect& first, const SDL_Rect& second)
+{
+	return first.x == second.x && first.y == second.y
+		&& first.h == second.h && first.w == second.w;
+}

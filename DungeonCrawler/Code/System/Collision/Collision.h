@@ -42,6 +42,7 @@ void print_Rect_data(SDL_FRect& rect);
 SDL_FRect create_Rect(Vector2D<float>& cornerPoint, std::array<float, 2>& remainderData);
 Vector2D<float> safeNormalize(Vector2D<float> vec1, Vector2D<float> fallback = { 0.0f, 1.0f });
 Vector2D<float> calc_Rect_center(SDL_FRect& rect);
+bool compareRect(const SDL_Rect& first, const SDL_Rect& second);
 
 // in Collision_contact.cpp
 // | | | | |

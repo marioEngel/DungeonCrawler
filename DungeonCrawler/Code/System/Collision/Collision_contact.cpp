@@ -72,7 +72,6 @@ Contact check_CircleVsRect_contact(
     {
         
         float dist = std::sqrt(dist2);
-        std::cout << dist << std::endl;
         return Contact{ {dx / dist, dy / dist},sign * (radius - dist), true };
     }
     // --- circle center is INSIDE the rect ---

@@ -1,13 +1,13 @@
 #pragma once
-#include "../../ECS/System.h"
+#include "Render.h"
 #include <SDL3/SDL.h>
 
-class RendererTileMapSystem : public Systems
+class RendererSystem_TileMap : public RendererSystem
 {
 public:
-	void initRenderertex();
-	void loadTexture();
-	void render();
+	void initRenderertex() override;
+	void loadTexture() override;
+	void render() override;
 
 	SDL_Texture* rtnRenderertex();
 private:

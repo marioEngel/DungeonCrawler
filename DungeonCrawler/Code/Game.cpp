@@ -6,6 +6,7 @@
 #include "Misc/MiscFunctions.h"
 #include "System/KeyInput/Mouse.h"
 #include "System/Render/Renderer_Misc.h"
+#include "Characters/CharacterTemplate.h"
 // ---------Components------------------ max 32
 #include "Component/Comp_Position.h"
 #include "Component/Comp_Texture.h"
@@ -48,12 +49,11 @@ Entity gPlayerEntity;
 Camera gCamera;
 Mouse gMouse;
 
-
 // systems forward declaration
-extern std::shared_ptr<RendererSpriteSystem> rendererSpriteSystem;
-extern std::shared_ptr<RendererTileMapSystem> rendererTileMapSystem;
-extern std::shared_ptr<RendererLightSystem> rendererLightSystem;
-extern std::shared_ptr<RendererUISystem> rendererUISystem;
+extern std::shared_ptr<RendererSystem_Sprite> rendererSystem_Sprite;
+extern std::shared_ptr<RendererSystem_TileMap> rendererSystem_TileMap;
+extern std::shared_ptr<RendererSystem_Light> rendererSystem_Light;
+extern std::shared_ptr<RendererSystem_UI> rendererSystem_UI;
 extern std::shared_ptr<MovementPlayerSystem> movementPlayerSystem;
 extern std::shared_ptr<MovementPlayer_decisionSystem> movementPlayer_DecisionSystem;
 extern std::shared_ptr<DirectionPlayerSystem> directionPlayerSystem;
@@ -77,10 +77,9 @@ void Game::initEntities()
 	{
 		gCoordinator.AddComponent<Position>(gPlayerEntity, Position{ Vector2D<float>(400.0f, 300.0f) });
 		gCoordinator.AddComponent<Texture>(gPlayerEntity, Texture{ "Picture/Player.png", 32, 32, 1, 0.0 });
-		//gCoordinator.AddComponent<Texture>(gPlayerEntity, Texture{ "Picture/FullPinkEdge.png", 32, 32, 1, 0.0 });
 		gCoordinator.AddComponent<IsPlayer>(gPlayerEntity, IsPlayer{});
 		gCoordinator.AddComponent<InputKeys>(gPlayerEntity, InputKeys{});
-		gCoordinator.AddComponent<Movement>(gPlayerEntity, Movement{});
+		gCoordinator.AddComponent<Movement>(gPlayerEntity, Movement{156.0f});
 		gCoordinator.AddComponent<Affiliation>(gPlayerEntity, Affiliation{ eAffKind::Player });
 		gCoordinator.AddComponent<DirectionDecision>(gPlayerEntity, DirectionDecision{});
 		gCoordinator.AddComponent<FaceDirection>(gPlayerEntity, FaceDirection{});
@@ -92,56 +91,14 @@ void Game::initEntities()
 		gCoordinator.AddComponent<Mass>(gPlayerEntity, Mass{ 50 });
 	}
 
-	for (size_t i = 0; i < 16; i++)
-	{
-		Entity tmpEntity = gCoordinator.CreateEntity();		
-		gCoordinator.AddComponent<Position>(tmpEntity, Position{ Vector2D<float>(32.0f * (i % 4), 32.0f * (i / 4)) });
-		gCoordinator.AddComponent<Texture>(tmpEntity, Texture{ "Picture/FullPinkEdge.png", 32, 32, 1, 0.0 });
-	}
+	//for (size_t i = 0; i < 5; i++)
+	//{
+	//	create_Mouse(Vector2D<float>(100.0f + 50.0f*i, 150.0f));
+	//}
 	
-	Entity testHitbox = gCoordinator.CreateEntity();
-	{
-		gCoordinator.AddComponent<Position>(testHitbox, Position{ Vector2D<float>(400.0f, 150.0f) });
-		gCoordinator.AddComponent<Texture>(testHitbox, Texture{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
-		gCoordinator.AddComponent<Hitbox>(testHitbox, Hitbox{ 
-			std::make_shared<GeomRectangle>(playerHitbox_Rect), eCollisionType::PHYSICAL, "Picture/FullPinkEdge.png", 32, 32, 1, 0.0 });
-		gCoordinator.AddComponent<IsCollision>(testHitbox, IsCollision{ });
-		gCoordinator.AddComponent<Movement>(testHitbox, Movement{ 0, Vector2D<float> {}, true });
-		gCoordinator.AddComponent<Mass>(testHitbox, Mass{ 10, true });
-	}
+	create_Mouse(Vector2D<float>(400.0f, 150.0f));
 
-	Entity testHitbox2 = gCoordinator.CreateEntity();
-	{
-		gCoordinator.AddComponent<Position>(testHitbox2, Position{ Vector2D<float>(500.0f, 150.0f) });
-		gCoordinator.AddComponent<Texture>(testHitbox2, Texture{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
-		gCoordinator.AddComponent<Hitbox>(testHitbox2, Hitbox{ 
-			std::make_shared<GeomCircle>(playerHitbox_Circ), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
-		gCoordinator.AddComponent<IsCollision>(testHitbox2, IsCollision{ });
-		gCoordinator.AddComponent<Movement>(testHitbox2, Movement{ 0, Vector2D<float> {}, true });
-		gCoordinator.AddComponent<Mass>(testHitbox2, Mass{ 10, true });
-	}
 
-	//Entity testHitbox3 = gCoordinator.CreateEntity();
-	//{
-	//	gCoordinator.AddComponent<Position>(testHitbox3, Position{ Vector2D<float>(550.0f, 150.0f) });
-	//	gCoordinator.AddComponent<Texture>(testHitbox3, Texture{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
-	//	gCoordinator.AddComponent<Hitbox>(testHitbox3, Hitbox{
-	//		std::make_shared<GeomCircle>(playerHitbox_Circ), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
-	//	gCoordinator.AddComponent<IsCollision>(testHitbox3, IsCollision{ });
-	//	gCoordinator.AddComponent<Movement>(testHitbox3, Movement{ 0, Vector2D<float> {}, true });
-	//	gCoordinator.AddComponent<Mass>(testHitbox3, Mass{ 100 });
-	//}
-
-	//Entity testHitbox4 = gCoordinator.CreateEntity();
-	//{
-	//	gCoordinator.AddComponent<Position>(testHitbox4, Position{ Vector2D<float>(600.0f, 150.0f) });
-	//	gCoordinator.AddComponent<Texture>(testHitbox4, Texture{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
-	//	gCoordinator.AddComponent<Hitbox>(testHitbox4, Hitbox{
-	//		std::make_shared<GeomCircle>(playerHitbox_Circ), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
-	//	gCoordinator.AddComponent<IsCollision>(testHitbox4, IsCollision{ });
-	//	gCoordinator.AddComponent<Movement>(testHitbox4, Movement{ 0, Vector2D<float> {}, true });
-	//	gCoordinator.AddComponent<Mass>(testHitbox4, Mass{ 1, true });
-	//}
 
 	Entity lightSource = gCoordinator.CreateEntity();
 	{
@@ -164,31 +121,39 @@ void Game::initEntities()
 	//	gCoordinator.AddComponent<Hitbox>(torch, 
 	//		Hitbox{ std::make_shared<GeomRectangle>(torch_Hitbox), eCollisionType::PHYSICAL, "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
 	//}
+
+	//candle{ 255,  80,  10 }  — dimmer, more red than torch
+	//torch{ 255, 100,  20 }  — warm orange
+	//campfire{ 255, 120,  30 }  — slightly brighter, more yellow
+	//lantern{ 255, 160,  60 }  — warmer, more yellow, steadier
+	//moonlight{ 80, 100, 180 }  — cold blue - white
+	//magic blue{ 20, 100, 255 }  — full blue, good for magic effects
+	//magic green{ 20, 200,  50 }  — poison / nature magic
+	//ColorValues lightYellow{ 255, 255, 100 };
+	//ColorValues torchRed{ 255, 80, 10 };
+	//ColorValues torchYellow{ 255, 140, 40 };
 	//Entity torch_light = gCoordinator.CreateEntity();
 	//{
 	//	gCoordinator.AddComponent<Position>(torch_light, Position{ Vector2D<float>(100, 100) });
 	//	gCoordinator.AddComponent<AttachedTo>(torch_light, AttachedTo{ true, torch });
-	//	gCoordinator.AddComponent<TextureLight>(torch_light, TextureLight{ 720, 720, 50.0f});
+	//	gCoordinator.AddComponent<TextureLight>(torch_light,
+	//		TextureLight{ std::make_tuple<int, int, float, float, float>(200, 200, 25.0f, 0, 0),
+	//		generateGaussianLight, 500, 500, 0.0f, torchYellow, false, 0.5, 1.0 });
 	//	gCoordinator.AddComponent<IsLight>(torch_light, IsLight{ true });
 	//} 
-	//Entity lightSource2 = gCoordinator.CreateEntity();
-	//{
-	//	gCoordinator.AddComponent<Position>(lightSource2, Position{ Vector2D<float>(100,50) });
-	//	gCoordinator.AddComponent<TextureLight>(lightSource2, TextureLight{ "Picture/light.png", 720, 720, 1, 0, ColorValues{255, 204, 153} });
-	//	gCoordinator.AddComponent<Is_Light>(lightSource2, Is_Light{ true });
-	//}
+
 	//Entity testHitbox3 = gCoordinator.CreateEntity();
 	//gCoordinator.AddComponent<Position>(testHitbox3, Position{ Vector2D<float>(465.0f, 150.0f) });
 	//gCoordinator.AddComponent<Texture>(testHitbox3, TextureLight{ "Picture/Ratte.png", 32, 32, 1, 0.0 });
 	//gCoordinator.AddComponent<Hitbox>(testHitbox3, Hitbox{ std::make_shared<GeomCircle>(tmpCircle),  "Picture/FullPinkCircle.png", 32, 32, 1, 0.0 });
 	//gCoordinator.AddComponent<Is_Collision>(testHitbox3, Is_Collision{ false });
 
-	Entity testText = gCoordinator.CreateEntity();
-	{
-		gCoordinator.AddComponent<Text>(testText, Text{ " Hier ist ein Text" });
-		gCoordinator.AddComponent<IsUI>(testText, IsUI{ true });
-		gCoordinator.AddComponent<Position>(testText, Position{ Vector2D<float>(100.0f, 100.0f) });
-	}
+	//Entity testText = gCoordinator.CreateEntity();
+	//{
+	//	gCoordinator.AddComponent<Text>(testText, Text{ " Hier ist ein Text" });
+	//	gCoordinator.AddComponent<IsUI>(testText, IsUI{ true });
+	//	gCoordinator.AddComponent<Position>(testText, Position{ Vector2D<float>(100.0f, 100.0f) });
+	//}
 
 
 	DungeonSystem test;
@@ -221,7 +186,7 @@ void Game::update()
 	
 	// collision pipeline
 	{
-		collisionSystem->check_AABB();
+		collisionSystem ->check_AABB();
 		collisionSystem->check_General();
 		collisionSystem->react();
 		
@@ -246,37 +211,36 @@ void Game::update()
 
 	// render pipeline
 	{
-		rendererTileMapSystem->loadTexture();
-		rendererTileMapSystem->initRenderertex();
-		rendererTileMapSystem->render();
+		rendererSystem_TileMap->loadTexture();
+		rendererSystem_TileMap->initRenderertex();
+		rendererSystem_TileMap->render();
 
-		rendererSpriteSystem->loadTexture();
-		rendererSpriteSystem->initRenderertex();
-
+		rendererSystem_Sprite->loadTexture();
+		rendererSystem_Sprite->initRenderertex();
 		//tmp for checking Hitboxes not working
 		bool renderHitbox = true;
 		if (renderHitbox) {
 			collisionSystem->create_HitboxRender();
 			collisionSystem->render_Hitbox();
 		}
-		
-		rendererSpriteSystem->render();
+ 		rendererSystem_Sprite->render();
+			
 
-		rendererLightSystem->loadTexture();
-		rendererLightSystem->initRenderertex();
-		rendererLightSystem->render();
+		rendererSystem_Light->loadTexture();
+		rendererSystem_Light->initRenderertex();
+		rendererSystem_Light->render();
 
-		rendererUISystem->loadTexture();
-		rendererUISystem->initRenderertex();
-		rendererUISystem->render();
+		rendererSystem_UI->loadTexture();
+		rendererSystem_UI->initRenderertex();
+		rendererSystem_UI->render();
 	}
 	
 	gKeyboardInput.getPrevKeys();
 	drawAndClear(
-		rendererTileMapSystem->rtnRenderertex(),
-		rendererSpriteSystem->rtnRenderertex(),
-		rendererLightSystem->rtnRenderertex(),
-		rendererUISystem->rtnRenderertex()
+		rendererSystem_TileMap->rtnRenderertex(),
+		rendererSystem_Sprite->rtnRenderertex(),
+		rendererSystem_Light->rtnRenderertex(),
+		rendererSystem_UI->rtnRenderertex()
 	);
 }
 
@@ -298,6 +262,7 @@ void Game::handleEvents()
 void Game::clean() {
 	SDL_StopTextInput(window);
 	SDL_DestroyWindow(window);
+
 	SDL_DestroyRenderer(renderer);
 	TTF_Quit();
 	SDL_Quit();

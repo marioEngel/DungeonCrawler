@@ -19,7 +19,12 @@ struct TextureLight
 	int width = 720;
 	int height = 720;
 	float angle = 0.0f;
+	
 	ColorValues colorRGB{ 255, 255, 255 };
+
+	bool hasNoise = false;
+	float flickerSpeed = 1.0f;
+	float flickerAmount = 0.0f;
 
 	SDL_Texture* SDL = NULL;
 };

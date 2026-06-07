@@ -36,3 +36,4 @@ float convert_RadToDeg(float angle)
 
 	return (angle / M_PI) * 180.0f;
 }
+

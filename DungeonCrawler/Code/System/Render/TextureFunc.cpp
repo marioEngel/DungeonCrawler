@@ -27,8 +27,9 @@ SDL_Texture* LoadTextureText(TTF_Font* font, std::string text, SDL_Renderer* tmp
 void drawAndClear(
 	SDL_Texture* rendTex1,	// render tile map 
 	SDL_Texture* rendTex2,  // render sprites
-	SDL_Texture* rendTex3,   // render light
-	SDL_Texture* rendTex4  // render UI/text
+	SDL_Texture* rendTex3,  // render light
+	SDL_Texture* rendTex4,  // render UI/text
+	bool lightOn
 )
 {	
 	SDL_SetRenderTarget(Game::renderer, NULL);
@@ -43,8 +44,11 @@ void drawAndClear(
 
 	SDL_RenderTexture(Game::renderer, rendTex1, NULL, NULL);	
 	SDL_RenderTexture(Game::renderer, rendTex2, NULL, &tmpScreen);
-	//SDL_RenderTexture(Game::renderer, rendTex3, NULL, NULL);
-	//SDL_RenderTexture(Game::renderer, rendTex4, NULL, NULL);
+	if(!lightOn)
+	{
+	SDL_RenderTexture(Game::renderer, rendTex3, NULL, NULL);
+	}
+	//SDL_RenderTexture(Game::renderer, rendTex4, NULL, NULL); 
 
 	SDL_RenderPresent(Game::renderer);
 	SDL_RenderClear(Game::renderer);

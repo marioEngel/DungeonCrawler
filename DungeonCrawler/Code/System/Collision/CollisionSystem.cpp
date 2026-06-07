@@ -167,13 +167,13 @@ void CollisionSystem::render_Hitbox()
 
 			srcRec.x = 0;
 			srcRec.y = 0;
-			srcRec.w = texture.textureWidth;
-			srcRec.h = texture.textureHeight;
+			srcRec.w = texture.width;
+			srcRec.h = texture.height;
 
 			destRec.x = position.pos[0];
 			destRec.y = position.pos[1];
-			destRec.w = texture.textureWidth * texture.scale;
-			destRec.h = texture.textureHeight * texture.scale;
+			destRec.w = texture.width * texture.scale;
+			destRec.h = texture.height * texture.scale;
 
 			if (check_RectVsRect(gCamera.mCamera, destRec))
 			{

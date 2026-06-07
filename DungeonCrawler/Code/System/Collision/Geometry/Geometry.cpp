@@ -27,7 +27,6 @@ Vector2D<float> Geometry::return_AABB_Center(Vector2D<float> positionPoint) cons
 	return Vector2D<float> {positionPoint[0] + mHalveWidth, positionPoint[1] + mHalveHeight};
 }
 
-
 eGeomType Geometry::return_GeomType() const
 {
 	return mGeomType;

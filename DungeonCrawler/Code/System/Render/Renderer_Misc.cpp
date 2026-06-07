@@ -120,3 +120,19 @@ SDL_Texture* generateFlashLightCone(SDL_Renderer* renderer, int width, int heigh
 
     return texture;
 }
+
+float lerp(float a, float b, float t) {
+    return a + (b - a) * t;
+}
+
+float hash(int i) {
+    i = (i << 13) ^ i;
+    return (1.f - ((i * (i * i * 15731 + 789221) + 1376312589) & 0x7fffffff) / 1073741824.f);
+}
+
+float valueNoise(float t) {
+    int i = (int)t;
+    float f = t - i;
+    f = f * f * (3.0f - 2.0f * f);
+    return lerp(hash(i), hash(i + 1), f);
+}

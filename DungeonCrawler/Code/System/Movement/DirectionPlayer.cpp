@@ -12,10 +12,11 @@
 #include "../../Component/Is_Light.h"
 #include "../../Component/Comp_AttachedTo.h"
 #include "../Render/Renderer_Misc.h"
-
+#include "../Render/Camera.h"
 
 extern Coordinator gCoordinator;
 extern KeyboardInput gKeyboardInput;
+extern Camera gCamera;
 
 void DirectionPlayerSystem::update()
 {
@@ -28,6 +29,7 @@ void DirectionPlayerSystem::update()
 		// get mouse coordinates
 		Vector2D<float> tmpMouseFloat;
 		SDL_GetMouseState(&tmpMouseFloat[0], &tmpMouseFloat[1]);
+		gCamera.transformToBaseCoord(tmpMouseFloat);
 
 		// calc angle between player center and mouse position
 		Vector2D<float> playerCenter = Vector2D<float>{ position.pos[0] + float(texture.width) / 2.0f, position.pos[1] + float(texture.height) / 2.0f };

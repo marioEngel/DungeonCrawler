@@ -12,7 +12,7 @@
 extern Coordinator gCoordinator;
 extern Camera gCamera;
 
-void RendererUISystem::initRenderertex()
+void RendererSystem_UI::initRenderertex()
 {
 	if (renderertex_UI == nullptr)
 	{
@@ -24,7 +24,7 @@ void RendererUISystem::initRenderertex()
 	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
 }
 
-void RendererUISystem::loadTexture()
+void RendererSystem_UI::loadTexture()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -45,7 +45,7 @@ void RendererUISystem::loadTexture()
 	}
 }
 
-TTF_Font* RendererUISystem::loadFont()
+TTF_Font* RendererSystem_UI::loadFont()
 {
 	std::string fontPath = "Font/joystix/joystix_monospace.otf";
 	//std::string fontPath = "Font/08-true-type-fonts/lazy.ttf";
@@ -57,7 +57,7 @@ TTF_Font* RendererUISystem::loadFont()
 	return rtnFont;
 }
 
-void RendererUISystem::render()
+void RendererSystem_UI::render()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -91,7 +91,7 @@ void RendererUISystem::render()
 	SDL_SetRenderTarget(Game::renderer, NULL);
 }
 
-SDL_Texture* RendererUISystem::rtnRenderertex()
+SDL_Texture* RendererSystem_UI::rtnRenderertex()
 {
 	return renderertex_UI;
 }

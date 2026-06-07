@@ -9,7 +9,7 @@
 extern Camera gCamera;
 extern Coordinator gCoordinator;
 
-void RendererTileMapSystem::initRenderertex()
+void RendererSystem_TileMap::initRenderertex()
 { 
 	if (renderertex_map == nullptr)
 	{
@@ -22,7 +22,7 @@ void RendererTileMapSystem::initRenderertex()
 
 
 // load the textures once
-void RendererTileMapSystem::loadTexture()
+void RendererSystem_TileMap::loadTexture()
 {
 	for (auto const& entity : mEntities)
 	{
@@ -39,7 +39,7 @@ void RendererTileMapSystem::loadTexture()
 }
 
 
-void RendererTileMapSystem::render()
+void RendererSystem_TileMap::render()
 {
 	for (auto const& entity : mEntities)
 	{
@@ -58,10 +58,12 @@ void RendererTileMapSystem::render()
 				srcRec.w = 32.0f;
 				srcRec.h = 32.0f;
 
-				destRec.x = 32.0f * j;
-				destRec.y = 32.0f * i;
-				destRec.w = 32.0f;
-				destRec.h = 32.0f;
+				float cubeSize = 8.0f;
+
+				destRec.x = cubeSize * j;
+				destRec.y = cubeSize * i;
+				destRec.w = cubeSize;
+				destRec.h = cubeSize;
 
 				if (check_RectVsRect(gCamera.mCamera, destRec))
 				{
@@ -75,7 +77,7 @@ void RendererTileMapSystem::render()
 	SDL_SetRenderTarget(Game::renderer, NULL);
 }
 
-SDL_Texture* RendererTileMapSystem::rtnRenderertex()
+SDL_Texture* RendererSystem_TileMap::rtnRenderertex()
 {
 	return renderertex_map;
 }

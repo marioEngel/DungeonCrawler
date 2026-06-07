@@ -1,17 +1,18 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include "../../ECS/ECS.h"
+#include "../../Math/Vector2D.h"
 
 class Camera
 {
 public:
 	Camera();
-	//Camera(int width, int height);
-	//Camera(int width, int height, int xpos, int ypos);
 	~Camera();
 
 	void CheckCollision(Entity player);
+	void transformToBaseCoord(Vector2D<float>& cameraCoord);
 
 	SDL_FRect mCamera;
-	SDL_FRect mCameraEdge;
+	float mEdgeWidth;
+	float mEdgeHight;
 };
