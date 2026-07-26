@@ -85,7 +85,6 @@
     <ClInclude Include="Code\System\Collision\Geometry\Rectangle_Rotatet.h" />
     <ClInclude Include="Code\System\Collision\Geometry\GeomLine.h" />
     <ClInclude Include="Code\System\Render\UI\Display_FPS.h" />
-    <ClInclude Include="Code\System\Text\textClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Characters\CharacterTemplate.cpp" />
@@ -127,7 +126,6 @@
     <ClCompile Include="Code\System\Collision\Geometry\Rectangle_Rotatet.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\GeomLine.cpp" />
     <ClCompile Include="Code\System\Render\UI\Display_FPS.cpp" />
-    <ClCompile Include="Code\System\Text\textClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Picture\Drone.png" />

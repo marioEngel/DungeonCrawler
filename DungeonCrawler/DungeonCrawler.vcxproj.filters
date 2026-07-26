@@ -64,7 +64,6 @@
     <ClInclude Include="Code\System\Collision\Geometry\Rectangle_Rotatet.h" />
     <ClInclude Include="Code\System\Collision\Geometry\GeomLine.h" />
     <ClInclude Include="Code\System\Render\Renderer_Misc.h" />
-    <ClInclude Include="Code\System\Text\textClass.h" />
     <ClInclude Include="Code\System\Render\Renderer_UI.h" />
     <ClInclude Include="Code\Component\Is_UI.h" />
     <ClInclude Include="Code\Component\Comp_TextureText.h" />
@@ -110,7 +109,6 @@
     <ClCompile Include="Code\System\Collision\Geometry\Rectangle_Rotatet.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\GeomLine.cpp" />
     <ClCompile Include="Code\System\Render\Renderer_Misc.cpp" />
-    <ClCompile Include="Code\System\Text\textClass.cpp" />
     <ClCompile Include="Code\System\Render\Renderer_UI.cpp" />
     <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\System\Collision\Collision_contact.cpp" />
