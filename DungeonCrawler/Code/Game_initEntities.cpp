@@ -4,7 +4,7 @@ extern Coordinator gCoordinator;
 Entity gPlayerEntity;
 
 // systems forward declaration
-extern std::shared_ptr<DirectionPlayerSystem> directionPlayerSystem;
+extern std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
 
 void Game::initEntities()
 {
@@ -107,5 +107,5 @@ void Game::initEntities()
 
 	DungeonSystem test;
 	test.init();
-	directionPlayerSystem->makeMarker();
+	sysDirectionPlayer->makeMarker();
 }

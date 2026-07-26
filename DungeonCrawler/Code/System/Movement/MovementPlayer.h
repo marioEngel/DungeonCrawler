@@ -1,7 +1,7 @@
 #pragma once
 #include "../../ECS/System.h"
 
-class MovementPlayerSystem : public Systems
+class SysMovementPlayer : public Systems
 {
 public:
 	void update();

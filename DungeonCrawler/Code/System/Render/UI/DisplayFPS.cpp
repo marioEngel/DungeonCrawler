@@ -1,11 +1,11 @@
-#include "Display_FPS.h"
+#include "DisplayFPS.h"
 #include "../../../ECS/Coordinator.h"
 #include "../../../Component/Comp_DisplayFPS.h"
 #include "../../../Component/Comp_Text.h"
 
 extern Coordinator gCoordinator;
 
-void System_Display_FPS::update(float deltaT)
+void SyDisplayFPS::update(float deltaT)
 {
     for (auto const& entity : mEntities)
     {

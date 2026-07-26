@@ -1,7 +1,7 @@
 #pragma once
 #include "../../ECS/System.h"
 
-class DirectionPlayerSystem : public Systems
+class SysDirectionPlayer : public Systems
 {
 public:
 	void makeMarker();

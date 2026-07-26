@@ -1,4 +1,4 @@
-#include "MovementObject_attached.h"
+#include "MovementObjectAttached.h"
 #include "../../ECS/Coordinator.h"
 #include "../../Component/Comp_AttachedTo.h"
 #include "../../Component/Comp_Position.h"
@@ -8,7 +8,7 @@
 
 extern Coordinator gCoordinator;
 
-void MovementObject_attachedSystem::update()
+void SysMovementObjectAttached::update()
 {
 	for (auto& const entity : mEntities)
 	{

@@ -1,12 +1,12 @@
-#include "CollisionSystem.h"
+#include "Collision.h"
 #include "../../ECS/Coordinator.h"
 #include "../../Component/Is_Collision.h"
 #include "../../Component/Comp_Position.h"
 #include "../../Component/Comp_Hitbox.h"
 #include "../../Component/Comp_Movement.h"
-#include "Collision.h"
-#include "../Render/TextureFunc.h"
-#include "../Render/Camera.h"
+#include "CollisionFunc.h"
+#include "../Render/Misc/TextureFunc.h"
+#include "../Render/Camera/Camera.h"
 #include "../../Game.h"
 #include <iterator>
 #include "../../Component/Comp_Mass.h"
@@ -17,7 +17,7 @@ extern Camera gCamera;
 // detecting collisions and responding to them
 // more effectig grid based approach n*log(n)
 //  currently n(n-1)/2
-void CollisionSystem::check_AABB()
+void SysCollision::check_AABB()
 {
 	for (size_t i = 0; i < mEntities.size(); i++)
 	{
@@ -47,7 +47,7 @@ void CollisionSystem::check_AABB()
 	}
 }
 
-void CollisionSystem::check_General()
+void SysCollision::check_General()
 {
 	std::vector<CollisionData> tmpData{};
 
@@ -79,7 +79,7 @@ void CollisionSystem::check_General()
 	mCollisionData = tmpData;
 }
 
-void CollisionSystem::react()
+void SysCollision::react()
 {
 	for (size_t i = 0; i < mCollisionData.size(); i++)
 	{
@@ -112,7 +112,7 @@ void CollisionSystem::react()
 	mCollisionData.clear();
 }
 
-bool CollisionSystem::check_specificHitbox(Entity& entity)
+bool SysCollision::check_specificHitbox(Entity& entity)
 {
 	auto& originHitbox = gCoordinator.GetComponent<Hitbox>(entity);
 	auto& originPosition = gCoordinator.GetComponent<Position>(entity);
@@ -140,7 +140,7 @@ bool CollisionSystem::check_specificHitbox(Entity& entity)
 	return false;
 }
 
-void CollisionSystem::create_HitboxRender()
+void SysCollision::create_HitboxRender()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -153,7 +153,7 @@ void CollisionSystem::create_HitboxRender()
 	}
 }
 
-void CollisionSystem::render_Hitbox()
+void SysCollision::render_Hitbox()
 {
 	for (auto& const entity : mEntities)
 	{

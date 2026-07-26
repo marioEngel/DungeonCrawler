@@ -1,4 +1,4 @@
-#include "Collision.h"
+#include "CollisionFunc.h"
 
 Contact check_Geometry_arbitrary(
 	Geometry& geom1, Vector2D<float>& pos1, Movement& mov1,

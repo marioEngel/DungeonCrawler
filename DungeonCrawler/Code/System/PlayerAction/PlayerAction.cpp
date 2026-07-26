@@ -3,7 +3,7 @@
 
 extern Coordinator gCoordinator;
 
-void PlayerActionSystem::update()
+void SysPlayerAction::update()
 {
 	for (auto& const entity : mEntities)
 	{

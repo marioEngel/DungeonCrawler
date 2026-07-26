@@ -18,7 +18,7 @@ extern Coordinator gCoordinator;
 extern KeyboardInput gKeyboardInput;
 extern Camera gCamera;
 
-void DirectionPlayerSystem::update()
+void SysDirectionPlayer::update()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -66,7 +66,7 @@ void DirectionPlayerSystem::update()
 	}
 }
 
-void DirectionPlayerSystem::makeMarker()
+void SysDirectionPlayer::makeMarker()
 {
 	for (auto& const entity : mEntities)
 	{

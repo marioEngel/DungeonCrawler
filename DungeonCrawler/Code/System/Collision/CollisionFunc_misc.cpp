@@ -1,4 +1,4 @@
-#include "Collision.h"
+#include "CollisionFunc.h"
 
 SDL_FRect create_Rect(Vector2D<float>& cornerPoint, std::array<float, 2>& remainderData)
 {

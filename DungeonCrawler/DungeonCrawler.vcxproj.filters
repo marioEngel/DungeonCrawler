@@ -30,7 +30,7 @@
     <ClInclude Include="Code\Component\Comp_Movement.h" />
     <ClInclude Include="Code\Component\Comp_Affiliation.h" />
     <ClInclude Include="Code\Math\Vector2D.h" />
-    <ClInclude Include="Code\System\Movement\MovementPlayer_decision.h" />
+    <ClInclude Include="Code\System\Movement\MovementPlayerDecision.h" />
     <ClInclude Include="Code\Component\Comp_DirectionDecision.h" />
     <ClInclude Include="Code\System\Movement\MovementPlayer.h" />
     <ClInclude Include="Code\System\Dungeon\Dungeon.h" />
@@ -39,12 +39,12 @@
     <ClInclude Include="Code\System\Movement\MovementObject.h" />
     <ClInclude Include="Code\Component\Is_Object.h" />
     <ClInclude Include="Code\System\Render\Camera\Camera.h" />
-    <ClInclude Include="Code\System\Collision\Collision.h" />
+    <ClInclude Include="Code\System\Collision\CollisionFunc.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Circle.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Geometry.h" />
     <ClInclude Include="Code\Component\Comp_Hitbox.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Rectangle.h" />
-    <ClInclude Include="Code\System\Collision\CollisionSystem.h" />
+    <ClInclude Include="Code\System\Collision\Collision.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Line.h" />
     <ClInclude Include="Code\Math\GeneralMathStuff.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Circle_Sector.h" />
@@ -53,7 +53,7 @@
     <ClInclude Include="Code\Misc\MiscFunctions.h" />
     <ClInclude Include="Code\Component\Comp_TextureLight.h" />
     <ClInclude Include="Code\Component\Comp_AttachedTo.h" />
-    <ClInclude Include="Code\System\Movement\MovementObject_attached.h" />
+    <ClInclude Include="Code\System\Movement\MovementObjectAttached.h" />
     <ClInclude Include="Code\System\PlayerAction\PlayerAction.h" />
     <ClInclude Include="Code\System\PlayerAction\Action\Action.h" />
     <ClInclude Include="Code\Component\Comp_ObjectData.h" />
@@ -74,7 +74,7 @@
     <ClInclude Include="Code\Characters\CharacterTemplate.h" />
     <ClInclude Include="Code\System\Dungeon\Chunk.h" />
     <ClInclude Include="Code\Component\Comp_DisplayFPS.h" />
-    <ClInclude Include="Code\System\Render\UI\Display_FPS.h" />
+    <ClInclude Include="Code\System\Render\UI\DisplayFPS.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\System\Render\Misc\TextureFunc.cpp" />
@@ -84,7 +84,7 @@
     <ClCompile Include="Code\Math\Matrix.cpp" />
     <ClCompile Include="Code\System\Render\RendererTileMap.cpp" />
     <ClCompile Include="Code\System\KeyInput\KeyboardInput.cpp" />
-    <ClCompile Include="Code\System\Movement\MovementPlayer_decision.cpp" />
+    <ClCompile Include="Code\System\Movement\MovementPlayerDecision.cpp" />
     <ClCompile Include="Code\System\Movement\MovementPlayer.cpp" />
     <ClCompile Include="Code\System\Dungeon\Dungeon.cpp" />
     <ClCompile Include="Code\System\Movement\DirectionPlayer.cpp" />
@@ -93,29 +93,29 @@
     <ClCompile Include="Code\System\Collision\Geometry\Circle.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\Geometry.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\Rectangle.cpp" />
-    <ClCompile Include="Code\System\Collision\CollisionSystem.cpp" />
+    <ClCompile Include="Code\System\Collision\Collision.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\Line.cpp" />
     <ClCompile Include="Code\Math\GeneralMathStuff.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\Circle_Sector.cpp" />
     <ClCompile Include="Code\System\Render\RendererLight.cpp" />
-    <ClCompile Include="Code\System\Collision\Collision_misc.cpp" />
-    <ClCompile Include="Code\System\Movement\MovementObject_attached.cpp" />
+    <ClCompile Include="Code\System\Collision\CollisionFunc_misc.cpp" />
+    <ClCompile Include="Code\System\Movement\MovementObjectAttached.cpp" />
     <ClCompile Include="Code\Misc\MiscFunctions.cpp" />
     <ClCompile Include="Code\System\PlayerAction\PlayerAction.cpp" />
     <ClCompile Include="Code\System\PlayerAction\Action\Action_PickUpObjekt.cpp" />
     <ClCompile Include="Code\System\KeyInput\Mouse.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\Point.cpp" />
-    <ClCompile Include="Code\System\Collision\Collision_arbitrary.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\Rectangle_Rotatet.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\GeomLine.cpp" />
     <ClCompile Include="Code\System\Render\Misc\Misc.cpp" />
     <ClCompile Include="Code\System\Render\RendererUI.cpp" />
     <ClCompile Include="Code\main.cpp" />
-    <ClCompile Include="Code\System\Collision\Collision_contact.cpp" />
-    <ClCompile Include="Code\System\Collision\Collision_check.cpp" />
+    <ClCompile Include="Code\System\Collision\CollisionFunc_contact.cpp" />
+    <ClCompile Include="Code\System\Collision\CollisionFunc_check.cpp" />
     <ClCompile Include="Code\Characters\CharacterTemplate.cpp" />
-    <ClCompile Include="Code\System\Render\UI\Display_FPS.cpp" />
+    <ClCompile Include="Code\System\Render\UI\DisplayFPS.cpp" />
     <ClCompile Include="Code\Game_initEntities.cpp" />
+    <ClCompile Include="Code\System\Collision\CollisionFunc_arbitrary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Picture\Drone.png" />

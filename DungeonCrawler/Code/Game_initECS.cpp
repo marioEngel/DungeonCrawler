@@ -16,13 +16,13 @@ std::shared_ptr<SysRendererSprite> sysRendererSprite;
 std::shared_ptr<SysRendererTileMap> sysRendererTileMap;
 std::shared_ptr<SysRendererLight> sysRendererLight;
 std::shared_ptr<SysRendererUI> sysRendererUI;
-std::shared_ptr<MovementPlayerSystem> movementPlayerSystem;
-std::shared_ptr<MovementPlayer_decisionSystem> movementPlayer_DecisionSystem;
-std::shared_ptr<DirectionPlayerSystem> directionPlayerSystem;
-std::shared_ptr<MovementObjectSystem> movementObjectSystem;
-std::shared_ptr<CollisionSystem> collisionSystem;
-std::shared_ptr<MovementObject_attachedSystem> movementObject_attachedSystem;
-std::shared_ptr<System_Display_FPS> system_Display_FPS;
+std::shared_ptr<SysMovementPlayer> sysMovementPlayer;
+std::shared_ptr<SysMovementPlayerDecision> sysMovementPlayerDecision;
+std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
+std::shared_ptr<SysMovementObject> sysMovementObject;
+std::shared_ptr<SysCollision> sysCollision;
+std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
+std::shared_ptr<SyDisplayFPS> syDisplayFPS;
 
 Game::Game()
 {
@@ -38,8 +38,7 @@ void Game::initECS(const char* text, int width, int height, int flag)
 	if (
 		   SDL_Init(SDL_INIT_VIDEO)
 		&& SDL_Init(SDL_INIT_EVENTS)
-		&& SDL_Init(SDL_INIT_AUDIO)
-	)
+		&& SDL_Init(SDL_INIT_AUDIO))
 	{
 		window = SDL_CreateWindow(text, width, height, flag);
 		renderer = SDL_CreateRenderer(window, NULL);
@@ -113,48 +112,48 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<Text>());
 		gCoordinator.SetSystemSignature<SysRendererUI>(signature);
 	}
-	movementPlayerSystem = gCoordinator.RegisterSystem<MovementPlayerSystem>();
+	sysMovementPlayer = gCoordinator.RegisterSystem<SysMovementPlayer>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Position>());
 		signature.set(gCoordinator.GetComponentType<DirectionDecision>());
 		signature.set(gCoordinator.GetComponentType<Movement>());
 		signature.set(gCoordinator.GetComponentType<IsPlayer>());
-		gCoordinator.SetSystemSignature<MovementPlayerSystem>(signature);
+		gCoordinator.SetSystemSignature<SysMovementPlayer>(signature);
 	}
-	movementPlayer_DecisionSystem = gCoordinator.RegisterSystem<MovementPlayer_decisionSystem>();
+	sysMovementPlayerDecision = gCoordinator.RegisterSystem<SysMovementPlayerDecision>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<InputKeys>());
 		signature.set(gCoordinator.GetComponentType<DirectionDecision>());
 		signature.set(gCoordinator.GetComponentType<IsPlayer>());
-		gCoordinator.SetSystemSignature<MovementPlayer_decisionSystem>(signature);
+		gCoordinator.SetSystemSignature<SysMovementPlayerDecision>(signature);
 	}
-	directionPlayerSystem = gCoordinator.RegisterSystem<DirectionPlayerSystem>();
+	sysDirectionPlayer = gCoordinator.RegisterSystem<SysDirectionPlayer>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<FaceDirection>());
 		signature.set(gCoordinator.GetComponentType<Position>());
 		signature.set(gCoordinator.GetComponentType<IsPlayer>());
-		gCoordinator.SetSystemSignature<DirectionPlayerSystem>(signature);
+		gCoordinator.SetSystemSignature<SysDirectionPlayer>(signature);
 	}
-	movementObject_attachedSystem = gCoordinator.RegisterSystem< MovementObject_attachedSystem>();
+	sysMovementObjectAttached = gCoordinator.RegisterSystem<SysMovementObjectAttached>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<AttachedTo>());
 		signature.set(gCoordinator.GetComponentType<Position>());
-		gCoordinator.SetSystemSignature<MovementObject_attachedSystem>(signature);
+		gCoordinator.SetSystemSignature<SysMovementObjectAttached>(signature);
 	}
-	movementObjectSystem = gCoordinator.RegisterSystem<MovementObjectSystem>();
+	sysMovementObject = gCoordinator.RegisterSystem<SysMovementObject>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Position>());
 		signature.set(gCoordinator.GetComponentType<FaceDirection>());
 		signature.set(gCoordinator.GetComponentType<Movement>());
 		signature.set(gCoordinator.GetComponentType<IsObject>());
-		gCoordinator.SetSystemSignature<MovementObjectSystem>(signature);
+		gCoordinator.SetSystemSignature<SysMovementObject>(signature);
 	}
-	collisionSystem = gCoordinator.RegisterSystem<CollisionSystem>();
+	sysCollision = gCoordinator.RegisterSystem<SysCollision>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Position>());
@@ -163,13 +162,13 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<IsCollision>());
 		signature.set(gCoordinator.GetComponentType<Mass>());
 		signature.set(gCoordinator.GetComponentType<Mass>());
-		gCoordinator.SetSystemSignature<CollisionSystem>(signature);
+		gCoordinator.SetSystemSignature<SysCollision>(signature);
 	}
-	system_Display_FPS = gCoordinator.RegisterSystem<System_Display_FPS>();
+	syDisplayFPS = gCoordinator.RegisterSystem<SyDisplayFPS>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<DisplayFPS>());
 		signature.set(gCoordinator.GetComponentType<Text>());
-		gCoordinator.SetSystemSignature<System_Display_FPS>(signature);
+		gCoordinator.SetSystemSignature<SyDisplayFPS>(signature);
 	}
 }

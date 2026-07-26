@@ -8,7 +8,7 @@
 extern Coordinator gCoordinator;
 extern float gDeltaT;
 
-void MovementObjectSystem::update()
+void SysMovementObject::update()
 {
 	for (auto& const entity : mEntities)
 	{

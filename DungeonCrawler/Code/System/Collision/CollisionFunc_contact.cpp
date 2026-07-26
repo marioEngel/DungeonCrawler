@@ -1,4 +1,4 @@
-#include "Collision.h"
+#include "CollisionFunc.h"
 #include "../../Misc/MiscFunctions.h"
 
 Contact check_RectVsRect_contact(SDL_FRect& rect1, SDL_FRect& rect2)

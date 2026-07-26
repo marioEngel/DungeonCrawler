@@ -1,4 +1,4 @@
-#include "Collision.h"
+#include "CollisionFunc.h"
 
 bool check_RectVsRect(SDL_FRect& rect1, SDL_FRect& rect2)
 {

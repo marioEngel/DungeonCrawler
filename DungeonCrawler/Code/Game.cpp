@@ -13,13 +13,13 @@ extern std::shared_ptr<SysRendererSprite> sysRendererSprite;
 extern std::shared_ptr<SysRendererTileMap> sysRendererTileMap;
 extern std::shared_ptr<SysRendererLight> sysRendererLight;
 extern std::shared_ptr<SysRendererUI> sysRendererUI;
-extern std::shared_ptr<MovementPlayerSystem> movementPlayerSystem;
-extern std::shared_ptr<MovementPlayer_decisionSystem> movementPlayer_DecisionSystem;
-extern std::shared_ptr<DirectionPlayerSystem> directionPlayerSystem;
-extern std::shared_ptr<MovementObjectSystem> movementObjectSystem;
-extern std::shared_ptr<CollisionSystem> collisionSystem;
-extern std::shared_ptr<MovementObject_attachedSystem> movementObject_attachedSystem;
-extern std::shared_ptr<System_Display_FPS> system_Display_FPS;
+extern std::shared_ptr<SysMovementPlayer> sysMovementPlayer;
+extern std::shared_ptr<SysMovementPlayerDecision> sysMovementPlayerDecision;
+extern std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
+extern std::shared_ptr<SysMovementObject> sysMovementObject;
+extern std::shared_ptr<SysCollision> sysCollision;
+extern std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
+extern std::shared_ptr<SyDisplayFPS> syDisplayFPS;
 
 void Game::update(float delta)
 {
@@ -31,23 +31,22 @@ void Game::update(float delta)
 		gMouse.printMousePosition_color();
 	}
 
-	movementPlayer_DecisionSystem->update();
+	sysMovementPlayerDecision->update();
 
 	// movement pipeline
 	{
-		movementPlayerSystem->update();
-		directionPlayerSystem->update();
+		sysMovementPlayer->update();
+		sysDirectionPlayer->update();
 
-		movementObjectSystem->update();
-
-		movementObject_attachedSystem->update();
+		sysMovementObject->update();
+		sysMovementObjectAttached->update();
 	}
 	
 	// collision pipeline
 	{
-		collisionSystem ->check_AABB();
-		collisionSystem->check_General();
-		collisionSystem->react();
+		sysCollision->check_AABB();
+		sysCollision->check_General();
+		sysCollision->react();
 		
 		//for (int i = 0; i < 5; i++) {       // iteration count tunable
 		//	collisionSystem->react();
@@ -69,7 +68,7 @@ void Game::update(float delta)
 	}
 
 	{
-		system_Display_FPS->update(delta);
+		syDisplayFPS->update(delta);
 	}
 
 	// render pipeline
@@ -84,8 +83,8 @@ void Game::update(float delta)
 		//tmp for checking Hitboxes not working
 		bool renderHitbox = true;
 		if (renderHitbox) {
-			collisionSystem->create_HitboxRender();
-			collisionSystem->render_Hitbox();
+			sysCollision->create_HitboxRender();
+			sysCollision->render_Hitbox();
 		}
  		sysRendererSprite->render();
 			

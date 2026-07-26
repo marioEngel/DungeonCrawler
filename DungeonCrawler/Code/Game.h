@@ -32,17 +32,17 @@
 #include "Component/Comp_Text.h"
 #include "Component/Comp_DisplayFPS.h"
 // --------Systems---------------------- 
-#include "System/Collision/CollisionSystem.h"
+#include "System/Collision/Collision.h"
 #include "System/Movement/DirectionPlayer.h"
 #include "System/Movement/MovementPlayer.h"
-#include "System/Movement/MovementPlayer_decision.h"
+#include "System/Movement/MovementPlayerDecision.h"
 #include "System/Movement/MovementObject.h"
-#include "System/Movement/MovementObject_attached.h"
+#include "System/Movement/MovementObjectAttached.h"
 #include "System/Render/RendererSprite.h"
 #include "System/Render/RendererTileMap.h"
 #include "System/Render/RendererLight.h"
 #include "System/Render/RendererUI.h"
-#include "System/Render/UI/Display_FPS.h"
+#include "System/Render/UI/DisplayFPS.h"
 
 class Game
 {

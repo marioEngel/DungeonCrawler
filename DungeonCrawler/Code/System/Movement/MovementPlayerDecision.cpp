@@ -1,4 +1,4 @@
-#include "MovementPlayer_decision.h"
+#include "MovementPlayerDecision.h"
 #include "../../ECS/Coordinator.h"
 #include "../../System/KeyInput/KeyboardInput.h"
 #include "../../Component/Comp_InputKeys.h"
@@ -9,7 +9,7 @@
 extern Coordinator gCoordinator;
 extern KeyboardInput gKeyboardInput;
 
-void MovementPlayer_decisionSystem::update()
+void SysMovementPlayerDecision::update()
 {
 	for (auto& const entity : mEntities)
 	{
