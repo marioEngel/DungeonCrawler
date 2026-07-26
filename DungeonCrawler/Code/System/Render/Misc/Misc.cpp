@@ -1,5 +1,5 @@
-#include "Renderer_Misc.h"
-#include "../../Math/Vector2D.h"
+#include "Misc.h"
+#include "../../../Math/Vector2D.h"
 
 SDL_Texture* generateGaussianLight(SDL_Renderer* renderer, int width, int height, float sigma, float empty1, float empty2)
 {

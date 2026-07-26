@@ -1,7 +1,7 @@
 #include "Camera.h"
-#include "../../ECS/Coordinator.h"
-#include "../../Component/Comp_Position.h"
-#include "../Collision/Collision.h"
+#include "../../../ECS/Coordinator.h"
+#include "../../../Component/Comp_Position.h"
+#include "../../Collision/Collision.h"
 
 extern Coordinator gCoordinator;
 

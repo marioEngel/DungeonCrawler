@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include "../../ECS/ECS.h"
-#include "../../Math/Vector2D.h"
+#include "../../../ECS/ECS.h"
+#include "../../../Math/Vector2D.h"
 
 class Camera
 {

@@ -1,14 +1,14 @@
-#include "Renderer_Light.h"
+#include "RendererLight.h"
 #include "../../ECS/Coordinator.h"
 #include "../../Component/Comp_TextureLight.h"
 #include "../../Component/Comp_Position.h"
-#include "TextureFunc.h"
+#include "Misc/TextureFunc.h"
 #include "../../Game.h"
-#include "Camera.h"
+#include "Camera/Camera.h"
 #include <filesystem>
 #include "../Collision/Collision.h"
 #include "../../Misc/MiscFunctions.h"
-#include "Renderer_Misc.h"
+#include "Misc/Misc.h"
 
 
 extern Coordinator gCoordinator;
@@ -24,7 +24,7 @@ SDL_BlendMode SDL_BLENDMODE_LIGHT = SDL_ComposeCustomBlendMode(
 	SDL_BLENDOPERATION_ADD
 );
 
-void RendererSystem_Light::initRenderertex()
+void SysRendererLight::initRenderertex()
 {
 	if (renderertex_light == nullptr)
 	{
@@ -37,7 +37,7 @@ void RendererSystem_Light::initRenderertex()
 }
 
 
-void RendererSystem_Light::loadTexture()
+void SysRendererLight::loadTexture()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -50,7 +50,7 @@ void RendererSystem_Light::loadTexture()
 	}
 }
 
-void RendererSystem_Light::render()
+void SysRendererLight::render()
 {
 	SDL_RenderClear(Game::renderer);
 	for (auto& const entity : mEntities)
@@ -103,7 +103,7 @@ void RendererSystem_Light::render()
 	SDL_SetRenderTarget(Game::renderer, NULL);
 }
 
-SDL_Texture* RendererSystem_Light::rtnRenderertex()
+SDL_Texture* SysRendererLight::rtnRenderertex()
 {
 	return renderertex_light;
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
-#include "../../Game.h"
+#include "../../../Game.h"
 #include <SDL3_ttf/SDL_ttf.h>
 
 SDL_Texture* LoadTexture(const char* path, SDL_Renderer* tmpRenderer = Game::renderer);

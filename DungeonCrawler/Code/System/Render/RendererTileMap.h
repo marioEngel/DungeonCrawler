@@ -1,17 +1,18 @@
 #pragma once
 #include "Render.h"
 #include <SDL3/SDL.h>
-#include <SDL3_ttf/SDL_ttf.h>
 
-class RendererSystem_UI : public RendererSystem
+class SysRendererTileMap : public SysRenderer
 {
 public:
 	void initRenderertex() override;
 	void loadTexture() override;
 	void render() override;
 
-	TTF_Font* loadFont();
+	void createTileMapRenderertex(bool forceUpdate = false);
+
 	SDL_Texture* rtnRenderertex();
 private:
-	SDL_Texture* renderertex_UI;
+	SDL_Texture* renderertex_map;
 };
+

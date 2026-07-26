@@ -1,5 +1,5 @@
 #include "TextureFunc.h"
-#include "../../Game.h"
+#include "../../../Game.h"
 
 SDL_Texture* LoadTexture(const char* path, SDL_Renderer* tmpRenderer)
 {

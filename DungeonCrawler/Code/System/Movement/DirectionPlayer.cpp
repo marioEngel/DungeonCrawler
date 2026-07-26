@@ -11,8 +11,8 @@
 #include "../../Component/Comp_TextureLight.h"
 #include "../../Component/Is_Light.h"
 #include "../../Component/Comp_AttachedTo.h"
-#include "../Render/Renderer_Misc.h"
-#include "../Render/Camera.h"
+#include "../Render/Misc/Misc.h"
+#include "../Render/Camera/Camera.h"
 
 extern Coordinator gCoordinator;
 extern KeyboardInput gKeyboardInput;

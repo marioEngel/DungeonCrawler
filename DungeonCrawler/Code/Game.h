@@ -6,11 +6,11 @@
 #include "System/KeyInput/KeyboardInput.h"
 #include "System/KeyInput/Mouse.h"
 #include "System/Dungeon/Dungeon.h"
-#include "System/Render/Renderer_Misc.h"
+#include "System/Render/Misc/Misc.h"
 #include "Misc/MiscFunctions.h"
 #include "Characters/CharacterTemplate.h"
 #include "Math/Matrix.h"
-#include "System/Render/Camera.h"
+#include "System/Render/Camera/Camera.h"
 // ---------Components------------------ 
 #include "Component/Comp_Affiliation.h"
 #include "Component/Comp_FaceDirection.h"
@@ -38,10 +38,10 @@
 #include "System/Movement/MovementPlayer_decision.h"
 #include "System/Movement/MovementObject.h"
 #include "System/Movement/MovementObject_attached.h"
-#include "System/Render/Renderer_Sprite.h"
-#include "System/Render/Renderer_TileMap.h"
-#include "System/Render/Renderer_Light.h"
-#include "System/Render/Renderer_UI.h"
+#include "System/Render/RendererSprite.h"
+#include "System/Render/RendererTileMap.h"
+#include "System/Render/RendererLight.h"
+#include "System/Render/RendererUI.h"
 #include "System/Render/UI/Display_FPS.h"
 
 class Game

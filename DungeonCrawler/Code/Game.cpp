@@ -1,6 +1,6 @@
 #include "Game.h"
 #include <map>
-#include "System/Render/TextureFunc.h"
+#include "System/Render/Misc/TextureFunc.h"
 
 extern Coordinator gCoordinator;
 extern KeyboardInput gKeyboardInput;
@@ -9,10 +9,10 @@ Camera gCamera;
 Mouse gMouse;
 
 // systems forward declaration
-extern std::shared_ptr<RendererSystem_Sprite> rendererSystem_Sprite;
-extern std::shared_ptr<RendererSystem_TileMap> rendererSystem_TileMap;
-extern std::shared_ptr<RendererSystem_Light> rendererSystem_Light;
-extern std::shared_ptr<RendererSystem_UI> rendererSystem_UI;
+extern std::shared_ptr<SysRendererSprite> sysRendererSprite;
+extern std::shared_ptr<SysRendererTileMap> sysRendererTileMap;
+extern std::shared_ptr<SysRendererLight> sysRendererLight;
+extern std::shared_ptr<SysRendererUI> sysRendererUI;
 extern std::shared_ptr<MovementPlayerSystem> movementPlayerSystem;
 extern std::shared_ptr<MovementPlayer_decisionSystem> movementPlayer_DecisionSystem;
 extern std::shared_ptr<DirectionPlayerSystem> directionPlayerSystem;
@@ -74,37 +74,37 @@ void Game::update(float delta)
 
 	// render pipeline
 	{
-		rendererSystem_TileMap->loadTexture();
-		rendererSystem_TileMap->createTileMapRenderertex();
-		rendererSystem_TileMap->initRenderertex();
-		rendererSystem_TileMap->render();
+		sysRendererTileMap->loadTexture();
+		sysRendererTileMap->createTileMapRenderertex();
+		sysRendererTileMap->initRenderertex();
+		sysRendererTileMap->render();
 
-		rendererSystem_Sprite->loadTexture();
-		rendererSystem_Sprite->initRenderertex();
+		sysRendererSprite->loadTexture();
+		sysRendererSprite->initRenderertex();
 		//tmp for checking Hitboxes not working
 		bool renderHitbox = true;
 		if (renderHitbox) {
 			collisionSystem->create_HitboxRender();
 			collisionSystem->render_Hitbox();
 		}
- 		rendererSystem_Sprite->render();
+ 		sysRendererSprite->render();
 			
 
-		rendererSystem_Light->loadTexture();
-		rendererSystem_Light->initRenderertex();
-		rendererSystem_Light->render();
+		sysRendererLight->loadTexture();
+		sysRendererLight->initRenderertex();
+		sysRendererLight->render();
 
-		rendererSystem_UI->loadTexture();
-		rendererSystem_UI->initRenderertex();
-		rendererSystem_UI->render();
+		sysRendererUI->loadTexture();
+		sysRendererUI->initRenderertex();
+		sysRendererUI->render();
 	}
 	
 	gKeyboardInput.getPrevKeys();
 	drawAndClear(
-		rendererSystem_TileMap->rtnRenderertex(),
-		rendererSystem_Sprite->rtnRenderertex(),
-		rendererSystem_Light->rtnRenderertex(),
-		rendererSystem_UI->rtnRenderertex()
+		sysRendererTileMap->rtnRenderertex(),
+		sysRendererSprite->rtnRenderertex(),
+		sysRendererLight->rtnRenderertex(),
+		sysRendererUI->rtnRenderertex()
 	);
 }
 

@@ -2,7 +2,7 @@
 #include "../../ECS/System.h"
 #include <SDL3/SDL.h>
 
-class RendererSystem : public Systems
+class SysRenderer : public Systems
 {
 public:
 	virtual void initRenderertex() {};

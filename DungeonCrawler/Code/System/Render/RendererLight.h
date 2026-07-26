@@ -2,7 +2,7 @@
 #include "Render.h"
 #include <SDL3/SDL.h>
 
-class RendererSystem_Light : public RendererSystem
+class SysRendererLight : public SysRenderer
 {
 public:
 	void initRenderertex() override;

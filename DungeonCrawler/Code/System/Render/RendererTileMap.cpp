@@ -1,15 +1,15 @@
-#include "Renderer_TileMap.h"
+#include "RendererTileMap.h"
 #include "../../ECS/Coordinator.h"
-#include "TextureFunc.h"
+#include "Misc/TextureFunc.h"
 #include "../../Component/Comp_TileMap.h"
 #include "../../Game.h"
 #include "../Collision/Collision.h"
-#include "Camera.h"
+#include "Camera/Camera.h"
 
 extern Camera gCamera;
 extern Coordinator gCoordinator;
 
-void RendererSystem_TileMap::initRenderertex()
+void SysRendererTileMap::initRenderertex()
 { 
 	if (renderertex_map == nullptr)
 	{
@@ -23,7 +23,7 @@ void RendererSystem_TileMap::initRenderertex()
 
 
 // load the textures once
-void RendererSystem_TileMap::loadTexture()
+void SysRendererTileMap::loadTexture()
 {
 	for (auto const& entity : mEntities)
 	{
@@ -39,7 +39,7 @@ void RendererSystem_TileMap::loadTexture()
 	}
 }
 
-void RendererSystem_TileMap::createTileMapRenderertex(bool forceUpdate)
+void SysRendererTileMap::createTileMapRenderertex(bool forceUpdate)
 {
 	for (auto const& entity : mEntities)
 	{
@@ -73,7 +73,7 @@ void RendererSystem_TileMap::createTileMapRenderertex(bool forceUpdate)
 	SDL_SetRenderTarget(Game::renderer, NULL);
 }
 
-void RendererSystem_TileMap::render()
+void SysRendererTileMap::render()
 {
 	for (auto const& entity : mEntities)
 	{
@@ -87,7 +87,7 @@ void RendererSystem_TileMap::render()
 	SDL_SetRenderTarget(Game::renderer, NULL);
 }
 
-SDL_Texture* RendererSystem_TileMap::rtnRenderertex()
+SDL_Texture* SysRendererTileMap::rtnRenderertex()
 {
 	return renderertex_map;
 }

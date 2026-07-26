@@ -1,10 +1,10 @@
-#include "Renderer_UI.h"
+#include "RendererUI.h"
 #include "../../ECS/Coordinator.h"
-#include "Camera.h"
+#include "Camera/Camera.h"
 #include "../../Game.h"
 #include "../../Component/Comp_Texture.h"
 #include "../../Component/Comp_Position.h"
-#include "TextureFunc.h"
+#include "Misc/TextureFunc.h"
 #include "../Collision/Collision.h"
 #include "SDL3_ttf/SDL_ttf.h"
 #include "../../Component/Comp_Text.h"
@@ -12,7 +12,7 @@
 extern Coordinator gCoordinator;
 extern Camera gCamera;
 
-void RendererSystem_UI::initRenderertex()
+void SysRendererUI::initRenderertex()
 {
 	if (renderertex_UI == nullptr)
 	{
@@ -25,7 +25,7 @@ void RendererSystem_UI::initRenderertex()
 	SDL_RenderClear(Game::renderer);
 }
 
-void RendererSystem_UI::loadTexture()
+void SysRendererUI::loadTexture()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -47,7 +47,7 @@ void RendererSystem_UI::loadTexture()
 	}
 }
 
-TTF_Font* RendererSystem_UI::loadFont()
+TTF_Font* SysRendererUI::loadFont()
 {
 	std::string fontPath = "Font/joystix/joystix_monospace.otf";
 	//std::string fontPath = "Font/08-true-type-fonts/lazy.ttf";
@@ -59,7 +59,7 @@ TTF_Font* RendererSystem_UI::loadFont()
 	return rtnFont;
 }
 
-void RendererSystem_UI::render()
+void SysRendererUI::render()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -94,7 +94,7 @@ void RendererSystem_UI::render()
 	SDL_SetRenderTarget(Game::renderer, NULL);
 }
 
-SDL_Texture* RendererSystem_UI::rtnRenderertex()
+SDL_Texture* SysRendererUI::rtnRenderertex()
 {
 	return renderertex_UI;
 }

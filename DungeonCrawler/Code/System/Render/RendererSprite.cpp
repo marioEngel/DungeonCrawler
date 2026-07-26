@@ -1,17 +1,17 @@
- #include "Renderer_Sprite.h"
+#include "RendererSprite.h"
 #include "../../ECS/Coordinator.h"
 #include "../../Component/Comp_Texture.h"
 #include "../../Component/Comp_Position.h"
-#include "TextureFunc.h"
+#include "Misc/TextureFunc.h"
 #include "../../Game.h"
-#include "Camera.h"
+#include "Camera/Camera.h"
 #include <filesystem>
 #include "../Collision/Collision.h"
 
 extern Coordinator gCoordinator;
 extern Camera gCamera;
 
-void RendererSystem_Sprite::initRenderertex()
+void SysRendererSprite::initRenderertex()
 {
 	if (renderertex_sprite == nullptr)
 	{
@@ -24,7 +24,7 @@ void RendererSystem_Sprite::initRenderertex()
 	SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
 }
 
-void RendererSystem_Sprite::loadTexture()
+void SysRendererSprite::loadTexture()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -37,7 +37,7 @@ void RendererSystem_Sprite::loadTexture()
 	}
 }
 
-void RendererSystem_Sprite::render()
+void SysRendererSprite::render()
 {
 	for (auto& const entity : mEntities)
 	{
@@ -70,7 +70,7 @@ void RendererSystem_Sprite::render()
 	SDL_SetRenderTarget(Game::renderer, NULL);
 }
 
-SDL_Texture* RendererSystem_Sprite::rtnRenderertex()
+SDL_Texture* SysRendererSprite::rtnRenderertex()
 {
 	return renderertex_sprite;
 }
