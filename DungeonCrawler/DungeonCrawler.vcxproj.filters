@@ -74,12 +74,14 @@
     <ClInclude Include="Code\System\Render\Render.h" />
     <ClInclude Include="Code\Characters\CharacterTemplate.h" />
     <ClInclude Include="Code\System\Dungeon\Chunk.h" />
+    <ClInclude Include="Code\Component\Comp_DisplayFPS.h" />
+    <ClInclude Include="Code\System\Render\UI\Display_FPS.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\System\Render\TextureFunc.cpp" />
     <ClCompile Include="Code\System\Render\Renderer_Sprite.cpp" />
     <ClCompile Include="Code\Game.cpp" />
-    <ClCompile Include="Code\GameInit.cpp" />
+    <ClCompile Include="Code\Game_initECS.cpp" />
     <ClCompile Include="Code\Math\Matrix.cpp" />
     <ClCompile Include="Code\System\Render\Renderer_TileMap.cpp" />
     <ClCompile Include="Code\System\KeyInput\KeyboardInput.cpp" />
@@ -114,6 +116,8 @@
     <ClCompile Include="Code\System\Collision\Collision_contact.cpp" />
     <ClCompile Include="Code\System\Collision\Collision_check.cpp" />
     <ClCompile Include="Code\Characters\CharacterTemplate.cpp" />
+    <ClCompile Include="Code\System\Render\UI\Display_FPS.cpp" />
+    <ClCompile Include="Code\Game_initEntities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Picture\Drone.png" />

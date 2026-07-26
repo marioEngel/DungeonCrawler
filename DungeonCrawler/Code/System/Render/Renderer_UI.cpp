@@ -17,11 +17,12 @@ void RendererSystem_UI::initRenderertex()
 	if (renderertex_UI == nullptr)
 	{
 		renderertex_UI = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Game::screenWidth, Game::screenHeight);
+		SDL_SetTextureBlendMode(renderertex_UI, SDL_BLENDMODE_BLEND);
 	} 
 
-	SDL_RenderClear(Game::renderer);
 	SDL_SetRenderTarget(Game::renderer, renderertex_UI);
-	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 0);
+	SDL_RenderClear(Game::renderer);
 }
 
 void RendererSystem_UI::loadTexture()
@@ -30,8 +31,9 @@ void RendererSystem_UI::loadTexture()
 	{
 		auto& texture = gCoordinator.GetComponent<Text>(entity);
 
-		if (texture.SDL == nullptr)
+		if (texture.SDL == nullptr || texture.reloadTexture)
 		{
+			texture.reloadTexture = false;
 			if (texture.font == nullptr)
 			{
 				texture.font = loadFont();
@@ -67,6 +69,12 @@ void RendererSystem_UI::render()
 
 		if (texture.SDL != nullptr)
 		{
+			SDL_SetTextureColorMod(
+				texture.SDL,
+				texture.textColor.r, 
+				texture.textColor.g, 
+				texture.textColor.b);
+			
 			SDL_FRect srcRec;
 			SDL_FRect destRec;
 
@@ -80,12 +88,7 @@ void RendererSystem_UI::render()
 			destRec.w = texture.width;
 			destRec.h = texture.height;
 
-			if (check_RectVsRect(gCamera.mCamera, destRec))
-			{
-				destRec.x -= gCamera.mCamera.x;
-				destRec.y -= gCamera.mCamera.y;
-				SDL_RenderTextureRotated(Game::renderer, texture.SDL, &srcRec, &destRec, 0.0f, NULL, SDL_FLIP_NONE);
-			}
+			SDL_RenderTextureRotated(Game::renderer, texture.SDL, &srcRec, &destRec, 0.0f, NULL, SDL_FLIP_NONE);
 		}
 	}
 	SDL_SetRenderTarget(Game::renderer, NULL);

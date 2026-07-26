@@ -9,6 +9,8 @@ public:
 	void loadTexture() override;
 	void render() override;
 
+	void createTileMapRenderertex(bool forceUpdate = false);
+
 	SDL_Texture* rtnRenderertex();
 private:
 	SDL_Texture* renderertex_map;

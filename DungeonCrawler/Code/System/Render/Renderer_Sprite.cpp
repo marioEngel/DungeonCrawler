@@ -16,6 +16,7 @@ void RendererSystem_Sprite::initRenderertex()
 	if (renderertex_sprite == nullptr)
 	{
 		renderertex_sprite = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Game::screenWidth, Game::screenHeight);
+		SDL_SetTextureBlendMode(renderertex_sprite, SDL_BLENDMODE_BLEND);
 	}
 	
 	SDL_SetRenderTarget(Game::renderer, renderertex_sprite);
@@ -67,7 +68,6 @@ void RendererSystem_Sprite::render()
 		}
 	}
 	SDL_SetRenderTarget(Game::renderer, NULL);
-
 }
 
 SDL_Texture* RendererSystem_Sprite::rtnRenderertex()

@@ -1,39 +1,6 @@
-// ----------Rest----------------------
 #include <map>
-#include "Game.h"1
-#include "System/KeyInput/KeyboardInput.h"
-#include "System/Dungeon/Dungeon.h"
+#include "Game.h"
 #include <SDL3_ttf/SDL_ttf.h>
-// ---------Components------------------ 
-#include "Component/Comp_Affiliation.h"
-#include "Component/Comp_FaceDirection.h"
-#include "Component/Comp_Hitbox.h"
-#include "Component/Comp_InputKeys.h"
-#include "Component/Is_Player.h"
-#include "Component/Is_Object.h"
-#include "Component/Is_Collision.h"
-#include "Component/Is_Light.h"
-#include "Component/Comp_Mass.h"
-#include "Component/Comp_Movement.h"
-#include "Component/Comp_DirectionDecision.h"
-#include "Component/Comp_Position.h"
-#include "Component/Comp_Texture.h"
-#include "Component/Comp_TextureLight.h"
-#include "Component/Comp_TileMap.h"
-#include "Component/Comp_AttachedTo.h"
-#include "Component/Is_UI.h"
-#include "Component/Comp_Text.h"
-// --------Systems---------------------- 
-#include "System/Collision/CollisionSystem.h"
-#include "System/Movement/DirectionPlayer.h"
-#include "System/Movement/MovementPlayer.h"
-#include "System/Movement/MovementPlayer_decision.h"
-#include "System/Movement/MovementObject.h"
-#include "System/Movement/MovementObject_attached.h"
-#include "System/Render/Renderer_Sprite.h"
-#include "System/Render/Renderer_TileMap.h"
-#include "System/Render/Renderer_Light.h"
-#include "System/Render/Renderer_UI.h"
 
 SDL_Renderer* Game::renderer = NULL;
 SDL_Event Game::event;
@@ -55,6 +22,7 @@ std::shared_ptr<DirectionPlayerSystem> directionPlayerSystem;
 std::shared_ptr<MovementObjectSystem> movementObjectSystem;
 std::shared_ptr<CollisionSystem> collisionSystem;
 std::shared_ptr<MovementObject_attachedSystem> movementObject_attachedSystem;
+std::shared_ptr<System_Display_FPS> system_Display_FPS;
 
 Game::Game()
 {
@@ -64,7 +32,7 @@ Game::~Game()
 {
 }
 
-void Game::init(const char* text, int width, int height, int flag)
+void Game::initECS(const char* text, int width, int height, int flag)
 {
 	// init SDL system
 	if (
@@ -96,23 +64,24 @@ void Game::init(const char* text, int width, int height, int flag)
 
 	// register all components, alphabetical order
 	gCoordinator.RegisterComponent<Affiliation>();
+	gCoordinator.RegisterComponent<AttachedTo>();
+	gCoordinator.RegisterComponent<DirectionDecision>();
+	gCoordinator.RegisterComponent<DisplayFPS>();
 	gCoordinator.RegisterComponent<FaceDirection>();
 	gCoordinator.RegisterComponent<Hitbox>();
-	gCoordinator.RegisterComponent<IsCollision>();
-	gCoordinator.RegisterComponent<IsPlayer>();
-	gCoordinator.RegisterComponent<IsObject>();
-	gCoordinator.RegisterComponent<IsLight>();
 	gCoordinator.RegisterComponent<InputKeys>();
-	gCoordinator.RegisterComponent<Movement>();
-	gCoordinator.RegisterComponent<DirectionDecision>();
-	gCoordinator.RegisterComponent<Position>();
-	gCoordinator.RegisterComponent<Texture>();
-	gCoordinator.RegisterComponent<TileMap>();
-	gCoordinator.RegisterComponent<TextureLight>();
-	gCoordinator.RegisterComponent<AttachedTo>();
+	gCoordinator.RegisterComponent<IsCollision>();
+	gCoordinator.RegisterComponent<IsLight>();
+	gCoordinator.RegisterComponent<IsObject>();
+	gCoordinator.RegisterComponent<IsPlayer>();
 	gCoordinator.RegisterComponent<IsUI>();
-	gCoordinator.RegisterComponent<Text>();
 	gCoordinator.RegisterComponent<Mass>();
+	gCoordinator.RegisterComponent<Movement>();
+	gCoordinator.RegisterComponent<Position>();
+	gCoordinator.RegisterComponent<Text>();
+	gCoordinator.RegisterComponent<Texture>();
+	gCoordinator.RegisterComponent<TextureLight>();
+	gCoordinator.RegisterComponent<TileMap>();
 
 	// register all systems, forward declaration, signature
 	rendererSystem_Sprite = gCoordinator.RegisterSystem<RendererSystem_Sprite>();
@@ -195,5 +164,12 @@ void Game::init(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<Mass>());
 		signature.set(gCoordinator.GetComponentType<Mass>());
 		gCoordinator.SetSystemSignature<CollisionSystem>(signature);
+	}
+	system_Display_FPS = gCoordinator.RegisterSystem<System_Display_FPS>();
+	{
+		Signature signature;
+		signature.set(gCoordinator.GetComponentType<DisplayFPS>());
+		signature.set(gCoordinator.GetComponentType<Text>());
+		gCoordinator.SetSystemSignature<System_Display_FPS>(signature);
 	}
 }

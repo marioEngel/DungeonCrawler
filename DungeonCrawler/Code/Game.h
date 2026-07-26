@@ -2,6 +2,47 @@
 #include <SDL3/SDL.h>
 #include <string>
 #include "ECS/Coordinator.h"
+// ----------Misc----------------------
+#include "System/KeyInput/KeyboardInput.h"
+#include "System/KeyInput/Mouse.h"
+#include "System/Dungeon/Dungeon.h"
+#include "System/Render/Renderer_Misc.h"
+#include "Misc/MiscFunctions.h"
+#include "Characters/CharacterTemplate.h"
+#include "Math/Matrix.h"
+#include "System/Render/Camera.h"
+// ---------Components------------------ 
+#include "Component/Comp_Affiliation.h"
+#include "Component/Comp_FaceDirection.h"
+#include "Component/Comp_Hitbox.h"
+#include "Component/Comp_InputKeys.h"
+#include "Component/Is_Player.h"
+#include "Component/Is_Object.h"
+#include "Component/Is_Collision.h"
+#include "Component/Is_Light.h"
+#include "Component/Comp_Mass.h"
+#include "Component/Comp_Movement.h"
+#include "Component/Comp_DirectionDecision.h"
+#include "Component/Comp_Position.h"
+#include "Component/Comp_Texture.h"
+#include "Component/Comp_TextureLight.h"
+#include "Component/Comp_TileMap.h"
+#include "Component/Comp_AttachedTo.h"
+#include "Component/Is_UI.h"
+#include "Component/Comp_Text.h"
+#include "Component/Comp_DisplayFPS.h"
+// --------Systems---------------------- 
+#include "System/Collision/CollisionSystem.h"
+#include "System/Movement/DirectionPlayer.h"
+#include "System/Movement/MovementPlayer.h"
+#include "System/Movement/MovementPlayer_decision.h"
+#include "System/Movement/MovementObject.h"
+#include "System/Movement/MovementObject_attached.h"
+#include "System/Render/Renderer_Sprite.h"
+#include "System/Render/Renderer_TileMap.h"
+#include "System/Render/Renderer_Light.h"
+#include "System/Render/Renderer_UI.h"
+#include "System/Render/UI/Display_FPS.h"
 
 class Game
 {
@@ -11,11 +52,11 @@ public:
 
 	bool gameRunning();
 	void clean();
-	void init(const char* text, int width, int height, int flag = 0);
+	void initECS(const char* text, int width, int height, int flag = 0);
 	void makeEnd();
 
 	void initEntities();
-	void update();
+	void update(float delta);
 	void handleEvents();
 
 	static SDL_Renderer* renderer;

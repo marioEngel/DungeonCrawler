@@ -35,23 +35,15 @@ void drawAndClear(
 	SDL_SetRenderTarget(Game::renderer, NULL);
 	SDL_RenderClear(Game::renderer);
 
-	SDL_SetTextureBlendMode(rendTex1, SDL_BLENDMODE_BLEND);
-	SDL_SetTextureBlendMode(rendTex2, SDL_BLENDMODE_BLEND);
-	SDL_SetTextureBlendMode(rendTex3, SDL_BLENDMODE_MOD);
-	SDL_SetTextureBlendMode(rendTex4, SDL_BLENDMODE_BLEND);
-
-	SDL_FRect tmpScreen{ 0, 0, float(Game::screenWidth), float(Game::screenHeight) };
-
 	SDL_RenderTexture(Game::renderer, rendTex1, NULL, NULL);	
-	SDL_RenderTexture(Game::renderer, rendTex2, NULL, &tmpScreen);
+	SDL_RenderTexture(Game::renderer, rendTex2, NULL, NULL);
 	if(!lightOn)
 	{
-	SDL_RenderTexture(Game::renderer, rendTex3, NULL, NULL);
+		SDL_RenderTexture(Game::renderer, rendTex3, NULL, NULL);
 	}
-	//SDL_RenderTexture(Game::renderer, rendTex4, NULL, NULL); 
+	SDL_RenderTexture(Game::renderer, rendTex4, NULL, NULL); 
 
 	SDL_RenderPresent(Game::renderer);
-	SDL_RenderClear(Game::renderer);
 }
 
 /*

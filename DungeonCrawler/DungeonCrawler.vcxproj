@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Code\Characters\CharacterTemplate.h" />
     <ClInclude Include="Code\Component\Comp_AttachedTo.h" />
+    <ClInclude Include="Code\Component\Comp_DisplayFPS.h" />
     <ClInclude Include="Code\Component\Comp_FaceDirection.h" />
     <ClInclude Include="Code\Component\Comp_Hitbox.h" />
     <ClInclude Include="Code\Component\Comp_Mass.h" />
@@ -83,12 +84,14 @@
     <ClInclude Include="Code\System\Collision\Geometry\Rectangle.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Rectangle_Rotatet.h" />
     <ClInclude Include="Code\System\Collision\Geometry\GeomLine.h" />
+    <ClInclude Include="Code\System\Render\UI\Display_FPS.h" />
     <ClInclude Include="Code\System\Text\textClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Characters\CharacterTemplate.cpp" />
     <ClCompile Include="Code\Game.cpp" />
-    <ClCompile Include="Code\GameInit.cpp" />
+    <ClCompile Include="Code\Game_initECS.cpp" />
+    <ClCompile Include="Code\Game_initEntities.cpp" />
     <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\Math\GeneralMathStuff.cpp" />
     <ClCompile Include="Code\Misc\MiscFunctions.cpp" />
@@ -123,6 +126,7 @@
     <ClCompile Include="Code\System\Movement\MovementPlayer.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\Rectangle_Rotatet.cpp" />
     <ClCompile Include="Code\System\Collision\Geometry\GeomLine.cpp" />
+    <ClCompile Include="Code\System\Render\UI\Display_FPS.cpp" />
     <ClCompile Include="Code\System\Text\textClass.cpp" />
   </ItemGroup>
   <ItemGroup>

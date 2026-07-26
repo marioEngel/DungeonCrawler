@@ -29,6 +29,7 @@ void RendererSystem_Light::initRenderertex()
 	if (renderertex_light == nullptr)
 	{
 		renderertex_light = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Game::screenWidth, Game::screenHeight);
+		SDL_SetTextureBlendMode(renderertex_light, SDL_BLENDMODE_MOD);
 	}
 	SDL_SetRenderTarget(Game::renderer, renderertex_light);
 	SDL_RenderClear(Game::renderer);

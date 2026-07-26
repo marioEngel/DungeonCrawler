@@ -2,12 +2,12 @@
 #include "../../ECS/Coordinator.h"
 #include <SDL3/SDL.h>
 #include "../../Component/Comp_TileMap.h"
+#include "Chunk.h"
 
 extern Coordinator gCoordinator;
 
 void DungeonSystem::init()
 {
-
 	int tileMapEntity = gCoordinator.CreateEntity();
 	std::vector<SDL_Texture*> emptyTexture{};
 	std::vector<const char*> tmpTileTextures =
@@ -15,7 +15,8 @@ void DungeonSystem::init()
 		"Picture/TileNormal.png",
 		"Picture/TileGround.png"
 	};
-	Matrix renderMap = this->generateCave(500, 500, 0.5);
+	Matrix renderMap = this->generateCave(256, 256, 0.5);
+	renderMap = transposeSquare(renderMap, 2);
 	gCoordinator.AddComponent<TileMap>(tileMapEntity, TileMap{ renderMap, tmpTileTextures, emptyTexture });
 }
 
@@ -88,4 +89,47 @@ int countNeighbours(int x, int y, Matrix& mat, int height, int width)
 		}
 	}
 	return count;
+}
+
+Matrix transposeSquare(Matrix& matrix, int multipyDimension)
+{
+	Matrix rtnMatrix;
+	int newSize = matrix.size() * multipyDimension;
+	rtnMatrix.resize(newSize, std::vector<int>(newSize));
+
+	for (size_t y = 0; y < matrix.size(); y++)
+	{
+		for (size_t x = 0; x < matrix.size(); x++)
+		{
+			int newY = y * multipyDimension;
+			int newX = x * multipyDimension;
+			int currentMatrixValue = matrix[y][x];
+
+			for (size_t sub_y = 0; sub_y < multipyDimension; sub_y++)
+			{
+				for (size_t sub_x = 0; sub_x < multipyDimension; sub_x++)
+				{
+					rtnMatrix[newY + sub_y][newX + sub_x] = currentMatrixValue;
+				}
+			}
+		}
+	}
+
+	return rtnMatrix;
+}
+
+Matrix slice(Matrix& matrix, int squareDimension)
+{
+	Matrix rtnMatrix;
+	rtnMatrix.resize(squareDimension, std::vector<int>(squareDimension));
+
+	for (size_t y = 0; y < squareDimension; y++)
+	{
+		for (size_t x = 0; x < squareDimension; x++)
+		{
+			rtnMatrix[y][x] = matrix[y][x];
+		}
+	}
+
+	return rtnMatrix;
 }
