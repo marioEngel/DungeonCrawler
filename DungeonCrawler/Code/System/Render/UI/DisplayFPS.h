@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../ECS/System.h"
 
-class SyDisplayFPS : public Systems
+class SysDisplayFPS : public Systems
 {
 public:
 	void update(float deltaT);

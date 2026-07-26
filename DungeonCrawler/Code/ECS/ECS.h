@@ -13,6 +13,6 @@ using ComponentType = std::uint8_t;
 
 // Max Entities, Components 
 const Entity MAX_ENTITIES = 250;
-const ComponentType MAX_COMPONENTS = 32;
+const ComponentType MAX_COMPONENTS = 64;
 
 using Signature = std::bitset<MAX_COMPONENTS>;

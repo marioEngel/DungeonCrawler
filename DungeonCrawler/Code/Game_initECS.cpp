@@ -9,7 +9,6 @@ int Game::screenHeight;
 
 Coordinator gCoordinator;
 KeyboardInput gKeyboardInput;
-DungeonSystem gDungeonSystem;
 
 // systems forward declaration
 std::shared_ptr<SysRendererSprite> sysRendererSprite;
@@ -22,7 +21,8 @@ std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
 std::shared_ptr<SysMovementObject> sysMovementObject;
 std::shared_ptr<SysCollision> sysCollision;
 std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
-std::shared_ptr<SyDisplayFPS> syDisplayFPS;
+std::shared_ptr<SysDisplayFPS> sysDisplayFPS;
+std::shared_ptr<SysLevel> sysLevel;
 
 Game::Game()
 {
@@ -81,6 +81,7 @@ void Game::initECS(const char* text, int width, int height, int flag)
 	gCoordinator.RegisterComponent<Texture>();
 	gCoordinator.RegisterComponent<TextureLight>();
 	gCoordinator.RegisterComponent<TileMap>();
+	gCoordinator.RegisterComponent<Level>();
 
 	// register all systems, forward declaration, signature
 	sysRendererSprite = gCoordinator.RegisterSystem<SysRendererSprite>();
@@ -164,11 +165,17 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<Mass>());
 		gCoordinator.SetSystemSignature<SysCollision>(signature);
 	}
-	syDisplayFPS = gCoordinator.RegisterSystem<SyDisplayFPS>();
+	sysDisplayFPS = gCoordinator.RegisterSystem<SysDisplayFPS>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<DisplayFPS>());
 		signature.set(gCoordinator.GetComponentType<Text>());
-		gCoordinator.SetSystemSignature<SyDisplayFPS>(signature);
+		gCoordinator.SetSystemSignature<SysDisplayFPS>(signature);
+	}
+	sysLevel = gCoordinator.RegisterSystem<SysLevel>();
+	{
+		Signature signature;
+		signature.set(gCoordinator.GetComponentType<Level>());
+		gCoordinator.SetSystemSignature<SysLevel>(signature);
 	}
 }

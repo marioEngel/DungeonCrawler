@@ -75,6 +75,8 @@
     <ClInclude Include="Code\System\Dungeon\Chunk.h" />
     <ClInclude Include="Code\Component\Comp_DisplayFPS.h" />
     <ClInclude Include="Code\System\Render\UI\DisplayFPS.h" />
+    <ClInclude Include="Code\Component\Comp_Level.h" />
+    <ClInclude Include="Code\System\Dungeon\Level.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\System\Render\Misc\TextureFunc.cpp" />
@@ -116,6 +118,7 @@
     <ClCompile Include="Code\System\Render\UI\DisplayFPS.cpp" />
     <ClCompile Include="Code\Game_initEntities.cpp" />
     <ClCompile Include="Code\System\Collision\CollisionFunc_arbitrary.cpp" />
+    <ClCompile Include="Code\System\Dungeon\Level.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Picture\Drone.png" />

@@ -5,7 +5,7 @@
 
 extern Coordinator gCoordinator;
 
-void SyDisplayFPS::update(float deltaT)
+void SysDisplayFPS::update(float deltaT)
 {
     for (auto const& entity : mEntities)
     {

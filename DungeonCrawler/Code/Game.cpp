@@ -19,19 +19,20 @@ extern std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
 extern std::shared_ptr<SysMovementObject> sysMovementObject;
 extern std::shared_ptr<SysCollision> sysCollision;
 extern std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
-extern std::shared_ptr<SyDisplayFPS> syDisplayFPS;
+extern std::shared_ptr<SysDisplayFPS> sysDisplayFPS;
 
 void Game::update(float delta)
 {
-	gKeyboardInput.registerInput(); 
-	
-	if (gKeyboardInput.getButtonState(SDL_SCANCODE_X) ||
-		gKeyboardInput.getButtonState(SDL_SCANCODE_X) == eButtonState::RELEASED)
+	// input pipeline stuff soll in handle input sein
 	{
-		gMouse.printMousePosition_color();
-	}
+		if (gKeyboardInput.getButtonState(SDL_SCANCODE_X) ||
+			gKeyboardInput.getButtonState(SDL_SCANCODE_X) == eButtonState::RELEASED)
+		{
+			gMouse.printMousePosition_color();
+		}
 
-	sysMovementPlayerDecision->update();
+		sysMovementPlayerDecision->update();
+	}
 
 	// movement pipeline
 	{
@@ -68,7 +69,7 @@ void Game::update(float delta)
 	}
 
 	{
-		syDisplayFPS->update(delta);
+		sysDisplayFPS->update(delta);
 	}
 
 	// render pipeline
@@ -131,10 +132,10 @@ void Game::clean() {
 	SDL_Quit();
 }
 
-void Game::makeEnd()
-{
-	isRunning = false;
-}
+//void Game::makeEnd()
+//{
+//	isRunning = false;
+//}
 
 // is game running? bool
 bool Game::gameRunning()

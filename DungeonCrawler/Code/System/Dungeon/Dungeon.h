@@ -4,14 +4,14 @@
 #include "Chunk.h"
 #include <map>
 
-class DungeonSystem 
+class Dungeon
 {
 public:
 	void init();
-	Matrix generateCave(int width, int height, float fillProb=0.45f, int steps=5);
-	void step(Matrix& mat, int height, int width);
 
 private:
+	Matrix generateCave(int width, int height, float fillProb=0.45f, int steps=5);
+	void step(Matrix& mat, int height, int width);
 	std::map<std::pair<int, int>, Chunk> mChuncks;
 };
 

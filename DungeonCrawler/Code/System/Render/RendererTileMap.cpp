@@ -46,18 +46,21 @@ void SysRendererTileMap::createTileMapRenderertex(bool forceUpdate)
 		auto& tileMap = gCoordinator.GetComponent<TileMap>(entity);
 
 		if (tileMap.tileMapTexture == nullptr || forceUpdate)
-		{
-			
-			tileMap.tileMapTexture = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Game::screenWidth, Game::screenHeight);
+		{		
+			int tileMapSizeY = tileMap.matrix.size();
+			int tileMapSizeX = tileMap.matrix[0].size();
+			float cubeSize = 8.0f;
+			int texWidth = static_cast<int>(tileMapSizeX * cubeSize);
+			int texHeight = static_cast<int>(tileMapSizeY * cubeSize);
+
+			tileMap.dimension = Vector2D<int>{ texWidth, texHeight };
+
+			tileMap.tileMapTexture = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, texWidth, texHeight);
 			SDL_SetRenderTarget(Game::renderer, tileMap.tileMapTexture);
 			SDL_RenderClear(Game::renderer);
 			SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 0);
 
-			int tileMapSizeY = tileMap.matrix.size();
-			int tileMapSizeX = tileMap.matrix[0].size();
-
 			SDL_FRect srcRec{ 0.0f, 0.0f, 32.0f, 32.0f };
-			float cubeSize = 2.0f;
 
 			for (int i = 0; i < tileMapSizeY; i++)
 			{
@@ -79,12 +82,12 @@ void SysRendererTileMap::render()
 	{
 		auto& tileMap = gCoordinator.GetComponent<TileMap>(entity);
 
-		SDL_FRect src{ 0, 0, Game::screenWidth, Game::screenHeight };
-		SDL_FRect dst{ -gCamera.mCamera.x, -gCamera.mCamera.y, Game::screenWidth, Game::screenHeight };
+		SDL_FRect src{ 0, 0, tileMap.dimension[0], tileMap.dimension[1] };
+		SDL_FRect dst{ -gCamera.mCamera.x, -gCamera.mCamera.y, tileMap.dimension[0], tileMap.dimension[1] };
 		SDL_RenderTexture(Game::renderer, tileMap.tileMapTexture, &src, &dst);
 
 	}
-	SDL_SetRenderTarget(Game::renderer, NULL);
+	SDL_SetRenderTarget(Game::renderer, NULL); 
 }
 
 SDL_Texture* SysRendererTileMap::rtnRenderertex()

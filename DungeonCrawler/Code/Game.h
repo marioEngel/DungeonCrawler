@@ -11,26 +11,27 @@
 #include "Characters/CharacterTemplate.h"
 #include "Math/Matrix.h"
 #include "System/Render/Camera/Camera.h"
-// ---------Components------------------ 
+// ---------Components------------------ max 64
 #include "Component/Comp_Affiliation.h"
 #include "Component/Comp_FaceDirection.h"
 #include "Component/Comp_Hitbox.h"
 #include "Component/Comp_InputKeys.h"
-#include "Component/Is_Player.h"
+#include "Component/Is_Player.h"					// 5
 #include "Component/Is_Object.h"
 #include "Component/Is_Collision.h"
 #include "Component/Is_Light.h"
 #include "Component/Comp_Mass.h"
-#include "Component/Comp_Movement.h"
+#include "Component/Comp_Movement.h"				// 10
 #include "Component/Comp_DirectionDecision.h"
 #include "Component/Comp_Position.h"
 #include "Component/Comp_Texture.h"
 #include "Component/Comp_TextureLight.h"
-#include "Component/Comp_TileMap.h"
+#include "Component/Comp_TileMap.h"					// 15
 #include "Component/Comp_AttachedTo.h"
 #include "Component/Is_UI.h"
 #include "Component/Comp_Text.h"
 #include "Component/Comp_DisplayFPS.h"
+#include "Component/Comp_Level.h"					// 20
 // --------Systems---------------------- 
 #include "System/Collision/Collision.h"
 #include "System/Movement/DirectionPlayer.h"
@@ -43,6 +44,8 @@
 #include "System/Render/RendererLight.h"
 #include "System/Render/RendererUI.h"
 #include "System/Render/UI/DisplayFPS.h"
+#include "System/Dungeon/Level.h"
+
 
 class Game
 {
@@ -53,7 +56,7 @@ public:
 	bool gameRunning();
 	void clean();
 	void initECS(const char* text, int width, int height, int flag = 0);
-	void makeEnd();
+	//void makeEnd();
 
 	void initEntities();
 	void update(float delta);

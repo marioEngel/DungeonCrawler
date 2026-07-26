@@ -5,6 +5,7 @@ Entity gPlayerEntity;
 
 // systems forward declaration
 extern std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
+extern std::shared_ptr<SysLevel> sysLevel;
 
 void Game::initEntities()
 {
@@ -37,21 +38,19 @@ void Game::initEntities()
 
 	create_Mouse(Vector2D<float>(400.0f, 150.0f));
 
+	//Entity lightSource = gCoordinator.CreateEntity();
+	//{
+	//	gCoordinator.AddComponent<Position>(lightSource, Position{ Vector2D<float>(40,-60) });
+	//	gCoordinator.AddComponent<TextureLight>(lightSource,
+	//		TextureLight{ std::make_tuple<int, int, float, float, float>(720, 720, 100.0f, 0, 0), generateGaussianLight });
+	//	//gCoordinator.AddComponent<TextureLight>(lightSource,
+	//	//	TextureLight{ std::make_tuple<int, int, float, float, float>(2000, 2000, 30.0f, 0.0f, 0.0f), generateFlashLightCone, 2000, 2000 });
+	//	//gCoordinator.AddComponent<TextureLight>(lightSource,
+	//	//	TextureLight{ 720, 720, {255, 255, 255}, std::make_tuple<int, int, float, float, float>(720, 720, 50.0f, 200.0f, 0), generateGaussianLightTwoSigma });
 
-
-	Entity lightSource = gCoordinator.CreateEntity();
-	{
-		gCoordinator.AddComponent<Position>(lightSource, Position{ Vector2D<float>(40,-60) });
-		gCoordinator.AddComponent<TextureLight>(lightSource,
-			TextureLight{ std::make_tuple<int, int, float, float, float>(720, 720, 100.0f, 0, 0), generateGaussianLight });
-		//gCoordinator.AddComponent<TextureLight>(lightSource,
-		//	TextureLight{ std::make_tuple<int, int, float, float, float>(2000, 2000, 30.0f, 0.0f, 0.0f), generateFlashLightCone, 2000, 2000 });
-		//gCoordinator.AddComponent<TextureLight>(lightSource,
-		//	TextureLight{ 720, 720, {255, 255, 255}, std::make_tuple<int, int, float, float, float>(720, 720, 50.0f, 200.0f, 0), generateGaussianLightTwoSigma });
-
-		gCoordinator.AddComponent<IsLight>(lightSource, IsLight{ true });
-		gCoordinator.AddComponent<AttachedTo>(lightSource, AttachedTo{ true, gPlayerEntity });
-	}
+	//	gCoordinator.AddComponent<IsLight>(lightSource, IsLight{ true });
+	//	gCoordinator.AddComponent<AttachedTo>(lightSource, AttachedTo{ true, gPlayerEntity });
+	//}
 
 	//Entity torch = gCoordinator.CreateEntity();
 	//{
@@ -102,10 +101,12 @@ void Game::initEntities()
 		gCoordinator.AddComponent<DisplayFPS>(frameRate_UI, DisplayFPS{});
 	}
 
+	Dungeon firstDungeon;
+	Entity entDungeon = gCoordinator.CreateEntity();
+	{
+		gCoordinator.AddComponent<Level>(entDungeon, Level{ &firstDungeon, true });
+	}
 
-
-
-	DungeonSystem test;
-	test.init();
+	sysLevel->init();
 	sysDirectionPlayer->makeMarker();
 }

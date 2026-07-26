@@ -24,6 +24,7 @@
     <ClInclude Include="Code\Component\Comp_DisplayFPS.h" />
     <ClInclude Include="Code\Component\Comp_FaceDirection.h" />
     <ClInclude Include="Code\Component\Comp_Hitbox.h" />
+    <ClInclude Include="Code\Component\Comp_Level.h" />
     <ClInclude Include="Code\Component\Comp_Mass.h" />
     <ClInclude Include="Code\Component\Comp_Text.h" />
     <ClInclude Include="Code\Component\Comp_TextureText.h" />
@@ -60,6 +61,7 @@
     <ClInclude Include="Code\System\Collision\Geometry\Line.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Point.h" />
     <ClInclude Include="Code\System\Dungeon\Chunk.h" />
+    <ClInclude Include="Code\System\Dungeon\Level.h" />
     <ClInclude Include="Code\System\Movement\DirectionPlayer.h" />
     <ClInclude Include="Code\System\Dungeon\Dungeon.h" />
     <ClInclude Include="Code\System\KeyInput\KeyboardInput.h" />
@@ -106,6 +108,7 @@
     <ClCompile Include="Code\System\Collision\Geometry\Rectangle.cpp" />
     <ClCompile Include="Code\Math\Matrix.cpp" />
     <ClCompile Include="Code\System\Collision\Collision.cpp" />
+    <ClCompile Include="Code\System\Dungeon\Level.cpp" />
     <ClCompile Include="Code\System\Movement\DirectionPlayer.cpp" />
     <ClCompile Include="Code\System\Dungeon\Dungeon.cpp" />
     <ClCompile Include="Code\System\KeyInput\KeyboardInput.cpp" />

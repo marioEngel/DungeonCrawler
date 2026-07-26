@@ -6,7 +6,7 @@
 
 extern Coordinator gCoordinator;
 
-void DungeonSystem::init()
+void Dungeon::init()
 {
 	int tileMapEntity = gCoordinator.CreateEntity();
 	std::vector<SDL_Texture*> emptyTexture{};
@@ -15,12 +15,12 @@ void DungeonSystem::init()
 		"Picture/TileNormal.png",
 		"Picture/TileGround.png"
 	};
-	Matrix renderMap = this->generateCave(256, 256, 0.5);
+	Matrix renderMap = this->generateCave(128, 128, 0.5);
 	renderMap = transposeSquare(renderMap, 2);
 	gCoordinator.AddComponent<TileMap>(tileMapEntity, TileMap{ renderMap, tmpTileTextures, emptyTexture });
 }
 
-Matrix DungeonSystem::generateCave(int width, int height, float fillProb, int steps)
+Matrix Dungeon::generateCave(int width, int height, float fillProb, int steps)
 {
 	Matrix grid;
 	grid.resize(height, std::vector<int>(width));
@@ -40,7 +40,7 @@ Matrix DungeonSystem::generateCave(int width, int height, float fillProb, int st
 	return grid;
 }
 
-void DungeonSystem::step(Matrix& mat, int height, int width)
+void Dungeon::step(Matrix& mat, int height, int width)
 {
 	Matrix next = mat;
 	for (int y = 0; y < height; y++)
