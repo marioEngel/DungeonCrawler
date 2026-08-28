@@ -47,8 +47,8 @@ void SysRendererTileMap::createTileMapRenderertex(bool forceUpdate)
 
 		if (tileMap.tileMapTexture == nullptr || forceUpdate)
 		{		
-			int tileMapSizeY = tileMap.matrix.size();
-			int tileMapSizeX = tileMap.matrix[0].size();
+			int tileMapSizeY = tileMap.matrix.rows();
+			int tileMapSizeX = tileMap.matrix.cols();
 			float cubeSize = 8.0f;
 			int texWidth = static_cast<int>(tileMapSizeX * cubeSize);
 			int texHeight = static_cast<int>(tileMapSizeY * cubeSize);
@@ -62,12 +62,12 @@ void SysRendererTileMap::createTileMapRenderertex(bool forceUpdate)
 
 			SDL_FRect srcRec{ 0.0f, 0.0f, 32.0f, 32.0f };
 
-			for (int i = 0; i < tileMapSizeY; i++)
+			for (int row = 0; row < tileMapSizeY; row++)
 			{
-				for (int j = 0; j < tileMapSizeX; j++)
+				for (int col = 0; col < tileMapSizeX; col++)
 				{
-					SDL_FRect destRec{ cubeSize * j, cubeSize * i, cubeSize, cubeSize };
-					SDL_RenderTexture(Game::renderer, tileMap.textures[tileMap.matrix[i][j]], &srcRec, &destRec);
+					SDL_FRect destRec{ cubeSize * col, cubeSize * row, cubeSize, cubeSize };
+					SDL_RenderTexture(Game::renderer, tileMap.textures[tileMap.matrix(row, col)], &srcRec, &destRec);
 
 				}
 			}

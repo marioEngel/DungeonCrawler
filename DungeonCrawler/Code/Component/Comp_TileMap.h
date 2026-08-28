@@ -5,9 +5,9 @@
 
 struct TileMap
 {
-	Matrix matrix;							// simple 2D matrix 
 	std::vector<const char*> paths;			// vector with every path for all tiles
 	std::vector<SDL_Texture*> textures;		// vector with textures
+	Matrix<int> matrix{ 0, 0 };				// simple 2D matrix 
 	Vector2D<int> dimension { 0, 0 };
 	SDL_Texture* tileMapTexture = nullptr;
 };

@@ -1,0 +1,16 @@
+#pragma once
+
+enum eTileType
+{
+	FLOOR,
+	WALL
+	//WALL_INSIDE,
+	//WALL_NORTH,
+	//WALL_NORTH_EAST,
+	//WALL_EAST,
+	//WALL_SOUT_EAST,
+	//WALL_SOUTH,
+	//WALL_SOUTH_WEST,
+	//WALL_WEST,
+	//WALL_NORTH_WEST	
+};

@@ -10,7 +10,7 @@ extern float gDeltaT;
 
 void SysMovementObject::update()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& movement = gCoordinator.GetComponent<Movement>(entity);
 		auto& normalPos = gCoordinator.GetComponent<Position>(entity);

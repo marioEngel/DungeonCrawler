@@ -1,5 +1,5 @@
 #pragma once
-#include "../System/Dungeon/Dungeon.h"
+#include "../System/Dungeon/Mine/Dungeon.h"
 
 struct Level 
 {

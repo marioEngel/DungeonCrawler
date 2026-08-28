@@ -23,6 +23,8 @@ std::shared_ptr<SysCollision> sysCollision;
 std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
 std::shared_ptr<SysDisplayFPS> sysDisplayFPS;
 std::shared_ptr<SysLevel> sysLevel;
+std::shared_ptr<SysMovementTile> sysMovementTile;
+std::shared_ptr<SysMovementTileDecision> sysMovementTileDecision;
 
 Game::Game()
 {
@@ -82,6 +84,7 @@ void Game::initECS(const char* text, int width, int height, int flag)
 	gCoordinator.RegisterComponent<TextureLight>();
 	gCoordinator.RegisterComponent<TileMap>();
 	gCoordinator.RegisterComponent<Level>();
+	gCoordinator.RegisterComponent<MovementTile>();
 
 	// register all systems, forward declaration, signature
 	sysRendererSprite = gCoordinator.RegisterSystem<SysRendererSprite>();
@@ -128,6 +131,7 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<InputKeys>());
 		signature.set(gCoordinator.GetComponentType<DirectionDecision>());
 		signature.set(gCoordinator.GetComponentType<IsPlayer>());
+		signature.set(gCoordinator.GetComponentType<Movement>());
 		gCoordinator.SetSystemSignature<SysMovementPlayerDecision>(signature);
 	}
 	sysDirectionPlayer = gCoordinator.RegisterSystem<SysDirectionPlayer>();
@@ -177,5 +181,22 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Level>());
 		gCoordinator.SetSystemSignature<SysLevel>(signature);
+	}
+	sysMovementTile = gCoordinator.RegisterSystem<SysMovementTile>();
+	{
+		Signature signature;
+		signature.set(gCoordinator.GetComponentType<Position>());
+		signature.set(gCoordinator.GetComponentType<MovementTile>());
+		gCoordinator.SetSystemSignature<SysMovementTile>(signature);
+	}
+	sysMovementTileDecision = gCoordinator.RegisterSystem<SysMovementTileDecision>();
+	{
+		Signature signature;
+		signature.set(gCoordinator.GetComponentType<InputKeys>());
+		signature.set(gCoordinator.GetComponentType<DirectionDecision>());
+		signature.set(gCoordinator.GetComponentType<IsPlayer>());
+		signature.set(gCoordinator.GetComponentType<MovementTile>());
+		signature.set(gCoordinator.GetComponentType<Position>());
+		gCoordinator.SetSystemSignature<SysMovementTileDecision>(signature);
 	}
 }

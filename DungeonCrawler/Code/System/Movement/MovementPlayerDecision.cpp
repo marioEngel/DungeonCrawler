@@ -1,9 +1,9 @@
 #include "MovementPlayerDecision.h"
 #include "../../ECS/Coordinator.h"
 #include "../../System/KeyInput/KeyboardInput.h"
+#include "../Dungeon/Mine/Dungeon.h"
 #include "../../Component/Comp_InputKeys.h"
 #include "../../Component/Comp_DirectionDecision.h"
-#include "../Dungeon/Dungeon.h"
 #include "../../Component/Comp_Movement.h"
 
 extern Coordinator gCoordinator;
@@ -11,7 +11,7 @@ extern KeyboardInput gKeyboardInput;
 
 void SysMovementPlayerDecision::update()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& input = gCoordinator.GetComponent<InputKeys>(entity);
 		auto& decision = gCoordinator.GetComponent<DirectionDecision>(entity);
@@ -49,7 +49,7 @@ void SysMovementPlayerDecision::update()
 
 //void MovementDecisionSystem::checkPossibility()
 //{
-//	for (auto& const entity : mEntities)
+//	for (const auto& entity : mEntities)
 //	{
 //		auto& decision = gCoordinator.GetComponent<DirectionDecision>(entity);
 //		auto& matrixPos = gCoordinator.GetComponent<MatrixPosition>(entity);
@@ -81,7 +81,7 @@ void SysMovementPlayerDecision::update()
 {
 	if (gKeyboardInput.getButtonState(SDL_SCANCODE_L) == eButtonState::RELEASED)
 	{
-		for (auto& const entity : mEntities)
+		for (const auto& entity : mEntities)
 		{
 			auto& decision = gCoordinator.GetComponent<DirectionDecision>(entity);
 

@@ -10,7 +10,7 @@ extern float gDeltaT;
 
 void SysMovementPlayer::update()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& decision = gCoordinator.GetComponent<DirectionDecision>(entity);
 		auto& movement = gCoordinator.GetComponent<Movement>(entity);

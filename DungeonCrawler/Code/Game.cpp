@@ -20,23 +20,26 @@ extern std::shared_ptr<SysMovementObject> sysMovementObject;
 extern std::shared_ptr<SysCollision> sysCollision;
 extern std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
 extern std::shared_ptr<SysDisplayFPS> sysDisplayFPS;
+extern std::shared_ptr<SysMovementTile> sysMovementTile;
+extern std::shared_ptr<SysMovementTileDecision> sysMovementTileDecision;
 
 void Game::update(float delta)
 {
 	// input pipeline stuff soll in handle input sein
 	{
-		if (gKeyboardInput.getButtonState(SDL_SCANCODE_X) ||
-			gKeyboardInput.getButtonState(SDL_SCANCODE_X) == eButtonState::RELEASED)
+		if (gKeyboardInput.getButtonState(SDL_SCANCODE_X))
 		{
 			gMouse.printMousePosition_color();
 		}
 
 		sysMovementPlayerDecision->update();
+		sysMovementTileDecision->update();
 	}
 
 	// movement pipeline
 	{
 		sysMovementPlayer->update();
+		sysMovementTile->update(delta);
 		sysDirectionPlayer->update();
 
 		sysMovementObject->update();

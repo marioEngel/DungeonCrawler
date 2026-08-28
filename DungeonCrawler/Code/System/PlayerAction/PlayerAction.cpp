@@ -5,7 +5,7 @@ extern Coordinator gCoordinator;
 
 void SysPlayerAction::update()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 
 

@@ -39,7 +39,7 @@ void SysRendererLight::initRenderertex()
 
 void SysRendererLight::loadTexture()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& texture = gCoordinator.GetComponent<TextureLight>(entity);
 
@@ -53,7 +53,7 @@ void SysRendererLight::loadTexture()
 void SysRendererLight::render()
 {
 	SDL_RenderClear(Game::renderer);
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{	
 		auto& texture = gCoordinator.GetComponent<TextureLight>(entity);
 		auto& position = gCoordinator.GetComponent<Position>(entity);

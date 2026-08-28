@@ -142,7 +142,7 @@ bool SysCollision::check_specificHitbox(Entity& entity)
 
 void SysCollision::create_HitboxRender()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& originHitbox = gCoordinator.GetComponent<Hitbox>(entity);
 
@@ -155,7 +155,7 @@ void SysCollision::create_HitboxRender()
 
 void SysCollision::render_Hitbox()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& texture = gCoordinator.GetComponent<Hitbox>(entity);
 		auto& position = gCoordinator.GetComponent<Position>(entity);

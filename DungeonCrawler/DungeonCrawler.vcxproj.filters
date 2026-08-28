@@ -33,7 +33,7 @@
     <ClInclude Include="Code\System\Movement\MovementPlayerDecision.h" />
     <ClInclude Include="Code\Component\Comp_DirectionDecision.h" />
     <ClInclude Include="Code\System\Movement\MovementPlayer.h" />
-    <ClInclude Include="Code\System\Dungeon\Dungeon.h" />
+    <ClInclude Include="Code\System\Dungeon\Mine\Dungeon.h" />
     <ClInclude Include="Code\Component\Comp_FaceDirection.h" />
     <ClInclude Include="Code\System\Movement\DirectionPlayer.h" />
     <ClInclude Include="Code\System\Movement\MovementObject.h" />
@@ -72,11 +72,18 @@
     <ClInclude Include="Code\Component\Is_Collision.h" />
     <ClInclude Include="Code\System\Render\Render.h" />
     <ClInclude Include="Code\Characters\CharacterTemplate.h" />
-    <ClInclude Include="Code\System\Dungeon\Chunk.h" />
+    <ClInclude Include="Code\System\Dungeon\Mine\Chunk.h" />
     <ClInclude Include="Code\Component\Comp_DisplayFPS.h" />
     <ClInclude Include="Code\System\Render\UI\DisplayFPS.h" />
     <ClInclude Include="Code\Component\Comp_Level.h" />
-    <ClInclude Include="Code\System\Dungeon\Level.h" />
+    <ClInclude Include="Code\System\Dungeon\Mine\Level.h" />
+    <ClInclude Include="Code\Component\Comp_MovementTile.h" />
+    <ClInclude Include="Code\System\Movement\TileMap\MovementTile.h" />
+    <ClInclude Include="Code\System\Movement\TileMap\MovementTileDecision.h" />
+    <ClInclude Include="Code\Misc\RNG.h" />
+    <ClInclude Include="Code\System\Dungeon\Tower\Floor.h" />
+    <ClInclude Include="Code\System\Dungeon\Tower\Room.h" />
+    <ClInclude Include="Code\System\Dungeon\Tower\TileType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\System\Render\Misc\TextureFunc.cpp" />
@@ -88,7 +95,7 @@
     <ClCompile Include="Code\System\KeyInput\KeyboardInput.cpp" />
     <ClCompile Include="Code\System\Movement\MovementPlayerDecision.cpp" />
     <ClCompile Include="Code\System\Movement\MovementPlayer.cpp" />
-    <ClCompile Include="Code\System\Dungeon\Dungeon.cpp" />
+    <ClCompile Include="Code\System\Dungeon\Mine\Dungeon.cpp" />
     <ClCompile Include="Code\System\Movement\DirectionPlayer.cpp" />
     <ClCompile Include="Code\System\Movement\MovementObject.cpp" />
     <ClCompile Include="Code\System\Render\Camera\Camera.cpp" />
@@ -111,14 +118,19 @@
     <ClCompile Include="Code\System\Collision\Geometry\GeomLine.cpp" />
     <ClCompile Include="Code\System\Render\Misc\Misc.cpp" />
     <ClCompile Include="Code\System\Render\RendererUI.cpp" />
-    <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\System\Collision\CollisionFunc_contact.cpp" />
     <ClCompile Include="Code\System\Collision\CollisionFunc_check.cpp" />
     <ClCompile Include="Code\Characters\CharacterTemplate.cpp" />
     <ClCompile Include="Code\System\Render\UI\DisplayFPS.cpp" />
     <ClCompile Include="Code\Game_initEntities.cpp" />
     <ClCompile Include="Code\System\Collision\CollisionFunc_arbitrary.cpp" />
-    <ClCompile Include="Code\System\Dungeon\Level.cpp" />
+    <ClCompile Include="Code\System\Dungeon\Mine\Level.cpp" />
+    <ClCompile Include="Code\System\Movement\TileMap\MovementTile.cpp" />
+    <ClCompile Include="Code\System\Movement\TileMap\MovementTileDecision.cpp" />
+    <ClCompile Include="Code\Misc\RNG.cpp" />
+    <ClCompile Include="Code\main.cpp" />
+    <ClCompile Include="Code\System\Dungeon\Tower\Floor.cpp" />
+    <ClCompile Include="Code\System\Dungeon\Tower\Room.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Picture\Drone.png" />

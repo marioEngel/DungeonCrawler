@@ -10,7 +10,7 @@ extern Coordinator gCoordinator;
 
 void SysMovementObjectAttached::update()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& attachment = gCoordinator.GetComponent<AttachedTo>(entity);
 		auto& positionAttach = gCoordinator.GetComponent<Position>(entity);

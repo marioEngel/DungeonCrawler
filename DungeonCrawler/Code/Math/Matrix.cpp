@@ -2,39 +2,39 @@
 #include <iostream>
 #include <random>
 
-void printMatrix(Matrix& matrix)
+void matrixPrint(Matrix<int>& matrix)
 {
-	for (size_t i = 0; i < matrix.size(); i++)
+	for (size_t row = 0; row < matrix.rows(); row++)
 	{
 		std::cout << "| ";
-		for (int j = 0; j < matrix[i].size(); j++)
+		for (size_t col = 0; col < matrix.cols(); col++)
 		{
-			if (j == (matrix[i].size() - 1))
+			if (col == (matrix.cols() - 1))
 			{
-				std::cout << matrix[i][j] << " |\n";
+				std::cout << matrix(row, col) << " |\n";
 			}
 			else
 			{
-				std::cout << matrix[i][j] << ", ";
+				std::cout << matrix(row, col) << " |\n";
 			}
 		}
 	}
 }
 
-void printMatrixColor(Matrix& matrix)
+void matrixPrintColor(Matrix<int>& matrix)
 {
-	for (size_t i = 0; i < matrix.size(); i++)
+	for (size_t row = 0; row < matrix.rows(); row++)
 	{
 		std::cout << "| ";
-		for (size_t j = 0; j < matrix[i].size(); j++)
+		for (size_t col = 0; col < matrix.cols(); col++)
 		{
-			if (j == (matrix[i].size() - 1))
+			if (col == (matrix.cols() - 1))
 			{
-				if (matrix[i][j] == 0)
+				if (matrix(row, col) == 0)
 				{
 					std::cout << "\033[1;31m0\033[0m  |\n";
 				}
-				else if (matrix[i][j] == 1)
+				else if (matrix(row, col) == 1)
 				{
 					std::cout << "\033[1;34m1\033[0m  |\n";
 				}
@@ -45,11 +45,11 @@ void printMatrixColor(Matrix& matrix)
 			}
 			else
 			{
-				if (matrix[i][j] == 0)
+				if (matrix(row, col) == 0)
 				{
 					std::cout << "\033[1;31m0\033[0m, ";
 				}
-				else if(matrix[i][j] == 1)
+				else if (matrix(row, col) == 1)
 				{
 					std::cout << "\033[1;34m1\033[0m, ";
 				}
@@ -64,16 +64,59 @@ void printMatrixColor(Matrix& matrix)
 
 // function to initialize a matrix with the wanted size/shape
 // chess board structur
-void makeEmptyMatrix(Matrix& matrix, int collumNr, int rowNr)
+void matrixCreate_Checkboard(Matrix<int>& matrix)
 {
-	for (size_t i = 0; i < collumNr; i++)
+	for (size_t row = 0; row < matrix.rows(); row++)
 	{
-		std::vector<int> tmpVec{};
-		for (size_t j = 0; j < rowNr; j++)
+		for (size_t col = 0; col < matrix.cols(); col++)
 		{
-			tmpVec.push_back((i + j) % 2);
+			matrix(row, col) = (row + col) % 2;
 		}
-		matrix.push_back(tmpVec);
 	}
 }
 
+//void matrixCreate_Zero(Matrix& matrix, SDL_Rect& size)
+//{
+//	for (int row = 0; row < size.w; row++)
+//	{
+//		std::vector<int> tmpVec{};
+//		for (int col = 0; col < size.h; col++)
+//		{
+//
+//			tmpVec.push_back(0);
+//		}
+//		matrix.push_back(tmpVec);
+//	}
+//}
+//
+//void matrixCreate_Element(Matrix& matrix, SDL_Rect& size, int element)
+//{
+//	for (int row = 0; row < size.w; row++)
+//	{
+//		std::vector<int> tmpVec{};
+//		for (int col = 0; col < size.h; col++)
+//		{
+//
+//			tmpVec.push_back(element);
+//		}
+//		matrix.push_back(tmpVec);
+//	}
+//}
+//
+//void matrixFillEdge(Matrix& matrix, int element)
+//{
+//	for (size_t i = 0; i < matrix.size(); i++)
+//	{
+//		for (int j = 0; j < matrix[i].size(); j++)
+//		{
+//			if (i == 0 || i == matrix.size() - 1)
+//			{
+//				matrix[i][j] = element;
+//			}
+//			else if (j == 0 || j == matrix[i].size() - 1)
+//			{
+//				matrix[i][j] = element;
+//			}
+//		}
+//	}
+//}

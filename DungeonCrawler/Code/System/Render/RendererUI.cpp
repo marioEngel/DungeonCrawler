@@ -27,7 +27,7 @@ void SysRendererUI::initRenderertex()
 
 void SysRendererUI::loadTexture()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& texture = gCoordinator.GetComponent<Text>(entity);
 
@@ -61,7 +61,7 @@ TTF_Font* SysRendererUI::loadFont()
 
 void SysRendererUI::render()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& texture = gCoordinator.GetComponent<Text>(entity);
 		auto& position = gCoordinator.GetComponent<Position>(entity);

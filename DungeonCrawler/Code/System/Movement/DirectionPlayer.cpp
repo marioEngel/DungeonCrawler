@@ -20,7 +20,7 @@ extern Camera gCamera;
 
 void SysDirectionPlayer::update()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& position = gCoordinator.GetComponent<Position>(entity);
 		auto& direction = gCoordinator.GetComponent<FaceDirection>(entity);
@@ -68,7 +68,7 @@ void SysDirectionPlayer::update()
 
 void SysDirectionPlayer::makeMarker()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& direction = gCoordinator.GetComponent<FaceDirection>(entity);
 		auto& position = gCoordinator.GetComponent<Position>(entity);

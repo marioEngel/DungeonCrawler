@@ -1,7 +1,7 @@
 #include "Dungeon.h"
-#include "../../ECS/Coordinator.h"
+#include "../../../ECS/Coordinator.h"
 #include <SDL3/SDL.h>
-#include "../../Component/Comp_TileMap.h"
+#include "../../../Component/Comp_TileMap.h"
 #include "Chunk.h"
 
 extern Coordinator gCoordinator;
@@ -15,20 +15,19 @@ void Dungeon::init()
 		"Picture/TileNormal.png",
 		"Picture/TileGround.png"
 	};
-	Matrix renderMap = this->generateCave(128, 128, 0.5);
+	Matrix<int> renderMap = this->generateCave(128, 128, 0.5);
 	renderMap = transposeSquare(renderMap, 2);
-	gCoordinator.AddComponent<TileMap>(tileMapEntity, TileMap{ renderMap, tmpTileTextures, emptyTexture });
+	gCoordinator.AddComponent<TileMap>(tileMapEntity, TileMap{ tmpTileTextures, emptyTexture, renderMap });
 }
 
-Matrix Dungeon::generateCave(int width, int height, float fillProb, int steps)
+Matrix<int> Dungeon::generateCave(int width, int height, float fillProb, int steps)
 {
-	Matrix grid;
-	grid.resize(height, std::vector<int>(width));
+	Matrix<int> grid{ width, height };
 	for (size_t y = 0; y < height; y++)
 	{
 		for (size_t x = 0; x < width; x++)
 		{
-			grid[y][x] = ((float)rand() / RAND_MAX) < fillProb ? 1 : 0;
+			grid(y, x) = ((float)rand() / RAND_MAX) < fillProb ? 1 : 0;
 		}
 	}
 
@@ -40,28 +39,28 @@ Matrix Dungeon::generateCave(int width, int height, float fillProb, int steps)
 	return grid;
 }
 
-void Dungeon::step(Matrix& mat, int height, int width)
+void Dungeon::step(Matrix<int>& mat, int height, int width)
 {
-	Matrix next = mat;
+	Matrix<int> next = mat;
 	for (int y = 0; y < height; y++)
 	{
 		for (int x = 0; x < width; x++)
 		{
 			int n = countNeighbours(x, y, mat, height, width);
-			if (mat[y][x] == 1)
+			if (mat(y, x) == 1)
 			{
-				next[y][x] = (n >= 4) ? 1 : 0;
+				next(y, x) = (n >= 4) ? 1 : 0;
 			}
 			else
 			{
-				next[y][x] = (n >= 5) ? 1 : 0;
+				next(y, x) = (n >= 5) ? 1 : 0;
 			}
 		}
 	}
 	mat = next;
 }
 
-int countNeighbours(int x, int y, Matrix& mat, int height, int width)
+int countNeighbours(int x, int y, Matrix<int>& mat, int height, int width)
 {
 	int count = 0;
 
@@ -81,7 +80,7 @@ int countNeighbours(int x, int y, Matrix& mat, int height, int width)
 			}
 			else
 			{
-				if (mat[ny][nx] > 0)
+				if (mat(ny, nx) > 0)
 				{
 					count++;
 				}
@@ -91,25 +90,24 @@ int countNeighbours(int x, int y, Matrix& mat, int height, int width)
 	return count;
 }
 
-Matrix transposeSquare(Matrix& matrix, int multipyDimension)
+Matrix<int> transposeSquare(Matrix<int>& matrix, int multipyDimension)
 {
-	Matrix rtnMatrix;
-	int newSize = matrix.size() * multipyDimension;
-	rtnMatrix.resize(newSize, std::vector<int>(newSize));
+	int newSize = matrix.cols() * multipyDimension;
+	Matrix<int> rtnMatrix{ newSize,  };
 
-	for (size_t y = 0; y < matrix.size(); y++)
+	for (size_t y = 0; y < matrix.cols(); y++)
 	{
-		for (size_t x = 0; x < matrix.size(); x++)
+		for (size_t x = 0; x < matrix.rows(); x++)
 		{
 			int newY = y * multipyDimension;
 			int newX = x * multipyDimension;
-			int currentMatrixValue = matrix[y][x];
+			int currentMatrixValue = matrix(y, x);
 
 			for (size_t sub_y = 0; sub_y < multipyDimension; sub_y++)
 			{
 				for (size_t sub_x = 0; sub_x < multipyDimension; sub_x++)
 				{
-					rtnMatrix[newY + sub_y][newX + sub_x] = currentMatrixValue;
+					rtnMatrix(newY + sub_y, newX + sub_x) = currentMatrixValue;
 				}
 			}
 		}
@@ -118,16 +116,15 @@ Matrix transposeSquare(Matrix& matrix, int multipyDimension)
 	return rtnMatrix;
 }
 
-Matrix slice(Matrix& matrix, int squareDimension)
+Matrix<int> slice(Matrix<int>& matrix, int squareDimension)
 {
-	Matrix rtnMatrix;
-	rtnMatrix.resize(squareDimension, std::vector<int>(squareDimension));
+	Matrix<int> rtnMatrix{ squareDimension };
 
 	for (size_t y = 0; y < squareDimension; y++)
 	{
 		for (size_t x = 0; x < squareDimension; x++)
 		{
-			rtnMatrix[y][x] = matrix[y][x];
+			rtnMatrix(y, x) = matrix(y, x);
 		}
 	}
 

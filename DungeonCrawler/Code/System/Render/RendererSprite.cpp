@@ -26,7 +26,7 @@ void SysRendererSprite::initRenderertex()
 
 void SysRendererSprite::loadTexture()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& texture = gCoordinator.GetComponent<Texture>(entity);
 
@@ -39,7 +39,7 @@ void SysRendererSprite::loadTexture()
 
 void SysRendererSprite::render()
 {
-	for (auto& const entity : mEntities)
+	for (const auto& entity : mEntities)
 	{
 		auto& texture = gCoordinator.GetComponent<Texture>(entity);
 		auto& position = gCoordinator.GetComponent<Position>(entity);

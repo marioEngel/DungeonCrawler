@@ -26,6 +26,7 @@ struct CollisionData {
 
 // simple collision test for geometries
 bool check_RectVsRect(SDL_FRect& rect1, SDL_FRect& rect2);
+bool check_RectVsRect(SDL_Rect& rect1, SDL_Rect& rect2);
 bool check_RectVsPoint(SDL_FRect& rect, Vector2D<float>& positon);
 // more advanced collision test for geometries
 bool check_Geometry_AABB(Geometry& geom1, Vector2D<float>& pos1, Geometry& geom2, Vector2D<float>& pos2);

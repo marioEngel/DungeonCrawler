@@ -19,7 +19,8 @@ void Game::initEntities()
 		gCoordinator.AddComponent<Texture>(gPlayerEntity, Texture{ "Picture/Player.png", 32, 32, 1, 0.0 });
 		gCoordinator.AddComponent<IsPlayer>(gPlayerEntity, IsPlayer{});
 		gCoordinator.AddComponent<InputKeys>(gPlayerEntity, InputKeys{});
-		gCoordinator.AddComponent<Movement>(gPlayerEntity, Movement{ 156.0f });
+		//gCoordinator.AddComponent<Movement>(gPlayerEntity, Movement{ 156.0f });
+		gCoordinator.AddComponent<MovementTile>(gPlayerEntity, MovementTile{ 250.0f });
 		gCoordinator.AddComponent<Affiliation>(gPlayerEntity, Affiliation{ eAffKind::Player });
 		gCoordinator.AddComponent<DirectionDecision>(gPlayerEntity, DirectionDecision{});
 		gCoordinator.AddComponent<FaceDirection>(gPlayerEntity, FaceDirection{});
