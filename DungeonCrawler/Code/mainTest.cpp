@@ -10,10 +10,10 @@ float gDeltaT{};
 
 int main(int argc, char* arvg[])
 {
-	Matrix<int> tmp{2, 4};
-	SDL_Rect test{ 0, 0, 11, 23 };
 
-	matrixPrint(tmp);
+	Floor floor;
+	floor.init();
+	floor.generate();
 
 
 

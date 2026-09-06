@@ -64,6 +64,7 @@
     <ClInclude Include="Code\System\Collision\Geometry\Point.h" />
     <ClInclude Include="Code\System\Dungeon\Mine\Chunk.h" />
     <ClInclude Include="Code\System\Dungeon\Mine\Level.h" />
+    <ClInclude Include="Code\System\Dungeon\Tower\Compass.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\Floor.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\Room.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\TileType.h" />
@@ -100,7 +101,7 @@
     <ClCompile Include="Code\Game.cpp" />
     <ClCompile Include="Code\Game_initECS.cpp" />
     <ClCompile Include="Code\Game_initEntities.cpp" />
-    <ClCompile Include="Code\main.cpp" />
+    <ClCompile Include="Code\mainTest.cpp" />
     <ClCompile Include="Code\Math\GeneralMathStuff.cpp" />
     <ClCompile Include="Code\Misc\MiscFunctions.cpp" />
     <ClCompile Include="Code\Misc\RNG.cpp" />

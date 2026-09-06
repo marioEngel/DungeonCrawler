@@ -6,7 +6,9 @@ class RNG
 public:
 	explicit RNG(uint64_t seed) : engine(seed) {};
 
-	int range(int min, int max = 0);
+	int range(int min, int max);
+	int range(int max);
+	int rangeEx(int maxExcludeded);
 	float range(float min, float max = 0);
 
 	bool oneIn(int n);

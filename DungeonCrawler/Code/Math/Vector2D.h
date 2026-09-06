@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <array>
+#include <assert.h>
+
 # define M_PI 3.14159265358979323846f  /* pi */
 
 // all function have to be in the header file for reasons
@@ -23,55 +25,61 @@ public:
 	Vector2D<T> flip();
 	Vector2D<T> flipX();
 	Vector2D<T> flipY();
-
-	T returnXval();
-	T returnYval();
 	
 	// operator overloading
 	friend Vector2D operator+(const Vector2D& firstVector, const Vector2D& secondVector)
 	{
-		return Vector2D(firstVector.mVecVal[0] + secondVector.mVecVal[0], firstVector.mVecVal[1] + secondVector.mVecVal[1]);
+		return Vector2D(firstVector.x + secondVector.x, firstVector.y + secondVector.y);
 	}
 	friend Vector2D operator-(const Vector2D& firstVector, const Vector2D& secondVector)
 	{
-		return Vector2D(firstVector.mVecVal[0] - secondVector.mVecVal[0], firstVector.mVecVal[1] - secondVector.mVecVal[1]);
+		return Vector2D(firstVector.x - secondVector.x, firstVector.y - secondVector.y);
 	}
 	friend std::ostream& operator<<(std::ostream& out, const Vector2D& vec2D)
 	{
-		out << "Vec2D(" << vec2D.mVecVal[0] << ", " << vec2D.mVecVal[1] << ") ";
+		out << "Vec2D(" << vec2D.x << ", " << vec2D.y << ") ";
 		return out;
 	}
 	friend Vector2D operator*(T scale, const Vector2D& vec2D)
 	{
-		return Vector2D(scale * vec2D.mVecVal[0], scale * vec2D.mVecVal[1]);
+		return Vector2D(scale * vec2D.x, scale * vec2D.y);
 	}
 	friend Vector2D operator*(const Vector2D& vec2D, T scale)
 	{
-		return Vector2D(scale * vec2D.mVecVal[0], scale * vec2D.mVecVal[1]);
+		return Vector2D(scale * vec2D.x, scale * vec2D.y);
 	}
+	friend bool operator==(const Vector2D& firstVector, const Vector2D& secondVector) {
+		return (firstVector.x == secondVector.x && firstVector.y == secondVector.y);
+	}
+
+
 	T operator[](int index) const
 	{
-		return mVecVal[index];
+		assert(index == 0 || index == 1);
+		return (index == 0) ? x : y;
 	}
 	T& operator[](int index)
 	{
-		return mVecVal[index];
+		assert(index == 0 || index == 1);
+		return index == 0 ? x : y;
 	}
 
-private:
-	std::array<T, 2> mVecVal{};
+	T x;
+	T y;
 };
 
 template <typename T>
 Vector2D<T>::Vector2D()
 {
-	mVecVal = std::array<T, 2> {T(0.0), T(0.0)};
+	x = T(0);
+	y = T(0);
 }
 
 template <typename T>
 Vector2D<T>::Vector2D(T xInput, T yInput)
 {
-	mVecVal = std::array<T, 2> {xInput, yInput};
+	x = xInput;
+	y = yInput;
 }
 
 template <typename T>
@@ -82,25 +90,25 @@ Vector2D<T>::~Vector2D()
 template <typename T>
 void Vector2D<T>::normalize()
 {
-	T scale = std::sqrt(this->mVecVal[0] * this->mVecVal[0] + this->mVecVal[1] * this->mVecVal[1]);
+	T scale = std::sqrt(this->x * this->x + this->y * this->y);
 
 	if (scale != 0.0)
 	{
-		this->mVecVal[0] /= scale;
-		this->mVecVal[1] /= scale;
+		this->x /= scale;
+		this->y /= scale;
 	}
 }
 
 template <typename T>
 T Vector2D<T>::calc_amountSquared()
 {
-	return mVecVal[0] * mVecVal[0] + mVecVal[1] * mVecVal[1];
+	return x * x + y * y;
 }
 
 template <typename T>
 T Vector2D<T>::calc_amount()
 {
-	return std::sqrt(mVecVal[0] * mVecVal[0] + mVecVal[1] * mVecVal[1]);
+	return std::sqrt(x * x + y * y);
 }
 
 // returns angle in rad
@@ -190,53 +198,41 @@ Vector2D<T> directionNorm(Vector2D<T> vect)
 template <typename T>
 void Vector2D<T>::scaleToX(T xScale)
 {
-	if (mVecVal[0] == 0)
+	if (x == 0)
 	{
 		std::cout << "!!! Division by 0 in scaleToX !!!" << std::endl;
 	}
-	T superScale = xScale / mVecVal[0];
-	mVecVal[0] *= superScale;
-	mVecVal[1] *= superScale;
+	T superScale = xScale / x;
+	x *= superScale;
+	y *= superScale;
 }
 
 template <typename T>
 void Vector2D<T>::scaleToY(T yScale)
 {
-	if (mVecVal[1] == 0)
+	if (y == 0)
 	{
 		std::cout << "!!! Division by 0 in scaleToY !!!" << std::endl;
 	}
-	T superScale = yScale / mVecVal[1];
-	mVecVal[0] *= superScale;
-	mVecVal[1] *= superScale;
+	T superScale = yScale / y;
+	x *= superScale;
+	y *= superScale;
 }
 
 template <typename T> 
 Vector2D<T> Vector2D<T>::flip()
 {
-	return Vector2D<T>(-mVecVal[0], -mVecVal[1]);
+	return Vector2D<T>(-x, -y);
 }
 
 template <typename T>
 Vector2D<T> Vector2D<T>::flipX()
 {
-	return Vector2D<T>(-mVecVal[0], mVecVal[1]);
+	return Vector2D<T>(-x, y);
 }
 
 template <typename T>
 Vector2D<T> Vector2D<T>::flipY()
 {
-	return Vector2D<T>(mVecVal[0], -mVecVal[1]);
-}
-
-template <typename T>
-T Vector2D<T>::returnXval()
-{
-	return mVecVal[0];
-}
-
-template <typename T>
-T Vector2D<T>::returnYval()
-{
-	return mVecVal[1];
+	return Vector2D<T>(x, -y);
 }

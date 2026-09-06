@@ -2,8 +2,10 @@
 
 enum eTileType
 {
+	ROCK,
+	WALL,
 	FLOOR,
-	WALL
+	DOOR
 	//WALL_INSIDE,
 	//WALL_NORTH,
 	//WALL_NORTH_EAST,

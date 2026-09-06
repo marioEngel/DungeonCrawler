@@ -5,6 +5,17 @@ int RNG::range(int min, int max) {
     return dist(engine);
 }
 
+int RNG::range(int max) {
+    std::uniform_int_distribution<int> dist(0, max);
+    return dist(engine);
+}
+
+int RNG::rangeEx(int maxExcluded)
+{
+    std::uniform_int_distribution<int> dist(0, maxExcluded - 1);
+    return dist(engine);
+}
+
 float RNG::range(float min, float max) {
     std::uniform_real_distribution<float> dist(min, max);
     return dist(engine);

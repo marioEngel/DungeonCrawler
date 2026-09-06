@@ -27,6 +27,7 @@ public:
     } 
 
     const T& operator()(int row, int col) const {
+        assert(row >= 0 && row < mRows && col >= 0 && col < mCols);
         return mData[row * mCols + col];
     }
 
@@ -46,8 +47,8 @@ private:
 
 
 
-void matrixPrint(Matrix<int>& matrix);
-void matrixPrintColor(Matrix<int>& matrix);
+void matrixPrint(const Matrix<int>& matrix);
+void matrixPrintColor(const Matrix<int>& matrix);
 
 void matrixCreate_Checkboard(Matrix<int>& matrix);
 
@@ -55,3 +56,4 @@ void matrixCreate_Checkboard(Matrix<int>& matrix);
 //void matrixCreate_Element(Matrix& matrix, SDL_Rect& size, int element);
 //
 //void matrixFillEdge(Matrix& matrix, int element);
+void matrixFillWithElement(Matrix<int>& matrix, int element);

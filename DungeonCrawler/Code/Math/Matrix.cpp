@@ -2,7 +2,7 @@
 #include <iostream>
 #include <random>
 
-void matrixPrint(Matrix<int>& matrix)
+void matrixPrint(const Matrix<int>& matrix)
 {
 	for (size_t row = 0; row < matrix.rows(); row++)
 	{
@@ -15,13 +15,14 @@ void matrixPrint(Matrix<int>& matrix)
 			}
 			else
 			{
-				std::cout << matrix(row, col) << " |\n";
+				std::cout << matrix(row, col) << " ,";
 			}
 		}
 	}
+	std::cout << ' ' << std::endl;
 }
 
-void matrixPrintColor(Matrix<int>& matrix)
+void matrixPrintColor(const Matrix<int>& matrix)
 {
 	for (size_t row = 0; row < matrix.rows(); row++)
 	{
@@ -60,6 +61,7 @@ void matrixPrintColor(Matrix<int>& matrix)
 			}
 		}
 	}
+	std::cout << ' ' << std::endl;
 }
 
 // function to initialize a matrix with the wanted size/shape
@@ -120,3 +122,14 @@ void matrixCreate_Checkboard(Matrix<int>& matrix)
 //		}
 //	}
 //}
+
+void matrixFillWithElement(Matrix<int>& matrix, int element)
+{
+	for (int row = 0; row < matrix.rows(); row++)
+	{
+		for (int col = 0; col < matrix.cols(); col++)
+		{
+			matrix(row, col) = element;
+		}
+	}
+}

@@ -84,6 +84,7 @@
     <ClInclude Include="Code\System\Dungeon\Tower\Floor.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\Room.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\TileType.h" />
+    <ClInclude Include="Code\System\Dungeon\Tower\Compass.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\System\Render\Misc\TextureFunc.cpp" />
@@ -128,9 +129,9 @@
     <ClCompile Include="Code\System\Movement\TileMap\MovementTile.cpp" />
     <ClCompile Include="Code\System\Movement\TileMap\MovementTileDecision.cpp" />
     <ClCompile Include="Code\Misc\RNG.cpp" />
-    <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Floor.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Room.cpp" />
+    <ClCompile Include="Code\mainTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Picture\Drone.png" />

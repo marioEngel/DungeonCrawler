@@ -8,7 +8,7 @@ float gDeltaT{};
 
 int main(int argc, char* arvg[])
 {
-	const Uint64 FPS = 144;
+	const Uint64 FPS = 60;
 	const Uint64 FrameDelay = 1'000'000'000ULL / FPS;	// ns pro Frame
 
 	game = new Game();

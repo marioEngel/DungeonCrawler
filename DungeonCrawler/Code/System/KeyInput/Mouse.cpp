@@ -24,9 +24,9 @@ void Mouse::printMousePosition()
 void Mouse::printMousePosition_color()
 {
 	std::cout << "Mouse Position: ("
-		<< "\033[1;34m" << mMousePosition.returnXval()
+		<< "\033[1;34m" << mMousePosition[0]
 		<< "\033[0m" << ", "
-		<< "\033[1;31m" << mMousePosition.returnYval()
+		<< "\033[1;31m" << mMousePosition[1]
 		<< "\033[0m" << ")\n";
 }
 
