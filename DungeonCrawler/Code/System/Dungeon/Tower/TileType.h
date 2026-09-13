@@ -2,7 +2,7 @@
 
 enum eTileType
 {
-	ROCK,
+	//ROCK,
 	WALL,
 	FLOOR,
 	DOOR

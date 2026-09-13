@@ -49,9 +49,8 @@ void SysRendererTileMap::createTileMapRenderertex(bool forceUpdate)
 		{		
 			int tileMapSizeY = tileMap.matrix.rows();
 			int tileMapSizeX = tileMap.matrix.cols();
-			float cubeSize = 8.0f;
-			int texWidth = static_cast<int>(tileMapSizeX * cubeSize);
-			int texHeight = static_cast<int>(tileMapSizeY * cubeSize);
+			int texWidth = static_cast<int>(tileMapSizeX * tileMap.cubeSize);
+			int texHeight = static_cast<int>(tileMapSizeY * tileMap.cubeSize);
 
 			tileMap.dimension = Vector2D<int>{ texWidth, texHeight };
 
@@ -66,7 +65,7 @@ void SysRendererTileMap::createTileMapRenderertex(bool forceUpdate)
 			{
 				for (int col = 0; col < tileMapSizeX; col++)
 				{
-					SDL_FRect destRec{ cubeSize * col, cubeSize * row, cubeSize, cubeSize };
+					SDL_FRect destRec{ tileMap.cubeSize * col, tileMap.cubeSize * row, tileMap.cubeSize, tileMap.cubeSize };
 					SDL_RenderTexture(Game::renderer, tileMap.textures[tileMap.matrix(row, col)], &srcRec, &destRec);
 
 				}

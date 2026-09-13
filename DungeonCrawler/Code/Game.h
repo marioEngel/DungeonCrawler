@@ -48,7 +48,7 @@
 #include "System/Dungeon/Mine/Level.h"
 #include "System/Movement/TileMap/MovementTile.h"
 #include "System/Movement/TileMap/MovementTileDecision.h"
-
+#include "System/Dungeon/Tower/Tower.h"
 
 class Game
 {

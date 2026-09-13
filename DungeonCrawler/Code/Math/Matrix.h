@@ -3,6 +3,7 @@
 #include <SDL3/SDL.h>
 #include "Vector2D.h"
 
+// x = row, y = col
 // Matrix mat
 // mat[row][col] = ele
 //using Matrix = std::vector<std::vector<int>>;

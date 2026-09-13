@@ -7,15 +7,28 @@
 
 void Floor::init()
 {
-	floorGenerationData.extraConnectorChance = 10;
 	floorGenerationData.numRoomTries = 10;
 	floorGenerationData.roomExtraSize = 2;
 	floorGenerationData.windingPercent = 25;
+	floorGenerationData.extraConnectorChance = 10;
 
 	std::random_device rd;
 	uint64_t mSeed = rd();
 	// mSeed = 4190745237
 	mRNG = RNG(rd());
+}
+
+void Floor::init(const FloorGenerationData& inputData)
+{
+	floorGenerationData.extraConnectorChance = inputData.extraConnectorChance;
+	floorGenerationData.numRoomTries = inputData.numRoomTries;
+	floorGenerationData.roomExtraSize = inputData.roomExtraSize;
+	floorGenerationData.windingPercent = inputData.windingPercent;
+
+	std::random_device rd;
+	uint64_t mSeed = rd();
+	mRNG = RNG(rd());
+
 }
 
 
@@ -68,13 +81,71 @@ bool Floor::canCarve(Vector2D<int> pos, Vector2D<int> dir)
 	return floorTileMap[target] == eTileType::WALL;
 }
 
-
-void Floor::generate()
+Matrix<int> Floor::getTileMap()
 {
-	int squareSize = 51;
+	return floorTileMap;
+}
 
+Matrix<int> Floor::getObjectMap()
+{
+	return objectMap;
+}
+
+void Floor::setStartEndPoint()
+{
+	SDL_Rect startRoom = roomVector[mRNG.rangeEx(roomVector.size())];
+	SDL_Rect endRoom = chooseFarRoom(startRoom);
+
+	Vector2D<int> startPos = getRandomPointInRoom(startRoom);
+	Vector2D<int> endPos = getRandomPointInRoom(endRoom);
+
+	objectMap[startPos] = eObjectType::START_POSITION;
+	objectMap[endPos] = eObjectType::END_POSITION;
+}
+
+SDL_Rect Floor::chooseFarRoom(const SDL_Rect& startRoom)
+{
+	std::vector<float> weights;
+	float totalWeight = 0.0f;
+
+	for (const SDL_Rect& room : roomVector)
+	{
+		float dist = roomDistance(startRoom, room);
+		float weight = dist * dist;
+		weights.push_back(weight);
+		totalWeight += weight;
+	}
+
+	float roll = mRNG.range(0.0f, totalWeight);
+
+	float cumulative = 0.0f;
+	for (size_t i = 0; i < roomVector.size(); i++)
+	{
+		cumulative += weights[i];
+		if (roll <= cumulative)
+		{
+			return roomVector[i];
+		}
+	}
+
+	return roomVector.back();
+}
+
+Vector2D<int> Floor::getRandomPointInRoom(const SDL_Rect& room)
+{
+	int randomCol = mRNG.range(room.x + 1, room.x + room.w - 1);
+	int randomRow = mRNG.range(room.y + 1, room.y + room.h - 1);
+
+	return Vector2D<int> {randomRow, randomCol};
+
+}
+
+
+void Floor::generate(int squareSize)
+{
 	floorTileMap = Matrix<int>(squareSize);
 	regionMap = Matrix<int>(squareSize);
+	objectMap = Matrix<int>(squareSize);
 	matrixFillWithElement(floorTileMap, eTileType::WALL);
 	matrixFillWithElement(regionMap, -1);
 
@@ -85,12 +156,12 @@ void Floor::generate()
 	floorSize.h = squareSize;
 
 	rooms_add();
-	matrixPrintColor(floorTileMap);
+	//matrixPrintColor(floorTileMap);
 	maze_generate();
 	regions_connect();
-	matrixPrintColor(floorTileMap);
+	//matrixPrintColor(floorTileMap);
 	deadEnds_remove();
-	matrixPrintColor(floorTileMap);
+	//matrixPrintColor(floorTileMap);
 }
 
 void Floor::rooms_add()
@@ -380,6 +451,7 @@ Floor::~Floor()
 {
 }
 
+
 SDL_Rect addRoomBorder(const SDL_Rect& rect)
 {
 	return SDL_Rect{
@@ -413,4 +485,16 @@ std::vector<Vector2D<int>> getPosListFromRect(const SDL_Rect& rect)
 	}
 
 	return rtnList;
+}
+
+float roomDistance(const SDL_Rect& room_a, const SDL_Rect& room_b)
+{
+	float centerAx = room_a.x + room_a.w / 2.0f;
+	float centerAy = room_a.y + room_a.h / 2.0f;
+	float centerBx = room_b.x + room_b.w / 2.0f;
+	float centerBy = room_b.y + room_b.y / 2.0f;
+
+	float dx = centerBx - centerAx;
+	float dy = centerBy - centerAy;
+	return std::sqrt(dx * dx + dy * dy);
 }

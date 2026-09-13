@@ -66,8 +66,10 @@
     <ClInclude Include="Code\System\Dungeon\Mine\Level.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\Compass.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\Floor.h" />
+    <ClInclude Include="Code\System\Dungeon\Tower\ObjectType.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\Room.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\TileType.h" />
+    <ClInclude Include="Code\System\Dungeon\Tower\Tower.h" />
     <ClInclude Include="Code\System\Movement\DirectionPlayer.h" />
     <ClInclude Include="Code\System\Dungeon\Mine\Dungeon.h" />
     <ClInclude Include="Code\System\KeyInput\KeyboardInput.h" />
@@ -101,7 +103,7 @@
     <ClCompile Include="Code\Game.cpp" />
     <ClCompile Include="Code\Game_initECS.cpp" />
     <ClCompile Include="Code\Game_initEntities.cpp" />
-    <ClCompile Include="Code\mainTest.cpp" />
+    <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\Math\GeneralMathStuff.cpp" />
     <ClCompile Include="Code\Misc\MiscFunctions.cpp" />
     <ClCompile Include="Code\Misc\RNG.cpp" />
@@ -120,6 +122,7 @@
     <ClCompile Include="Code\System\Dungeon\Mine\Level.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Floor.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Room.cpp" />
+    <ClCompile Include="Code\System\Dungeon\Tower\Tower.cpp" />
     <ClCompile Include="Code\System\Movement\DirectionPlayer.cpp" />
     <ClCompile Include="Code\System\Dungeon\Mine\Dungeon.cpp" />
     <ClCompile Include="Code\System\KeyInput\KeyboardInput.cpp" />
@@ -148,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Code\debugTipps.txt" />
+    <Text Include="Code\legacy\oldCode.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

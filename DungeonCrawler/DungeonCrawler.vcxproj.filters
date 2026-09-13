@@ -85,6 +85,8 @@
     <ClInclude Include="Code\System\Dungeon\Tower\Room.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\TileType.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\Compass.h" />
+    <ClInclude Include="Code\System\Dungeon\Tower\Tower.h" />
+    <ClInclude Include="Code\System\Dungeon\Tower\ObjectType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\System\Render\Misc\TextureFunc.cpp" />
@@ -131,7 +133,8 @@
     <ClCompile Include="Code\Misc\RNG.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Floor.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Room.cpp" />
-    <ClCompile Include="Code\mainTest.cpp" />
+    <ClCompile Include="Code\System\Dungeon\Tower\Tower.cpp" />
+    <ClCompile Include="Code\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Picture\Drone.png" />
@@ -140,5 +143,6 @@
     <Text Include="Code\debugTipps.txt">
       <Filter>Code</Filter>
     </Text>
+    <Text Include="Code\legacy\oldCode.txt" />
   </ItemGroup>
 </Project>

@@ -25,6 +25,7 @@ std::shared_ptr<SysDisplayFPS> sysDisplayFPS;
 std::shared_ptr<SysLevel> sysLevel;
 std::shared_ptr<SysMovementTile> sysMovementTile;
 std::shared_ptr<SysMovementTileDecision> sysMovementTileDecision;
+std::shared_ptr<SysTower> sysTower;
 
 Game::Game()
 {
@@ -40,7 +41,8 @@ void Game::initECS(const char* text, int width, int height, int flag)
 	if (
 		   SDL_Init(SDL_INIT_VIDEO)
 		&& SDL_Init(SDL_INIT_EVENTS)
-		&& SDL_Init(SDL_INIT_AUDIO))
+		&& SDL_Init(SDL_INIT_AUDIO)
+	)
 	{
 		window = SDL_CreateWindow(text, width, height, flag);
 		renderer = SDL_CreateRenderer(window, NULL);
@@ -198,5 +200,11 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<MovementTile>());
 		signature.set(gCoordinator.GetComponentType<Position>());
 		gCoordinator.SetSystemSignature<SysMovementTileDecision>(signature);
+	}
+	sysTower = gCoordinator.RegisterSystem<SysTower>();
+	{
+		Signature signature;
+		signature.set(gCoordinator.GetComponentType<IsPlayer>());
+		gCoordinator.SetSystemSignature<SysTower>(signature);
 	}
 }
