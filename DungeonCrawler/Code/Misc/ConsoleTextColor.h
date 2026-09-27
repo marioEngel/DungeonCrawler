@@ -1,0 +1,18 @@
+enum eConsoleTextColor
+{
+	GREY,
+	RED,
+	LIGHT_RED,
+	GREEN,
+	LIGHT_GREEN,
+	ORANGE,
+	YELLOW,
+	DARK_BLUE,
+	BLUE,
+	PURPLE,
+	PINK,
+	LIGHT_BLUE,
+	CYAN,
+	LIGHT_GREY,
+	WHITE
+};

@@ -32,33 +32,35 @@ public:
 	void init();
 	void init(const FloorGenerationData& inputData);
 
+	void generate(int squareSize);
+	Matrix<int> getTileMap();
+	Matrix<int> getObjectMap();
+	void setStartEndPoint();
+
+private:
 	// ----- basic functions ---------
 	void setTiles(SDL_Rect& room);
 	void incrementCurrentRegion();
 	void carveFloor(Vector2D<int> pos);
 	bool canCarve(Vector2D<int> pos, Vector2D<int> dir);
-	Matrix<int> getTileMap();
-	Matrix<int> getObjectMap();
-	void setStartEndPoint();
 	SDL_Rect chooseFarRoom(const SDL_Rect& startRoom);
 	Vector2D<int> getRandomPointInRoom(const SDL_Rect& room);
 
 	// ------ generate maze ---------------
-	void generate(int squareSize);
 	void rooms_add();
 	void maze_generate();
 	void maze_grow(Vector2D<int> start);
 	void regions_connect();
 	void junction_add(Vector2D<int> pos);
 	void deadEnds_remove();
-private:
-	FloorGenerationData floorGenerationData;
-	int currentRegion = -1;
-	SDL_Rect floorSize;
-	Matrix<int> floorTileMap{ 1 };
-	Matrix<int> regionMap{ 1 };
-	Matrix<int> objectMap{ 1 };
-	std::vector<SDL_Rect> roomVector;
+
+	FloorGenerationData mFloorGenerationData;
+	int mCurrentRegion = -1;
+	SDL_Rect mFloorSize;
+	Matrix<int> mTileMap{ 1 };
+	Matrix<int> mRegionMap{ 1 };
+	Matrix<int> mObjectMap{ 1 };
+	std::vector<SDL_Rect> mRoomVector;
 
 	// ------- helper ------------------
 	Compass mCompass{};

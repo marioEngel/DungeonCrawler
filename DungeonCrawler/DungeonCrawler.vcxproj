@@ -53,6 +53,7 @@
     <ClInclude Include="Code\ECS\SystemManager.h" />
     <ClInclude Include="Code\Game.h" />
     <ClInclude Include="Code\Math\GeneralMathStuff.h" />
+    <ClInclude Include="Code\Misc\ConsoleTextColor.h" />
     <ClInclude Include="Code\Misc\MiscFunctions.h" />
     <ClInclude Include="Code\Misc\RNG.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Circle.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="Code\Math\Matrix.cpp" />
     <ClCompile Include="Code\System\Collision\Collision.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Floor.cpp" />
+    <ClCompile Include="Code\System\Dungeon\Tower\Floor_helper.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Room.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Tower.cpp" />
     <ClCompile Include="Code\System\Movement\DirectionPlayer.cpp" />

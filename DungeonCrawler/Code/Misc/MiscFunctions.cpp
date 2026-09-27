@@ -66,7 +66,7 @@ void printColor()
 
 	std::cout
 		<< "background color \n"
-		<< "\033[40m" << "Color Test text what color ist that" << "\033[0m" << '\n'		// black
+		<< "\033[40m" << "Color Test text what color ist that" << "\033[0m" << '\n'				// black
 		<< "\033[1;40m" << "Color Test text what color ist that" << "\033[0m" << '\n'			// grey
 		<< "\033[41m" << "Color Test text what color ist that" << "\033[0m" << '\n'				// red
 		<< "\033[1;41m" << "Color Test text what color ist that" << "\033[0m" << '\n'			// light red
@@ -82,4 +82,59 @@ void printColor()
 		<< "\033[1;46m" << "Color Test text what color ist that" << "\033[0m" << '\n'			// cyan
 		<< "\033[47m" << "Color Test text what color ist that" << "\033[0m" << '\n'				// light grey
 		<< "\033[1;47m" << "Color Test text what color ist that" << "\033[0m" << '\n';			// white
+}
+
+std::string getColoredText(const std::string& text, eConsoleTextColor  color)
+{
+	switch (color)
+	{
+	case GREY:
+		return "\033[1;30m" + text + "\033[0m";
+		break;
+	case RED:
+		return "\033[31m" + text + "\033[0m";
+		break;
+	case LIGHT_RED:
+		return "\033[1;31m" + text + "\033[0m";
+		break;
+	case GREEN:
+		return "\033[32m" + text + "\033[0m";
+		break;
+	case LIGHT_GREEN:
+		return "\033[1;32m" + text + "\033[0m";
+		break;
+	case ORANGE:
+		return "\033[33m" + text + "\033[0m";
+		break;
+	case YELLOW:
+		return "\033[1;33m" + text + "\033[0m";
+		break;
+	case DARK_BLUE:
+		return "\033[34m" + text + "\033[0m";
+		break;
+	case BLUE:
+		return "\033[1;34m" + text + "\033[0m";
+		break;
+	case PURPLE:
+		return "\033[35m" + text + "\033[0m";
+		break;
+	case PINK:
+		return "\033[1;35m" + text + "\033[0m";
+		break;
+	case LIGHT_BLUE:
+		return "\033[26m" + text + "\033[0m";
+		break;
+	case CYAN:
+		return "\033[1;36m" + text + "\033[0m";
+		break;
+	case LIGHT_GREY:
+		return "\033[37m" + text + "\033[0m";
+		break;
+	case WHITE:
+		return "\033[1;37m" + text + "\033[0m";
+		break;
+	default:
+		return text;
+		break;
+	}
 }

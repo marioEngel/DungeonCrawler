@@ -1,6 +1,7 @@
 #include "Matrix.h"
 #include <iostream>
 #include <random>
+#include "../Misc/MiscFunctions.h"
 
 void matrixPrint(const Matrix<int>& matrix)
 {
@@ -22,6 +23,7 @@ void matrixPrint(const Matrix<int>& matrix)
 	std::cout << ' ' << std::endl;
 }
 
+
 void matrixPrintColor(const Matrix<int>& matrix)
 {
 	for (size_t row = 0; row < matrix.rows(); row++)
@@ -31,32 +33,86 @@ void matrixPrintColor(const Matrix<int>& matrix)
 		{
 			if (col == (matrix.cols() - 1))
 			{
-				if (matrix(row, col) == 0)
+				int matVal = matrix(row, col);
+				std::string appendString = " |\n";
+
+				switch (matVal)
 				{
-					std::cout << "\033[1;31m0\033[0m  |\n";
-				}
-				else if (matrix(row, col) == 1)
-				{
-					std::cout << "\033[1;34m1\033[0m  |\n";
-				}
-				else
-				{
-					std::cout << "\033[1;32m2\033[0m  |\n";
+				case 0:
+					std::cout << getColoredText("00", eConsoleTextColor::GREY) << appendString;
+					break;
+				case 1:
+					std::cout << getColoredText("11", eConsoleTextColor::RED) << appendString;
+					break;
+				case 2:
+					std::cout << getColoredText("22", eConsoleTextColor::BLUE) << appendString;
+					break;
+				case 3:
+					std::cout << getColoredText("33", eConsoleTextColor::GREEN) << appendString;
+					break;
+				case 4:
+					std::cout << getColoredText("44", eConsoleTextColor::PURPLE) << appendString;
+					break;
+				case 5:
+					std::cout << getColoredText("55", eConsoleTextColor::ORANGE) << appendString;
+					break;
+				case 6:
+					std::cout << getColoredText("66", eConsoleTextColor::CYAN) << appendString;
+					break;
+				case 7:
+					std::cout << getColoredText("77", eConsoleTextColor::YELLOW) << appendString;
+					break;
+				case 8:
+					std::cout << getColoredText("88", eConsoleTextColor::LIGHT_GREEN) << appendString;
+					break;
+				case 9:
+					std::cout << getColoredText("99", eConsoleTextColor::LIGHT_RED) << appendString;
+					break;
+				default:
+					std::cout << getColoredText("-1", eConsoleTextColor::WHITE) << appendString;
+					break;
 				}
 			}
 			else
 			{
-				if (matrix(row, col) == 0)
+				int matVal = matrix(row, col);
+				std::string appendString = ", ";
+
+				switch (matVal)
 				{
-					std::cout << "\033[1;31m0\033[0m, ";
-				}
-				else if (matrix(row, col) == 1)
-				{
-					std::cout << "\033[1;34m1\033[0m, ";
-				}
-				else
-				{
-					std::cout << "\033[1;32m2\033[0m, ";
+				case 0:
+					std::cout << getColoredText("00", eConsoleTextColor::GREY) << appendString;
+					break;
+				case 1:
+					std::cout << getColoredText("11", eConsoleTextColor::RED) << appendString;
+					break;
+				case 2:
+					std::cout << getColoredText("22", eConsoleTextColor::BLUE) << appendString;
+					break;
+				case 3:
+					std::cout << getColoredText("33", eConsoleTextColor::GREEN) << appendString;
+					break;
+				case 4:
+					std::cout << getColoredText("44", eConsoleTextColor::PURPLE) << appendString;
+					break;
+				case 5:
+					std::cout << getColoredText("55", eConsoleTextColor::ORANGE) << appendString;
+					break;
+				case 6:
+					std::cout << getColoredText("66", eConsoleTextColor::CYAN) << appendString;
+					break;
+				case 7:
+					std::cout << getColoredText("77", eConsoleTextColor::YELLOW) << appendString;
+					break;
+				case 8:
+					std::cout << getColoredText("88", eConsoleTextColor::LIGHT_GREEN) << appendString;
+					break;
+				case 9:
+					std::cout << getColoredText("99", eConsoleTextColor::LIGHT_RED) << appendString;
+					break;
+				default:
+					std::cout << getColoredText("-1", eConsoleTextColor::WHITE) << appendString;
+					break;
 				}
 			}
 		}

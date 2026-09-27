@@ -10,7 +10,7 @@ extern Coordinator gCoordinator;
 void SysTower::init()
 {
 	FloorGenerationData generationData{ 15, 2, 15, 10 };
-	int floorSize = 75;
+	int floorSize = 51;
 
 	Floor tmpFloor;
 	tmpFloor.init(generationData);
@@ -19,11 +19,15 @@ void SysTower::init()
 	std::vector<const char*> tmpTileTextures =
 	{
 		"Picture/TileNormal.png",
+		"Picture/TileNormal.png",
 		"Picture/TileGround.png",
 		"Picture/FullPink.png"
 	};
 	std::vector<SDL_Texture*> emtpyTexture{};
 	Matrix<int> tmpMatrix = tmpFloor.getTileMap();
+
+	matrixPrintColor(tmpMatrix);
+
 
 	Entity currentFloor = gCoordinator.CreateEntity();
 	{

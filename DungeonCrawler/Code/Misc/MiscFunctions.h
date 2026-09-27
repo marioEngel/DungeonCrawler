@@ -6,8 +6,11 @@
 #include "../Component/Comp_TextureLight.h"
 #include "../Component/Comp_Position.h"
 #include "../System/Collision/Geometry/Rectangle.h"
+#include "ConsoleTextColor.h"
+
 
 void printColor();
+std::string getColoredText(const std::string& text, eConsoleTextColor  color);
 void printSDLRect(SDL_Rect rect, const char* text, Entity ent = 0);
 
 SDL_Rect rtnScreenRect();
