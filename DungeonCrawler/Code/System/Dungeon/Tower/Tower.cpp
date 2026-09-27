@@ -13,8 +13,6 @@ void SysTower::init()
 	int floorSize = 75;
 
 	Floor tmpFloor;
-
-
 	tmpFloor.init(generationData);
 	tmpFloor.generate(floorSize);
 
@@ -26,8 +24,6 @@ void SysTower::init()
 	};
 	std::vector<SDL_Texture*> emtpyTexture{};
 	Matrix<int> tmpMatrix = tmpFloor.getTileMap();
-	matrixPrintColor(tmpMatrix);
-
 
 	Entity currentFloor = gCoordinator.CreateEntity();
 	{
@@ -43,7 +39,7 @@ void SysTower::init()
 
 	tmpFloor.setStartEndPoint();
 
-	currentEntity = 0;
+	currentFloorIndex = 0;
 	floorEntityList.push_back(currentFloor);
 	floorList.push_back(tmpFloor);
 }
@@ -52,12 +48,10 @@ void SysTower::syncPlayer()
 {
 	for (const auto& entity : mEntities)
 	{
-		auto pos = gCoordinator.GetComponent<Position>(entity);
+		auto& pos = gCoordinator.GetComponent<Position>(entity);
 		
-		Floor tmpFloor = floorList[currentEntity];
+		Floor tmpFloor = floorList[currentFloorIndex];
 		Matrix<int> tmpObjectMap = tmpFloor.getObjectMap();
-
-		matrixPrintColor(tmpObjectMap);
 
 		for (int row = 0; row < tmpObjectMap.rows(); row++)
 		{
@@ -65,8 +59,7 @@ void SysTower::syncPlayer()
 			{
 				if (tmpObjectMap(row, col) == eObjectType::START_POSITION)
 				{
-					pos.pos = Vector2D<float>(float(row) * 32.0f, float(col) * 32.0f);
-					std::cout << "Here" << std::endl;
+					pos.vec = Vector2D<float>(float(row) * 32.0f, float(col) * 32.0f);
 				}
 			}
 		}

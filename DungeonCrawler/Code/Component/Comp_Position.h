@@ -4,5 +4,5 @@
 struct Position
 {
 	// represents the top left corner
-	Vector2D<float> pos;
+	Vector2D<float> vec;
 };

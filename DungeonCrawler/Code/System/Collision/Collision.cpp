@@ -28,7 +28,7 @@ void SysCollision::check_AABB()
 		if (checkCollision.checkCollision) {
 			auto& originHitbox = gCoordinator.GetComponent<Hitbox>(originEntity);
 			auto& originPosition = gCoordinator.GetComponent<Position>(originEntity);
-			SDL_FRect originAABB = originHitbox.geomHitbox->return_AABB(originPosition.pos);
+			SDL_FRect originAABB = originHitbox.geomHitbox->return_AABB(originPosition.vec);
 
 			for (size_t j = i + 1; j < mEntities.size(); ++j) 
 			{
@@ -36,7 +36,7 @@ void SysCollision::check_AABB()
 				auto& targetEntity = *it2;
 				auto& targetHitbox = gCoordinator.GetComponent<Hitbox>(targetEntity);
 				auto& targetPosition = gCoordinator.GetComponent<Position>(targetEntity);
-				SDL_FRect targetAABB = targetHitbox.geomHitbox->return_AABB(targetPosition.pos);
+				SDL_FRect targetAABB = targetHitbox.geomHitbox->return_AABB(targetPosition.vec);
 
 				if (check_RectVsRect(originAABB, targetAABB))
 				{
@@ -65,8 +65,8 @@ void SysCollision::check_General()
 		auto& targetMovement = gCoordinator.GetComponent<Movement>(targEnt);
 
 		Contact tmpCollisionData = check_Geometry_arbitrary(
-			*originHitbox.geomHitbox, originPosition.pos, origionMovement,
-			*targetHitbox.geomHitbox, targetPosition.pos, targetMovement
+			*originHitbox.geomHitbox, originPosition.vec, origionMovement,
+			*targetHitbox.geomHitbox, targetPosition.vec, targetMovement
 		);
 
 		if (tmpCollisionData.valid)
@@ -93,19 +93,19 @@ void SysCollision::react()
 
 		if (originMass.unmoveable)
 		{
-			targetPosition.pos = targetPosition.pos + mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
+			targetPosition.vec = targetPosition.vec + mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
 		}
 		else if (targetMass.unmoveable)
 		{
-			originPosition.pos = originPosition.pos - mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
+			originPosition.vec = originPosition.vec - mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
 		}
 		else
 		{
 			originWeight = originMass.mass / (originMass.mass + targetMass.mass);
 			targetWeight = targetMass.mass / (originMass.mass + targetMass.mass);
 
-			originPosition.pos = originPosition.pos - originWeight * mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
-			targetPosition.pos = targetPosition.pos + targetWeight * mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
+			originPosition.vec = originPosition.vec - originWeight * mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
+			targetPosition.vec = targetPosition.vec + targetWeight * mCollisionData[i].contact.normal * mCollisionData[i].contact.penetration;
 		}
 	}
  
@@ -116,11 +116,11 @@ bool SysCollision::check_specificHitbox(Entity& entity)
 {
 	auto& originHitbox = gCoordinator.GetComponent<Hitbox>(entity);
 	auto& originPosition = gCoordinator.GetComponent<Position>(entity);
-	SDL_FRect originAABB = originHitbox.geomHitbox->return_AABB(originPosition.pos);
+	SDL_FRect originAABB = originHitbox.geomHitbox->return_AABB(originPosition.vec);
 
 	for (auto& const objectEntity : mEntities)
 	{
-		SDL_FRect originAABB = originHitbox.geomHitbox->return_AABB(originPosition.pos);
+		SDL_FRect originAABB = originHitbox.geomHitbox->return_AABB(originPosition.vec);
 
 			for (auto& const otherEntity : mEntities)
 			{
@@ -128,7 +128,7 @@ bool SysCollision::check_specificHitbox(Entity& entity)
 				{
 					auto& targetHitbox = gCoordinator.GetComponent<Hitbox>(otherEntity);
 					auto& targetPosition = gCoordinator.GetComponent<Position>(otherEntity);
-					SDL_FRect targetAABB = targetHitbox.geomHitbox->return_AABB(targetPosition.pos);
+					SDL_FRect targetAABB = targetHitbox.geomHitbox->return_AABB(targetPosition.vec);
 
 					if (check_RectVsRect(originAABB, targetAABB))
 					{
@@ -170,8 +170,8 @@ void SysCollision::render_Hitbox()
 			srcRec.w = texture.width;
 			srcRec.h = texture.height;
 
-			destRec.x = position.pos[0];
-			destRec.y = position.pos[1];
+			destRec.x = position.vec.x;
+			destRec.y = position.vec.y;
 			destRec.w = texture.width * texture.scale;
 			destRec.h = texture.height * texture.scale;
 

@@ -19,6 +19,6 @@ void SysMovementPlayer::update()
 		// ??? print pos
 		// std::cout << "Position: " << normalPos.pos << '\n';
 
-		normalPos.pos = normalPos.pos + decision.direction * movement.speed * gDeltaT;
+		normalPos.vec = normalPos.vec + decision.direction * movement.speed * gDeltaT;
 	}
 }

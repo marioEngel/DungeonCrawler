@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "../../../ECS/Coordinator.h"
 #include "../../../Component/Comp_Position.h"
+#include "../../../Component/Comp_Texture.h"
 #include "../../Collision/Collision.h"
 
 extern Coordinator gCoordinator;
@@ -20,32 +21,43 @@ Camera::~Camera()
 {
 }
 
-void Camera::CheckCollision(Entity player)
+void Camera::CheckCollision(Entity entity)
 {
-	auto& position = gCoordinator.GetComponent<Position>(player);
+	auto& position = gCoordinator.GetComponent<Position>(entity);
 
-	//std::cout << position.pos << '\n';
-
-	if (check_RectVsPoint(mCamera, position.pos))
+	if (check_RectVsPoint(mCamera, position.vec))
 	{
-		if (int(position.pos[0]) < (mCamera.x + mEdgeWidth))
+		if (int(position.vec.x) < (mCamera.x + mEdgeWidth))
+		if (int(position.vec.x) < (mCamera.x + mEdgeWidth))
 		{
-			mCamera.x -= ((mCamera.x + mEdgeWidth) - int(position.pos[0]));
+			mCamera.x -= ((mCamera.x + mEdgeWidth) - int(position.vec.x));
 		}
-		else if (int(position.pos[0]) > (mCamera.x + mCamera.w - mEdgeWidth))
+		else if (int(position.vec.x) > (mCamera.x + mCamera.w - mEdgeWidth))
 		{
-			mCamera.x += (int(position.pos[0]) - (mCamera.x + mCamera.w - mEdgeWidth));
+			mCamera.x += (int(position.vec.x) - (mCamera.x + mCamera.w - mEdgeWidth));
 		}
 
-		if (int(position.pos[1]) < (mCamera.y + mEdgeHight))
+		if (int(position.vec.y) < (mCamera.y + mEdgeHight))
 		{
-			mCamera.y -= ((mCamera.y + mEdgeHight) - int(position.pos[1]));
+			mCamera.y -= ((mCamera.y + mEdgeHight) - int(position.vec.y));
 		}
-		else if (int(position.pos[1]) > (mCamera.y + mCamera.h - mEdgeHight))
+		else if (int(position.vec.y) > (mCamera.y + mCamera.h - mEdgeHight))
 		{
-			mCamera.y += (int(position.pos[1]) - (mCamera.y + mCamera.h - mEdgeHight));
+			mCamera.y += (int(position.vec.y) - (mCamera.y + mCamera.h - mEdgeHight));
 		}
 	}
+}
+
+void Camera::center(Entity entity)
+{
+	auto& pos = gCoordinator.GetComponent<Position>(entity);
+	auto& texture = gCoordinator.GetComponent<Texture>(entity);
+
+	float centerX = pos.vec.x + texture.width / 2;
+	float centerY = pos.vec.y + texture.height / 2;
+
+	mCamera.x = centerX - mCamera.w / 2;
+	mCamera.y = centerY - mCamera.h / 2;
 }
 
 void Camera::transformToBaseCoord(Vector2D<float>& cameraCoord)

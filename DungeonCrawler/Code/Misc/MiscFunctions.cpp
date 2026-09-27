@@ -24,12 +24,12 @@ SDL_Rect rtnScreenRect()
 
 Vector2D<float> rtnCenter(Position& position, Texture& texture)
 {
-	return position.pos + Vector2D<float>{float(texture.width) / 2.0f, float(texture.height) / 2.0f};
+	return position.vec + Vector2D<float>{float(texture.width) / 2.0f, float(texture.height) / 2.0f};
 }
 
 Vector2D<float> rtnCenter(Position& position, TextureLight& texture)
 {
-	return position.pos + Vector2D<float>{float(texture.width) / 2.0f, float(texture.height) / 2.0f};
+	return position.vec + Vector2D<float>{float(texture.width) / 2.0f, float(texture.height) / 2.0f};
 }
 
 Vector2D<float> rtnCenterEntity(Entity entity)
@@ -37,7 +37,7 @@ Vector2D<float> rtnCenterEntity(Entity entity)
 	auto position = gCoordinator.GetComponent<Position>(entity);
 	auto textur = gCoordinator.GetComponent<Texture>(entity);
 
-	return position.pos + Vector2D<float>{
+	return position.vec + Vector2D<float>{
 		float(textur.width) / 2.0f * float(textur.scale), 
 		float(textur.height) / 2.0f * float(textur.scale)
 	};

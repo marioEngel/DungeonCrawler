@@ -5,7 +5,7 @@
 extern Coordinator gCoordinator;
 extern KeyboardInput gKeyboardInput;
 extern Entity gPlayerEntity;
-Camera gCamera;
+Camera gCamera{};
 Mouse gMouse;
 
 // systems forward declaration
@@ -25,6 +25,7 @@ extern std::shared_ptr<SysMovementTileDecision> sysMovementTileDecision;
 
 void Game::update(float delta)
 {
+
 	// input pipeline stuff soll in handle input sein
 	{
 		if (gKeyboardInput.getButtonState(SDL_SCANCODE_X))
@@ -38,7 +39,7 @@ void Game::update(float delta)
 
 	// movement pipeline
 	{
-		sysMovementPlayer->update();
+		// sysMovementPlayer->update();
 		sysMovementTile->update(delta);
 		sysDirectionPlayer->update();
 

@@ -2,6 +2,7 @@
 
 extern Coordinator gCoordinator;
 Entity gPlayerEntity;
+extern Camera gCamera;
 
 // systems forward declaration
 extern std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
@@ -9,6 +10,7 @@ extern std::shared_ptr<SysTower> sysTower;
 
 void Game::initEntities()
 {
+
 	GeomRectangle playerHitbox_Rect{ 16.0f, 16.0f, 32.0f, 32.0f };
 	GeomCircle playerHitbox_Circ{ 16.0f, 16.0f, 16.0f };
 	GeomRectangle torch_Hitbox{ 8.0f, 8.0f, 16.0f, 16.0f };
@@ -49,4 +51,5 @@ void Game::initEntities()
 	sysTower->init();
 	sysTower->syncPlayer();
 	sysDirectionPlayer->makeMarker();
+	gCamera.center(gPlayerEntity);
 }

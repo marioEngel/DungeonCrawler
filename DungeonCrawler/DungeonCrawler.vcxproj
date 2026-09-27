@@ -24,9 +24,9 @@
     <ClInclude Include="Code\Component\Comp_DisplayFPS.h" />
     <ClInclude Include="Code\Component\Comp_FaceDirection.h" />
     <ClInclude Include="Code\Component\Comp_Hitbox.h" />
-    <ClInclude Include="Code\Component\Comp_Level.h" />
     <ClInclude Include="Code\Component\Comp_Mass.h" />
     <ClInclude Include="Code\Component\Comp_MovementTile.h" />
+    <ClInclude Include="Code\Component\Comp_PositionTile.h" />
     <ClInclude Include="Code\Component\Comp_Text.h" />
     <ClInclude Include="Code\Component\Comp_TextureText.h" />
     <ClInclude Include="Code\Component\Is_Collision.h" />
@@ -62,8 +62,6 @@
     <ClInclude Include="Code\System\Collision\Geometry\Circle_Sector.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Line.h" />
     <ClInclude Include="Code\System\Collision\Geometry\Point.h" />
-    <ClInclude Include="Code\System\Dungeon\Mine\Chunk.h" />
-    <ClInclude Include="Code\System\Dungeon\Mine\Level.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\Compass.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\Floor.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\ObjectType.h" />
@@ -71,7 +69,6 @@
     <ClInclude Include="Code\System\Dungeon\Tower\TileType.h" />
     <ClInclude Include="Code\System\Dungeon\Tower\Tower.h" />
     <ClInclude Include="Code\System\Movement\DirectionPlayer.h" />
-    <ClInclude Include="Code\System\Dungeon\Mine\Dungeon.h" />
     <ClInclude Include="Code\System\KeyInput\KeyboardInput.h" />
     <ClInclude Include="Code\System\Movement\MovementObject.h" />
     <ClInclude Include="Code\System\Movement\MovementObjectAttached.h" />
@@ -119,12 +116,10 @@
     <ClCompile Include="Code\System\Collision\Geometry\Rectangle.cpp" />
     <ClCompile Include="Code\Math\Matrix.cpp" />
     <ClCompile Include="Code\System\Collision\Collision.cpp" />
-    <ClCompile Include="Code\System\Dungeon\Mine\Level.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Floor.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Room.cpp" />
     <ClCompile Include="Code\System\Dungeon\Tower\Tower.cpp" />
     <ClCompile Include="Code\System\Movement\DirectionPlayer.cpp" />
-    <ClCompile Include="Code\System\Dungeon\Mine\Dungeon.cpp" />
     <ClCompile Include="Code\System\KeyInput\KeyboardInput.cpp" />
     <ClCompile Include="Code\System\Movement\MovementObject.cpp" />
     <ClCompile Include="Code\System\Movement\MovementObjectAttached.cpp" />
@@ -151,7 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Code\debugTipps.txt" />
-    <Text Include="Code\legacy\oldCode.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

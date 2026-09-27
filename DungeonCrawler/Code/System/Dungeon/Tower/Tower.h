@@ -11,5 +11,5 @@ public:
 private:
 	std::vector<Entity> floorEntityList;
 	std::vector<Floor> floorList;
-	int currentEntity = -1;
+	int currentFloorIndex = -1;
 };

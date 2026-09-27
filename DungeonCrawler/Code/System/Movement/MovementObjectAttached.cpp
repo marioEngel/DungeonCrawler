@@ -18,7 +18,7 @@ void SysMovementObjectAttached::update()
 		auto& positionSource = gCoordinator.GetComponent<Position>(attachment.attachedEntity);
 		auto& textureSource = gCoordinator.GetComponent<Texture>(attachment.attachedEntity);
 
-		positionAttach.pos =  positionAttach.pos
+		positionAttach.vec =  positionAttach.vec
 							+ rtnCenter(positionAttach, textureAttach).flip() // flip = *(-1)
 							+ rtnCenter(positionSource, textureSource);
 	}

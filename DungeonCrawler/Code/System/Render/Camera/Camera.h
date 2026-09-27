@@ -9,7 +9,8 @@ public:
 	Camera();
 	~Camera();
 
-	void CheckCollision(Entity player);
+	void CheckCollision(Entity entity);
+	void center(Entity entity);
 	void transformToBaseCoord(Vector2D<float>& cameraCoord);
 
 	SDL_FRect mCamera;

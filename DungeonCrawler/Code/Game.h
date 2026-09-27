@@ -5,7 +5,6 @@
 // ----------Misc----------------------
 #include "System/KeyInput/KeyboardInput.h"
 #include "System/KeyInput/Mouse.h"
-#include "System/Dungeon/Mine/Dungeon.h"
 #include "System/Render/Misc/Misc.h"
 #include "Misc/MiscFunctions.h"
 #include "Characters/CharacterTemplate.h"
@@ -30,9 +29,9 @@
 #include "Component/Comp_AttachedTo.h"
 #include "Component/Is_UI.h"
 #include "Component/Comp_Text.h"
-#include "Component/Comp_DisplayFPS.h"
-#include "Component/Comp_Level.h"					// 20
+#include "Component/Comp_DisplayFPS.h"				// 20
 #include "Component/Comp_MovementTile.h"
+#include "Component/Comp_PositionTile.h"
 // --------Systems---------------------- 
 #include "System/Collision/Collision.h"
 #include "System/Movement/DirectionPlayer.h"
@@ -45,7 +44,6 @@
 #include "System/Render/RendererLight.h"
 #include "System/Render/RendererUI.h"
 #include "System/Render/UI/DisplayFPS.h"
-#include "System/Dungeon/Mine/Level.h"
 #include "System/Movement/TileMap/MovementTile.h"
 #include "System/Movement/TileMap/MovementTileDecision.h"
 #include "System/Dungeon/Tower/Tower.h"

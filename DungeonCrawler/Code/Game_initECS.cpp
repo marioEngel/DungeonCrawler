@@ -22,7 +22,6 @@ std::shared_ptr<SysMovementObject> sysMovementObject;
 std::shared_ptr<SysCollision> sysCollision;
 std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
 std::shared_ptr<SysDisplayFPS> sysDisplayFPS;
-std::shared_ptr<SysLevel> sysLevel;
 std::shared_ptr<SysMovementTile> sysMovementTile;
 std::shared_ptr<SysMovementTileDecision> sysMovementTileDecision;
 std::shared_ptr<SysTower> sysTower;
@@ -81,11 +80,11 @@ void Game::initECS(const char* text, int width, int height, int flag)
 	gCoordinator.RegisterComponent<Mass>();
 	gCoordinator.RegisterComponent<Movement>();
 	gCoordinator.RegisterComponent<Position>();
+	gCoordinator.RegisterComponent<PositionTile>();
 	gCoordinator.RegisterComponent<Text>();
 	gCoordinator.RegisterComponent<Texture>();
 	gCoordinator.RegisterComponent<TextureLight>();
 	gCoordinator.RegisterComponent<TileMap>();
-	gCoordinator.RegisterComponent<Level>();
 	gCoordinator.RegisterComponent<MovementTile>();
 
 	// register all systems, forward declaration, signature
@@ -177,12 +176,6 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<DisplayFPS>());
 		signature.set(gCoordinator.GetComponentType<Text>());
 		gCoordinator.SetSystemSignature<SysDisplayFPS>(signature);
-	}
-	sysLevel = gCoordinator.RegisterSystem<SysLevel>();
-	{
-		Signature signature;
-		signature.set(gCoordinator.GetComponentType<Level>());
-		gCoordinator.SetSystemSignature<SysLevel>(signature);
 	}
 	sysMovementTile = gCoordinator.RegisterSystem<SysMovementTile>();
 	{

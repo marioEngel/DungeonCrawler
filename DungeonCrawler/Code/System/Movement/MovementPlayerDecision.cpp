@@ -1,7 +1,6 @@
 #include "MovementPlayerDecision.h"
 #include "../../ECS/Coordinator.h"
 #include "../../System/KeyInput/KeyboardInput.h"
-#include "../Dungeon/Mine/Dungeon.h"
 #include "../../Component/Comp_InputKeys.h"
 #include "../../Component/Comp_DirectionDecision.h"
 #include "../../Component/Comp_Movement.h"
@@ -46,52 +45,3 @@ void SysMovementPlayerDecision::update()
 		//std::cout << decision.direction << std::endl;
 	}
 }
-
-//void MovementDecisionSystem::checkPossibility()
-//{
-//	for (const auto& entity : mEntities)
-//	{
-//		auto& decision = gCoordinator.GetComponent<DirectionDecision>(entity);
-//		auto& matrixPos = gCoordinator.GetComponent<MatrixPosition>(entity);
-//
-//		Vector2D<int> tmpDirection{};
-//		switch (decision.direction)
-//		{
-//		case eMoveDirection::DOWNWARDS:
-//			tmpDirection = gBasicVector.basicDownward;
-//			break;
-//		case eMoveDirection::UPWARDS:
-//			tmpDirection = gBasicVector.basicUpward;
-//			break;
-//		case eMoveDirection::RIGHT:
-//			tmpDirection = gBasicVector.basicRight;
-//			break;
-//		case eMoveDirection::LEFT:
-//			tmpDirection = gBasicVector.basicLeft;
-//			break;
-//		default:
-//			break;
-//		}
-//
-//		decision.possible = gDungeonSystem.checkCollision(matrixPos.matrixPosition + tmpDirection);
-//	}
-//}
-
-/*bool MovementDecisionSystem::printStuff()
-{
-	if (gKeyboardInput.getButtonState(SDL_SCANCODE_L) == eButtonState::RELEASED)
-	{
-		for (const auto& entity : mEntities)
-		{
-			auto& decision = gCoordinator.GetComponent<DirectionDecision>(entity);
-
-			std::cout << "decision direction: " << decision.direction << '\n' <<
-				"decision input cooldown: " << decision.inputCooldown << '\n' <<
-				"decision possible: " << decision.possible << '\n';
-		}
-
-		return false;
-	}
-	
-	return false;
-}*/

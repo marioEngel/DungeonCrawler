@@ -83,8 +83,8 @@ void SysRendererUI::render()
 			srcRec.w = texture.width;
 			srcRec.h = texture.height;
 
-			destRec.x = position.pos[0];
-			destRec.y = position.pos[1];
+			destRec.x = position.vec.x;
+			destRec.y = position.vec.y;
 			destRec.w = texture.width;
 			destRec.h = texture.height;
 

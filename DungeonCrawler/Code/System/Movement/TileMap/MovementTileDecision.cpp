@@ -37,7 +37,7 @@ void SysMovementTileDecision::update()
 		{
 			decision.direction = dir;
 			movementTile.direction = dir;
-			movementTile.positionStart = position.pos;
+			movementTile.positionStart = position.vec;
 			movementTile.positionEnd = movementTile.positionStart + dir * movementTile.tileSize;
 			movementTile.onCooldown = true;
 			movementTile.timeStart = SDL_GetTicks();
