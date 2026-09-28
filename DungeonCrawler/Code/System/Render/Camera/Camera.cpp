@@ -2,7 +2,7 @@
 #include "../../../ECS/Coordinator.h"
 #include "../../../Component/Comp_Position.h"
 #include "../../../Component/Comp_Texture.h"
-#include "../../Collision/Collision.h"
+#include "../../Collision/CollisionFunc.h"
 
 extern Coordinator gCoordinator;
 
@@ -27,7 +27,6 @@ void Camera::CheckCollision(Entity entity)
 
 	if (check_RectVsPoint(mCamera, position.vec))
 	{
-		if (int(position.vec.x) < (mCamera.x + mEdgeWidth))
 		if (int(position.vec.x) < (mCamera.x + mEdgeWidth))
 		{
 			mCamera.x -= ((mCamera.x + mEdgeWidth) - int(position.vec.x));

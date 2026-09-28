@@ -19,7 +19,6 @@ std::shared_ptr<SysMovementPlayer> sysMovementPlayer;
 std::shared_ptr<SysMovementPlayerDecision> sysMovementPlayerDecision;
 std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
 std::shared_ptr<SysMovementObject> sysMovementObject;
-std::shared_ptr<SysCollision> sysCollision;
 std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
 std::shared_ptr<SysDisplayFPS> sysDisplayFPS;
 std::shared_ptr<SysMovementTile> sysMovementTile;
@@ -70,7 +69,6 @@ void Game::initECS(const char* text, int width, int height, int flag)
 	gCoordinator.RegisterComponent<DirectionDecision>();
 	gCoordinator.RegisterComponent<DisplayFPS>();
 	gCoordinator.RegisterComponent<FaceDirection>();
-	gCoordinator.RegisterComponent<Hitbox>();
 	gCoordinator.RegisterComponent<InputKeys>();
 	gCoordinator.RegisterComponent<IsCollision>();
 	gCoordinator.RegisterComponent<IsLight>();
@@ -158,17 +156,6 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<Movement>());
 		signature.set(gCoordinator.GetComponentType<IsObject>());
 		gCoordinator.SetSystemSignature<SysMovementObject>(signature);
-	}
-	sysCollision = gCoordinator.RegisterSystem<SysCollision>();
-	{
-		Signature signature;
-		signature.set(gCoordinator.GetComponentType<Position>());
-		signature.set(gCoordinator.GetComponentType<Hitbox>());
-		signature.set(gCoordinator.GetComponentType<Movement>());
-		signature.set(gCoordinator.GetComponentType<IsCollision>());
-		signature.set(gCoordinator.GetComponentType<Mass>());
-		signature.set(gCoordinator.GetComponentType<Mass>());
-		gCoordinator.SetSystemSignature<SysCollision>(signature);
 	}
 	sysDisplayFPS = gCoordinator.RegisterSystem<SysDisplayFPS>();
 	{

@@ -2,7 +2,7 @@
 #include <random>
 #include "Room.h"
 #include <SDL3/SDL.h>
-#include "../../../System/Collision/Collision.h"
+#include "../../../System/Collision/CollisionFunc.h"
 #include <algorithm>
 #include "../../../Misc/MiscFunctions.h"
 
@@ -430,7 +430,7 @@ void Floor::deadEnds_remove()
 				{
 					exits++;
 				}
-				if (mTileMap[pos + dir] == eTileType::WALL)
+				if (mTileMap[pos+dir] == eTileType::WALL)
 				{
 					roomNr++;
 				}

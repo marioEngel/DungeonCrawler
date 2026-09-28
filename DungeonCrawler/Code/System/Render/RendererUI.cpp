@@ -5,7 +5,7 @@
 #include "../../Component/Comp_Texture.h"
 #include "../../Component/Comp_Position.h"
 #include "Misc/TextureFunc.h"
-#include "../Collision/Collision.h"
+#include "../Collision/CollisionFunc.h"
 #include "SDL3_ttf/SDL_ttf.h"
 #include "../../Component/Comp_Text.h"
 

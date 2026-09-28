@@ -17,7 +17,6 @@ extern std::shared_ptr<SysMovementPlayer> sysMovementPlayer;
 extern std::shared_ptr<SysMovementPlayerDecision> sysMovementPlayerDecision;
 extern std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
 extern std::shared_ptr<SysMovementObject> sysMovementObject;
-extern std::shared_ptr<SysCollision> sysCollision;
 extern std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
 extern std::shared_ptr<SysDisplayFPS> sysDisplayFPS;
 extern std::shared_ptr<SysMovementTile> sysMovementTile;
@@ -49,9 +48,9 @@ void Game::update(float delta)
 	
 	// collision pipeline
 	{
-		sysCollision->check_AABB();
-		sysCollision->check_General();
-		sysCollision->react();
+		//sysCollision->check_AABB();
+		//sysCollision->check_General();
+		//sysCollision->react();
 		
 		//for (int i = 0; i < 5; i++) {       // iteration count tunable
 		//	collisionSystem->react();
@@ -86,11 +85,11 @@ void Game::update(float delta)
 		sysRendererSprite->loadTexture();
 		sysRendererSprite->initRenderertex();
 		//tmp for checking Hitboxes not working
-		bool renderHitbox = true;
-		if (renderHitbox) {
-			sysCollision->create_HitboxRender();
-			sysCollision->render_Hitbox();
-		}
+		//bool renderHitbox = true;
+		//if (renderHitbox) {
+		//	sysCollision->create_HitboxRender();
+		//	sysCollision->render_Hitbox();
+		//}
  		sysRendererSprite->render();
 			
 

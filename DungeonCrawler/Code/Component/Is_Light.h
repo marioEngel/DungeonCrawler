@@ -2,5 +2,5 @@
 
 struct IsLight
 {
-	bool Is_Light = true;
+	bool isLight = true;
 }; 

@@ -6,7 +6,7 @@
 #include "../../Game.h"
 #include "Camera/Camera.h"
 #include <filesystem>
-#include "../Collision/Collision.h"
+#include "../Collision/CollisionFunc.h"
 
 extern Coordinator gCoordinator;
 extern Camera gCamera;

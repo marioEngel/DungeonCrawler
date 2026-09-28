@@ -5,7 +5,6 @@
 #include "../Component/Comp_Texture.h"
 #include "../Component/Comp_TextureLight.h"
 #include "../Component/Comp_Position.h"
-#include "../System/Collision/Geometry/Rectangle.h"
 #include "ConsoleTextColor.h"
 
 

@@ -3,7 +3,7 @@
 #include "Misc/TextureFunc.h"
 #include "../../Component/Comp_TileMap.h"
 #include "../../Game.h"
-#include "../Collision/Collision.h"
+#include "../Collision/CollisionFunc.h"
 #include "Camera/Camera.h"
 
 extern Camera gCamera;

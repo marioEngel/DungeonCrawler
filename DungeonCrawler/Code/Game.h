@@ -7,13 +7,11 @@
 #include "System/KeyInput/Mouse.h"
 #include "System/Render/Misc/Misc.h"
 #include "Misc/MiscFunctions.h"
-#include "Characters/CharacterTemplate.h"
 #include "Math/Matrix.h"
 #include "System/Render/Camera/Camera.h"
 // ---------Components------------------ max 64
 #include "Component/Comp_Affiliation.h"
 #include "Component/Comp_FaceDirection.h"
-#include "Component/Comp_Hitbox.h"
 #include "Component/Comp_InputKeys.h"
 #include "Component/Is_Player.h"					// 5
 #include "Component/Is_Object.h"
@@ -33,7 +31,6 @@
 #include "Component/Comp_MovementTile.h"
 #include "Component/Comp_PositionTile.h"
 // --------Systems---------------------- 
-#include "System/Collision/Collision.h"
 #include "System/Movement/DirectionPlayer.h"
 #include "System/Movement/MovementPlayer.h"
 #include "System/Movement/MovementPlayerDecision.h"
