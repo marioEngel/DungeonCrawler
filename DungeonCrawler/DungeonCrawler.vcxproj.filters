@@ -44,10 +44,7 @@
     <ClInclude Include="Code\Component\Comp_TextureLight.h" />
     <ClInclude Include="Code\Component\Comp_AttachedTo.h" />
     <ClInclude Include="Code\System\Movement\MovementObjectAttached.h" />
-    <ClInclude Include="Code\System\PlayerAction\PlayerAction.h" />
-    <ClInclude Include="Code\System\PlayerAction\Action\Action.h" />
     <ClInclude Include="Code\Component\Comp_ObjectData.h" />
-    <ClInclude Include="Code\System\PlayerAction\Action\Action_PickUpObjekt.h" />
     <ClInclude Include="Code\Component\Comp_PlayerData.h" />
     <ClInclude Include="Code\System\KeyInput\Mouse.h" />
     <ClInclude Include="Code\System\Render\Misc\Misc.h" />
@@ -92,8 +89,6 @@
     <ClCompile Include="Code\System\Render\RendererLight.cpp" />
     <ClCompile Include="Code\System\Movement\MovementObjectAttached.cpp" />
     <ClCompile Include="Code\Misc\MiscFunctions.cpp" />
-    <ClCompile Include="Code\System\PlayerAction\PlayerAction.cpp" />
-    <ClCompile Include="Code\System\PlayerAction\Action\Action_PickUpObjekt.cpp" />
     <ClCompile Include="Code\System\KeyInput\Mouse.cpp" />
     <ClCompile Include="Code\System\Render\Misc\Misc.cpp" />
     <ClCompile Include="Code\System\Render\RendererUI.cpp" />

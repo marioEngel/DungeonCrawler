@@ -68,10 +68,7 @@
     <ClInclude Include="Code\System\Movement\MovementObjectAttached.h" />
     <ClInclude Include="Code\System\Movement\TileMap\MovementTile.h" />
     <ClInclude Include="Code\System\Movement\TileMap\MovementTileDecision.h" />
-    <ClInclude Include="Code\System\PlayerAction\Action\Action.h" />
-    <ClInclude Include="Code\System\PlayerAction\Action\Action_PickUpObjekt.h" />
     <ClInclude Include="Code\System\KeyInput\Mouse.h" />
-    <ClInclude Include="Code\System\PlayerAction\PlayerAction.h" />
     <ClInclude Include="Code\System\Render\Camera\Camera.h" />
     <ClInclude Include="Code\System\Render\Render.h" />
     <ClInclude Include="Code\System\Render\Misc\Misc.h" />
@@ -105,9 +102,7 @@
     <ClCompile Include="Code\System\Movement\MovementObjectAttached.cpp" />
     <ClCompile Include="Code\System\Movement\TileMap\MovementTile.cpp" />
     <ClCompile Include="Code\System\Movement\TileMap\MovementTileDecision.cpp" />
-    <ClCompile Include="Code\System\PlayerAction\Action\Action_PickUpObjekt.cpp" />
     <ClCompile Include="Code\System\KeyInput\Mouse.cpp" />
-    <ClCompile Include="Code\System\PlayerAction\PlayerAction.cpp" />
     <ClCompile Include="Code\System\Render\Camera\Camera.cpp" />
     <ClCompile Include="Code\System\Render\Misc\Misc.cpp" />
     <ClCompile Include="Code\System\Render\RendererSprite.cpp" />
