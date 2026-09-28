@@ -58,3 +58,4 @@ void matrixCreate_Checkboard(Matrix<int>& matrix);
 //
 //void matrixFillEdge(Matrix& matrix, int element);
 void matrixFillWithElement(Matrix<int>& matrix, int element);
+void matrixFillRectWithElement(Matrix<int>& matrix, SDL_Rect& rect, int element);

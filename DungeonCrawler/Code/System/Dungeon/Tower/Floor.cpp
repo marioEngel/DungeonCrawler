@@ -16,7 +16,7 @@ void Floor::init()
 	std::random_device rd;
 	uint64_t mSeed = rd();
 	// mSeed = 4190745237
-	mRNG = RNG(rd());
+	mRNG = RNG(mSeed);
 }
 
 void Floor::init(const FloorGenerationData& inputData)
@@ -28,7 +28,9 @@ void Floor::init(const FloorGenerationData& inputData)
 
 	std::random_device rd;
 	uint64_t mSeed = rd();
-	mRNG = RNG(rd());
+	std::cout << mSeed << std::endl;
+	mSeed = 341021131;
+	mRNG = RNG(mSeed);
 
 }
 
@@ -95,8 +97,8 @@ void Floor::setStartEndPoint()
 	SDL_Rect startRoom = mRoomVector[mRNG.rangeEx(mRoomVector.size())];
 	SDL_Rect endRoom = chooseFarRoom(startRoom);
 
-	Vector2D<int> startPos = getRandomPointInRoom(addRoomBorder(startRoom));
-	Vector2D<int> endPos = getRandomPointInRoom(addRoomBorder(endRoom));
+	Vector2D<int> startPos = getRandomPointInRoom(shrinkRoomByOne(startRoom));
+	Vector2D<int> endPos = getRandomPointInRoom(shrinkRoomByOne(endRoom));
 
 	mObjectMap[startPos] = eObjectType::START_POSITION;
 	mObjectMap[endPos] = eObjectType::END_POSITION;
@@ -132,10 +134,27 @@ SDL_Rect Floor::chooseFarRoom(const SDL_Rect& startRoom)
 
 Vector2D<int> Floor::getRandomPointInRoom(const SDL_Rect& room)
 {
-	int randomCol = mRNG.range(room.x + 1, room.x + room.w - 1);
-	int randomRow = mRNG.range(room.y + 1, room.y + room.h - 1);
+	int randomCol = 0;
+	int randomRow = 0;
 
-	return Vector2D<int> {randomRow, randomCol};
+	if (room.w == 1)
+	{
+		randomCol = room.x;
+	}
+	else
+	{
+		randomCol = mRNG.range(room.x + 1, room.x + room.w - 1);	
+	}
+	if (room.h == 1)
+	{
+		randomRow = room.y;
+	}
+	else
+	{
+		randomRow = mRNG.range(room.y + 1, room.y + room.h - 1);
+	}
+
+	return Vector2D<int> {randomCol, randomRow};
 
 }
 
@@ -155,9 +174,17 @@ void Floor::generate(int squareSize)
 	mFloorSize.h = squareSize;
 	
 	rooms_add();
+	//matrixPrintColor(mTileMap);
+	//matrixPrintColor(mRegionMap);
 	maze_generate();
+	//matrixPrintColor(mTileMap);
+	//matrixPrintColor(mRegionMap);
 	regions_connect();
+	//matrixPrintColor(mTileMap);
+	//matrixPrintColor(mRegionMap);
 	deadEnds_remove();
+	//matrixPrintColor(mTileMap);
+	//matrixPrintColor(mRegionMap);
 }
 
 void Floor::rooms_add()
@@ -285,6 +312,9 @@ void Floor::maze_grow(Vector2D<int> start)
 
 void Floor::regions_connect() 
 {
+	//Matrix<int> test{ mFloorSize.w };
+	//matrixFillWithElement(test, 0);
+
 	std::vector<ConnectorInfo> connectorRegions{};
 	for (int row = mFloorSize.y + 1; row < mFloorSize.y + mFloorSize.w - 1; row++)
 	{
@@ -313,8 +343,11 @@ void Floor::regions_connect()
 			}
 
 			connectorRegions.push_back({ pos, surroundingRegions });
+			//test[pos] = 1;
 		}
 	}
+
+	//matrixPrintColor(test);
 
 	std::vector<int> merged;
 	std::set<int> openRegions;
@@ -354,11 +387,6 @@ void Floor::regions_connect()
 			std::remove_if(connectorRegions.begin(), connectorRegions.end(),
 				[&](const ConnectorInfo& c)
 				{
-					if ((chosenConnector.pos - c.pos).calc_amountSquared() < 4)
-					{
-						return true;
-					}
-
 					std::set<int> cMappedRegions{};
 					for (int region : c.regions)
 					{
@@ -368,6 +396,11 @@ void Floor::regions_connect()
 					if (cMappedRegions.size() > 1)
 					{
 						return false;
+					}
+
+					if ((chosenConnector.pos - c.pos).calc_amountSquared() < 4)
+					{
+						return true;
 					}
 
 					if (mRNG.oneIn(mFloorGenerationData.extraConnectorChance))
@@ -384,21 +417,22 @@ void Floor::regions_connect()
 
 void Floor::junction_add(Vector2D<int> pos)
 {
-	if (mRNG.oneIn(4))
-	{
-		if (mRNG.oneIn(3))
-		{
-			mTileMap[pos] = eTileType::DOOR;
-		}
-		else
-		{
-			mTileMap[pos] = eTileType::WALL;
-		}
-	}
-	else
-	{
-		mTileMap[pos] = eTileType::DOOR;
-	}
+	mTileMap[pos] = eTileType::DOOR;
+	//if (mRNG.oneIn(4))
+	//{
+	//	if (mRNG.oneIn(3))
+	//	{
+	//		mTileMap[pos] = eTileType::DOOR;
+	//	}
+	//	else
+	//	{
+	//		mTileMap[pos] = eTileType::WALL;
+	//	}
+	//}
+	//else
+	//{
+	//	mTileMap[pos] = eTileType::DOOR;
+	//}
 }
 
 void Floor::deadEnds_remove()

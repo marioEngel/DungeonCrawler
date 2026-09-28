@@ -21,6 +21,16 @@ SDL_Rect addRoomBorder_doubled(const SDL_Rect& rect)
 	};
 }
 
+SDL_Rect shrinkRoomByOne(const SDL_Rect& rect)
+{
+	return SDL_Rect{
+		rect.x + 1,
+		rect.y + 1,
+		rect.w - 2,
+		rect.h - 2
+	};
+}
+
 std::vector<Vector2D<int>> getPosListFromRect(const SDL_Rect& rect)
 {
 	std::vector<Vector2D<int>> rtnList{};

@@ -189,3 +189,20 @@ void matrixFillWithElement(Matrix<int>& matrix, int element)
 		}
 	}
 }
+
+void matrixFillRectWithElement(Matrix<int>& matrix, SDL_Rect& rect, int element)
+{
+	{
+		for (int row = 0; row < matrix.rows(); row++)
+		{
+			for (int col = 0; col < matrix.cols(); col++)
+			{
+				if (col >= rect.x && col < rect.x + rect.w &&
+					row >= rect.y && row < rect.y + rect.h)
+				{
+					matrix(row, col) = element;
+				}
+			}
+		}
+	}
+}

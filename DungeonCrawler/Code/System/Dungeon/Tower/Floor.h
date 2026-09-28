@@ -72,5 +72,6 @@ private:
 // ---------------- helper funcitons -------------------------------
 SDL_Rect addRoomBorder(const SDL_Rect& rect);
 SDL_Rect addRoomBorder_doubled(const SDL_Rect& rect);
+SDL_Rect shrinkRoomByOne(const SDL_Rect& rect);
 std::vector<Vector2D<int>> getPosListFromRect(const SDL_Rect& rect);
 float roomDistance(const SDL_Rect& room_a, const SDL_Rect& room_b);

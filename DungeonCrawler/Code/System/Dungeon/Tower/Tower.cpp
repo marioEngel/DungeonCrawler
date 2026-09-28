@@ -9,8 +9,19 @@ extern Coordinator gCoordinator;
 
 void SysTower::init()
 {
-	FloorGenerationData generationData{ 15, 2, 15, 10 };
+	FloorGenerationData generationData{ 15, 2, 15, 5 };
 	int floorSize = 51;
+
+	//for (size_t i = 0; i < 50; i++)
+	//{
+	//	std::cout << "test " << i << ": \n";
+	//	Floor testFloor{};
+	//	testFloor.init(generationData);
+	//	testFloor.generate(floorSize);
+	//	Matrix<int> testMatrix = testFloor.getTileMap();
+	//	matrixPrintColor(testMatrix);
+	//}
+
 
 	Floor tmpFloor;
 	tmpFloor.init(generationData);
