@@ -10,7 +10,6 @@
 #include "Math/Matrix.h"
 #include "System/Render/Camera/Camera.h"
 // ---------Components------------------ max 64
-#include "Component/Comp_Affiliation.h"
 #include "Component/Comp_FaceDirection.h"
 #include "Component/Comp_InputKeys.h"
 #include "Component/Is_Player.h"					// 5

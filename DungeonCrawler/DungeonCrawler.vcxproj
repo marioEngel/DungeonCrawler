@@ -32,7 +32,6 @@
     <ClInclude Include="Code\Component\Is_Light.h" />
     <ClInclude Include="Code\Component\Is_Object.h" />
     <ClInclude Include="Code\Component\Is_Player.h" />
-    <ClInclude Include="Code\Component\Comp_Affiliation.h" />
     <ClInclude Include="Code\Component\Comp_InputKeys.h" />
     <ClInclude Include="Code\Component\Comp_DirectionDecision.h" />
     <ClInclude Include="Code\Component\Comp_Movement.h" />

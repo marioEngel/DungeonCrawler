@@ -64,7 +64,6 @@ void Game::initECS(const char* text, int width, int height, int flag)
 	gCoordinator.Init();
 
 	// register all components, alphabetical order
-	gCoordinator.RegisterComponent<Affiliation>();
 	gCoordinator.RegisterComponent<AttachedTo>();
 	gCoordinator.RegisterComponent<DirectionDecision>();
 	gCoordinator.RegisterComponent<DisplayFPS>();

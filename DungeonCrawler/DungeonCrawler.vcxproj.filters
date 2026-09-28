@@ -28,7 +28,6 @@
     <ClInclude Include="Code\Component\Comp_InputKeys.h" />
     <ClInclude Include="Code\Component\Is_Player.h" />
     <ClInclude Include="Code\Component\Comp_Movement.h" />
-    <ClInclude Include="Code\Component\Comp_Affiliation.h" />
     <ClInclude Include="Code\Math\Vector2D.h" />
     <ClInclude Include="Code\System\Movement\MovementPlayerDecision.h" />
     <ClInclude Include="Code\Component\Comp_DirectionDecision.h" />

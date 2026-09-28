@@ -23,7 +23,6 @@ void Game::initEntities()
 		gCoordinator.AddComponent<InputKeys>(gPlayerEntity, InputKeys{});
 		//gCoordinator.AddComponent<Movement>(gPlayerEntity, Movement{ 156.0f });
 		gCoordinator.AddComponent<MovementTile>(gPlayerEntity, MovementTile{ 250.0f, 50, 25 });
-		gCoordinator.AddComponent<Affiliation>(gPlayerEntity, Affiliation{ eAffKind::Player });
 		gCoordinator.AddComponent<DirectionDecision>(gPlayerEntity, DirectionDecision{});
 		gCoordinator.AddComponent<FaceDirection>(gPlayerEntity, FaceDirection{});
 		//gCoordinator.AddComponent<Hitbox>(gPlayerEntity, Hitbox{
