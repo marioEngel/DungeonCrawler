@@ -16,7 +16,13 @@ void SysRendererUI::initRenderertex()
 {
 	if (renderertex_UI == nullptr)
 	{
-		renderertex_UI = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Game::screenWidth, Game::screenHeight);
+		renderertex_UI = SDL_CreateTexture(
+			Game::renderer,
+			SDL_PIXELFORMAT_RGBA8888,
+			SDL_TEXTUREACCESS_TARGET,
+			Game::screenWidth,
+			Game::screenHeight
+			);
 		SDL_SetTextureBlendMode(renderertex_UI, SDL_BLENDMODE_BLEND);
 	} 
 
@@ -49,7 +55,7 @@ void SysRendererUI::loadTexture()
 
 TTF_Font* SysRendererUI::loadFont()
 {
-	std::string fontPath = "Font/joystix/joystix_monospace.otf";
+	const std::string fontPath = "Font/joystix/joystix_monospace.otf";
 	//std::string fontPath = "Font/08-true-type-fonts/lazy.ttf";
 	TTF_Font*  rtnFont = TTF_OpenFont(fontPath.c_str(), 32);
 	if (rtnFont == nullptr)

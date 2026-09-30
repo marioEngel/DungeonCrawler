@@ -14,8 +14,8 @@ void printSDLRect(SDL_Rect rect, const char* text, Entity ent = 0);
 
 SDL_Rect rtnScreenRect();
 
-Vector2D<float> rtnCenter(Position& position, Texture& texture);
-Vector2D<float> rtnCenter(Position& position, TextureLight& texture);
+Vector2D<float> rtnCenter(const Position& position, const Texture& texture);
+Vector2D<float> rtnCenter(const Position& position, const TextureLight& texture);
 
 Vector2D<float> rtnCenterEntity(Entity entity);
 

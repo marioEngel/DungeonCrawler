@@ -1,5 +1,7 @@
 #pragma once
 #include "ECS.h"
+#include <cassert>
+#include <unordered_map>
 
 // needed for Componentmanager
 class IComponentArray

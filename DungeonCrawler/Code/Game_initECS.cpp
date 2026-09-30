@@ -1,4 +1,3 @@
-#include <map>
 #include "Game.h"
 #include <SDL3_ttf/SDL_ttf.h>
 
@@ -7,23 +6,7 @@ SDL_Event Game::event;
 int Game::screenWidth;
 int Game::screenHeight;
 
-Coordinator gCoordinator;
-KeyboardInput gKeyboardInput;
-
-// systems forward declaration
-std::shared_ptr<SysRendererSprite> sysRendererSprite;
-std::shared_ptr<SysRendererTileMap> sysRendererTileMap;
-std::shared_ptr<SysRendererLight> sysRendererLight;
-std::shared_ptr<SysRendererUI> sysRendererUI;
-std::shared_ptr<SysMovementPlayer> sysMovementPlayer;
-std::shared_ptr<SysMovementPlayerDecision> sysMovementPlayerDecision;
-std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
-std::shared_ptr<SysMovementObject> sysMovementObject;
-std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
-std::shared_ptr<SysDisplayFPS> sysDisplayFPS;
-std::shared_ptr<SysMovementTile> sysMovementTile;
-std::shared_ptr<SysMovementTileDecision> sysMovementTileDecision;
-std::shared_ptr<SysTower> sysTower;
+extern Coordinator gCoordinator;
 
 Game::Game()
 {
@@ -32,6 +15,24 @@ Game::Game()
 Game::~Game()
 {
 }
+
+namespace sys {
+	// systems forward declaration
+	std::shared_ptr<SysRendererSprite> RendererSprite;
+	std::shared_ptr<SysRendererTileMap> RendererTileMap;
+	std::shared_ptr<SysRendererLight> RendererLight;
+	std::shared_ptr<SysRendererUI> RendererUI;
+	std::shared_ptr<SysMovementPlayer> MovementPlayer;
+	std::shared_ptr<SysMovementPlayerDecision> MovementPlayerDecision;
+	std::shared_ptr<SysDirectionPlayer> DirectionPlayer;
+	std::shared_ptr<SysMovementObject> MovementObject;
+	std::shared_ptr<SysMovementObjectAttached> MovementObjectAttached;
+	std::shared_ptr<SysDisplayFPS> DisplayFPS;
+	std::shared_ptr<SysMovementTile> MovementTile;
+	std::shared_ptr<SysMovementTileDecision> MovementTileDecision;
+	std::shared_ptr<SysTower> Tower;
+}
+
 
 void Game::initECS(const char* text, int width, int height, int flag)
 {
@@ -84,21 +85,23 @@ void Game::initECS(const char* text, int width, int height, int flag)
 	gCoordinator.RegisterComponent<TileMap>();
 	gCoordinator.RegisterComponent<MovementTile>();
 
+
+
 	// register all systems, forward declaration, signature
-	sysRendererSprite = gCoordinator.RegisterSystem<SysRendererSprite>();
+	sys::RendererSprite = gCoordinator.RegisterSystem<SysRendererSprite>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Texture>());
 		signature.set(gCoordinator.GetComponentType<Position>());
 		gCoordinator.SetSystemSignature<SysRendererSprite>(signature);
 	}
-	sysRendererTileMap = gCoordinator.RegisterSystem<SysRendererTileMap>();
+	sys::RendererTileMap = gCoordinator.RegisterSystem<SysRendererTileMap>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<TileMap>());
 		gCoordinator.SetSystemSignature<SysRendererTileMap>(signature);
 	}
-	sysRendererLight = gCoordinator.RegisterSystem<SysRendererLight>();
+	sys::RendererLight = gCoordinator.RegisterSystem<SysRendererLight>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<IsLight>());
@@ -106,7 +109,7 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<TextureLight>());
 		gCoordinator.SetSystemSignature<SysRendererLight>(signature);
 	}
-	sysRendererUI = gCoordinator.RegisterSystem<SysRendererUI>();
+	sys::RendererUI = gCoordinator.RegisterSystem<SysRendererUI>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<IsUI>());
@@ -114,7 +117,7 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<Text>());
 		gCoordinator.SetSystemSignature<SysRendererUI>(signature);
 	}
-	sysMovementPlayer = gCoordinator.RegisterSystem<SysMovementPlayer>();
+	sys::MovementPlayer = gCoordinator.RegisterSystem<SysMovementPlayer>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Position>());
@@ -123,7 +126,7 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<IsPlayer>());
 		gCoordinator.SetSystemSignature<SysMovementPlayer>(signature);
 	}
-	sysMovementPlayerDecision = gCoordinator.RegisterSystem<SysMovementPlayerDecision>();
+	sys::MovementPlayerDecision = gCoordinator.RegisterSystem<SysMovementPlayerDecision>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<InputKeys>());
@@ -132,7 +135,7 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<Movement>());
 		gCoordinator.SetSystemSignature<SysMovementPlayerDecision>(signature);
 	}
-	sysDirectionPlayer = gCoordinator.RegisterSystem<SysDirectionPlayer>();
+	sys::DirectionPlayer = gCoordinator.RegisterSystem<SysDirectionPlayer>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<FaceDirection>());
@@ -140,14 +143,14 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<IsPlayer>());
 		gCoordinator.SetSystemSignature<SysDirectionPlayer>(signature);
 	}
-	sysMovementObjectAttached = gCoordinator.RegisterSystem<SysMovementObjectAttached>();
+	sys::MovementObjectAttached = gCoordinator.RegisterSystem<SysMovementObjectAttached>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<AttachedTo>());
 		signature.set(gCoordinator.GetComponentType<Position>());
 		gCoordinator.SetSystemSignature<SysMovementObjectAttached>(signature);
 	}
-	sysMovementObject = gCoordinator.RegisterSystem<SysMovementObject>();
+	sys::MovementObject = gCoordinator.RegisterSystem<SysMovementObject>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Position>());
@@ -156,21 +159,21 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<IsObject>());
 		gCoordinator.SetSystemSignature<SysMovementObject>(signature);
 	}
-	sysDisplayFPS = gCoordinator.RegisterSystem<SysDisplayFPS>();
+	sys::DisplayFPS = gCoordinator.RegisterSystem<SysDisplayFPS>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<DisplayFPS>());
 		signature.set(gCoordinator.GetComponentType<Text>());
 		gCoordinator.SetSystemSignature<SysDisplayFPS>(signature);
 	}
-	sysMovementTile = gCoordinator.RegisterSystem<SysMovementTile>();
+	sys::MovementTile = gCoordinator.RegisterSystem<SysMovementTile>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<Position>());
 		signature.set(gCoordinator.GetComponentType<MovementTile>());
 		gCoordinator.SetSystemSignature<SysMovementTile>(signature);
 	}
-	sysMovementTileDecision = gCoordinator.RegisterSystem<SysMovementTileDecision>();
+	sys::MovementTileDecision = gCoordinator.RegisterSystem<SysMovementTileDecision>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<InputKeys>());
@@ -180,7 +183,7 @@ void Game::initECS(const char* text, int width, int height, int flag)
 		signature.set(gCoordinator.GetComponentType<Position>());
 		gCoordinator.SetSystemSignature<SysMovementTileDecision>(signature);
 	}
-	sysTower = gCoordinator.RegisterSystem<SysTower>();
+	sys::Tower = gCoordinator.RegisterSystem<SysTower>();
 	{
 		Signature signature;
 		signature.set(gCoordinator.GetComponentType<IsPlayer>());

@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../Math/Vector2D.h"
-
+#include <array>
 
 struct Compass
 {

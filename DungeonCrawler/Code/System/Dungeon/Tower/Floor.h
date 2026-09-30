@@ -5,7 +5,6 @@
 #include "../../../Misc/RNG.h"
 #include <set>
 #include "Compass.h"
-#include "ObjectType.h"
 
 //  source https://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
@@ -51,12 +50,12 @@ private:
 	void maze_generate();
 	void maze_grow(Vector2D<int> start);
 	void regions_connect();
-	void junction_add(Vector2D<int> pos);
+	void junction_add(Vector2D<int>& pos);
 	void deadEnds_remove();
 
 	FloorGenerationData mFloorGenerationData;
 	int mCurrentRegion = -1;
-	SDL_Rect mFloorSize;
+	SDL_Rect mFloorSize{0,0,0,0};
 	Matrix<int> mTileMap{ 1 };
 	Matrix<int> mRegionMap{ 1 };
 	Matrix<int> mObjectMap{ 1 };

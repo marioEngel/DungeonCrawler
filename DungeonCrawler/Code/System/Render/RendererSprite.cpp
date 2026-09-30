@@ -15,7 +15,13 @@ void SysRendererSprite::initRenderertex()
 {
 	if (renderertex_sprite == nullptr)
 	{
-		renderertex_sprite = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Game::screenWidth, Game::screenHeight);
+		renderertex_sprite = SDL_CreateTexture(
+			Game::renderer,
+			SDL_PIXELFORMAT_RGBA8888,
+			SDL_TEXTUREACCESS_TARGET,
+			Game::screenWidth,
+			Game::screenHeight
+			);
 		SDL_SetTextureBlendMode(renderertex_sprite, SDL_BLENDMODE_BLEND);
 	}
 	
@@ -63,11 +69,18 @@ void SysRendererSprite::render()
 			{
 				destRec.x -= gCamera.mCamera.x;
 				destRec.y -= gCamera.mCamera.y;
-				SDL_RenderTextureRotated(Game::renderer, texture.SDL, &srcRec, &destRec, texture.angle, NULL, SDL_FLIP_NONE);
+				SDL_RenderTextureRotated(
+					Game::renderer,
+					texture.SDL,
+					&srcRec,
+					&destRec,
+					texture.angle,
+					nullptr,
+					SDL_FLIP_NONE);
 			}
 		}
 	}
-	SDL_SetRenderTarget(Game::renderer, NULL);
+	SDL_SetRenderTarget(Game::renderer, nullptr);
 }
 
 SDL_Texture* SysRendererSprite::rtnRenderertex()

@@ -12,8 +12,9 @@ public:
 	void CheckCollision(Entity entity);
 	void center(Entity entity);
 	void transformToBaseCoord(Vector2D<float>& cameraCoord);
+	void printPos();
 
 	SDL_FRect mCamera;
 	float mEdgeWidth;
-	float mEdgeHight;
+	float mEdgeHeight;
 };

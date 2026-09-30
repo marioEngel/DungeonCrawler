@@ -1,6 +1,6 @@
 #include "CollisionFunc.h"
 
-bool check_RectVsRect(SDL_FRect& rect1, SDL_FRect& rect2)
+bool check_RectVsRect(const SDL_FRect& rect1, const SDL_FRect& rect2)
 {
 	bool rtnBool = false;
 
@@ -15,7 +15,7 @@ bool check_RectVsRect(SDL_FRect& rect1, SDL_FRect& rect2)
 	return rtnBool;
 }
 
-bool check_RectVsRect(SDL_Rect& rect1, SDL_Rect& rect2)
+bool check_RectVsRect(const SDL_Rect& rect1, const SDL_Rect& rect2)
 {
 	bool rtnBool = false;
 
@@ -30,7 +30,7 @@ bool check_RectVsRect(SDL_Rect& rect1, SDL_Rect& rect2)
 	return rtnBool;
 }
 
-bool check_RectVsPoint(SDL_FRect& rect, Vector2D<float>& vec)
+bool check_RectVsPoint(const SDL_FRect& rect, const Vector2D<float>& vec)
 {
 	bool rtnBool = false;
 
@@ -44,13 +44,3 @@ bool check_RectVsPoint(SDL_FRect& rect, Vector2D<float>& vec)
 
 	return rtnBool;
 }
-
-//// more advanced collision test for geometries
-//bool check_Geometry_AABB(Geometry& geom1, Vector2D<float>& pos1, Geometry& geom2, Vector2D<float>& pos2)
-//{
-//	SDL_FRect geom1_AABB = geom1.return_AABB(pos1);
-//	SDL_FRect geom2_AABB = geom2.return_AABB(pos2);
-//
-//	return check_RectVsRect(geom1_AABB, geom2_AABB);
-//}
-//

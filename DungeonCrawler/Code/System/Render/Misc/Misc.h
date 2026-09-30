@@ -1,5 +1,5 @@
+#pragma once
 #include <SDL3/SDL.h>
-#include <random>
 
 
 SDL_Texture* generateGaussianLight(SDL_Renderer* renderer, int width, int height, float sigma, float empty1, float empty2);

@@ -1,6 +1,5 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include <vector>
 #include <functional>
 
 struct ColorValues
@@ -20,12 +19,12 @@ struct TextureLight
 	int height = 720;
 	float angle = 0.0f;
 	
-	ColorValues colorRGB{ 255, 255, 255 };
+	ColorValues colorRGB{ .r = 255, .g = 255, .b = 255 };
 
 	bool hasNoise = false;
 	float flickerSpeed = 1.0f;
 	float flickerAmount = 0.0f;
 
-	SDL_Texture* SDL = NULL;
+	SDL_Texture* SDL = nullptr;
 };
 

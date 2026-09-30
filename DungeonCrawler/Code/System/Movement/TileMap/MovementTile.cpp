@@ -17,8 +17,8 @@ void SysMovementTile::update(float delta)
 
 		if (movementTile.onCooldown)
 		{
-			Uint32 now = SDL_GetTicks();
-			float t = float(now - movementTile.timeStart) / float(movementTile.cooldown);
+			const Uint32 now = SDL_GetTicks();
+			float t = static_cast<float>(now - movementTile.timeStart) / static_cast<float>(movementTile.cooldown);
 			t = clamp(t, 0.0f, 1.0f);
 
 			pos.vec = movementTile.positionStart + (movementTile.positionEnd - movementTile.positionStart) * t;

@@ -11,5 +11,5 @@ public:
 
 	SDL_Texture* rtnRenderertex();
 private:
-	SDL_Texture* renderertex_sprite;
+	SDL_Texture* renderertex_sprite = nullptr;
 };

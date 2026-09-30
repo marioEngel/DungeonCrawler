@@ -30,7 +30,7 @@
 #include "Component/Comp_MovementTile.h"
 #include "Component/Comp_PositionTile.h"
 // --------Systems---------------------- 
-#include "System/Movement/DirectionPlayer.h"
+#include "System/Movement/legacy/DirectionPlayer.h"
 #include "System/Movement/MovementPlayer.h"
 #include "System/Movement/MovementPlayerDecision.h"
 #include "System/Movement/MovementObject.h"
@@ -43,6 +43,23 @@
 #include "System/Movement/TileMap/MovementTile.h"
 #include "System/Movement/TileMap/MovementTileDecision.h"
 #include "System/Dungeon/Tower/Tower.h"
+
+namespace sys {
+	// systems forward declaration
+	extern std::shared_ptr<SysRendererSprite> RendererSprite;
+	extern std::shared_ptr<SysRendererTileMap> RendererTileMap;
+	extern std::shared_ptr<SysRendererLight> RendererLight;
+	extern std::shared_ptr<SysRendererUI> RendererUI;
+	extern std::shared_ptr<SysMovementPlayer> MovementPlayer;
+	extern std::shared_ptr<SysMovementPlayerDecision> MovementPlayerDecision;
+	extern std::shared_ptr<SysDirectionPlayer> DirectionPlayer;
+	extern std::shared_ptr<SysMovementObject> MovementObject;
+	extern std::shared_ptr<SysMovementObjectAttached> MovementObjectAttached;
+	extern std::shared_ptr<SysDisplayFPS> DisplayFPS;
+	extern std::shared_ptr<SysMovementTile> MovementTile;
+	extern std::shared_ptr<SysMovementTileDecision> MovementTileDecision;
+	extern std::shared_ptr<SysTower> Tower;
+}
 
 class Game
 {

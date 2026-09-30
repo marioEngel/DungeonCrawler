@@ -5,13 +5,13 @@
 KeyboardInput::KeyboardInput()
 {
 	memset(prevKeys, 0, SDL_SCANCODE_COUNT);
-	currKeys = SDL_GetKeyboardState(NULL);
+	currKeys = SDL_GetKeyboardState(nullptr);
 }
 
 void KeyboardInput::registerInput()
 {
 	SDL_PollEvent(&Game::event);
-	currKeys = SDL_GetKeyboardState(NULL);
+	currKeys = SDL_GetKeyboardState(nullptr);
 }
 
 void KeyboardInput::getPrevKeys()
@@ -19,7 +19,7 @@ void KeyboardInput::getPrevKeys()
 	memcpy(prevKeys, currKeys, SDL_SCANCODE_COUNT);
 }
 
-eButtonState KeyboardInput::getButtonState(int number)
+eButtonState KeyboardInput::getButtonState(const int number)
 {
 	if (prevKeys[number] == 0)
 	{

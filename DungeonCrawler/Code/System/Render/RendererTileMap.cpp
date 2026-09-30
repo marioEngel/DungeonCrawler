@@ -13,7 +13,13 @@ void SysRendererTileMap::initRenderertex()
 { 
 	if (renderertex_map == nullptr)
 	{
-		renderertex_map	= SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Game::screenWidth, Game::screenHeight);
+		renderertex_map	= SDL_CreateTexture(
+			Game::renderer,
+			SDL_PIXELFORMAT_RGBA8888,
+			SDL_TEXTUREACCESS_TARGET,
+			Game::screenWidth,
+			Game::screenHeight
+			);
 		SDL_SetTextureBlendMode(renderertex_map, SDL_BLENDMODE_BLEND);
 	}
 	SDL_SetRenderTarget(Game::renderer, renderertex_map);
@@ -46,15 +52,17 @@ void SysRendererTileMap::createTileMapRenderertex(bool forceUpdate)
 		auto& tileMap = gCoordinator.GetComponent<TileMap>(entity);
 
 		if (tileMap.tileMapTexture == nullptr || forceUpdate)
-		{		
-			int tileMapSizeY = tileMap.matrix.rows();
-			int tileMapSizeX = tileMap.matrix.cols();
-			int texWidth = static_cast<int>(tileMapSizeX * tileMap.cubeSize);
-			int texHeight = static_cast<int>(tileMapSizeY * tileMap.cubeSize);
+		{
+			const int tileMapSizeY = tileMap.matrix.rows();
+			const int tileMapSizeX = tileMap.matrix.cols();
+			const int texWidth = static_cast<int>(tileMapSizeX * tileMap.cubeSize);
+			const int texHeight = static_cast<int>(tileMapSizeY * tileMap.cubeSize);
 
 			tileMap.dimension = Vector2D<int>{ texWidth, texHeight };
 
-			tileMap.tileMapTexture = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, texWidth, texHeight);
+			tileMap.tileMapTexture = SDL_CreateTexture(
+				Game::renderer, SDL_PIXELFORMAT_RGBA8888,
+				SDL_TEXTUREACCESS_TARGET, texWidth, texHeight);
 			SDL_SetRenderTarget(Game::renderer, tileMap.tileMapTexture);
 			SDL_RenderClear(Game::renderer);
 			SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 0);
@@ -72,7 +80,7 @@ void SysRendererTileMap::createTileMapRenderertex(bool forceUpdate)
 			}
 		}
 	}
-	SDL_SetRenderTarget(Game::renderer, NULL);
+	SDL_SetRenderTarget(Game::renderer, nullptr);
 }
 
 void SysRendererTileMap::render()
@@ -86,7 +94,7 @@ void SysRendererTileMap::render()
 		SDL_RenderTexture(Game::renderer, tileMap.tileMapTexture, &src, &dst);
 
 	}
-	SDL_SetRenderTarget(Game::renderer, NULL); 
+	SDL_SetRenderTarget(Game::renderer, nullptr);
 }
 
 SDL_Texture* SysRendererTileMap::rtnRenderertex()

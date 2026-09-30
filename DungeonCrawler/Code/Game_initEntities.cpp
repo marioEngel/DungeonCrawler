@@ -1,12 +1,9 @@
 #include "Game.h"
 
 extern Coordinator gCoordinator;
-Entity gPlayerEntity;
+extern Entity gPlayerEntity;
 extern Camera gCamera;
-
-// systems forward declaration
-extern std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
-extern std::shared_ptr<SysTower> sysTower;
+extern KeyboardInput gKeyboardInput;
 
 void Game::initEntities()
 {
@@ -36,8 +33,8 @@ void Game::initEntities()
 
 	//create_Mouse(Vector2D<float>(400.0f, 150.0f));
 
-	Entity frameRate_UI = gCoordinator.CreateEntity();
 	{
+		Entity frameRate_UI = gCoordinator.CreateEntity();
 		gCoordinator.AddComponent<IsUI>(frameRate_UI, IsUI{});
 		gCoordinator.AddComponent<Position>(frameRate_UI, Position{ Vector2D<float>(710.0f, 5.0f) });
 		gCoordinator.AddComponent<Text>(frameRate_UI, Text{ "60", 25, 25, ColorValues{0, 255, 0} });
@@ -47,8 +44,8 @@ void Game::initEntities()
 
 
 
-	sysTower->init();
-	sysTower->syncPlayer();
-	sysDirectionPlayer->makeMarker();
+	sys::Tower->init();
+	sys::Tower->syncPlayer();
+	//sys::DirectionPlayer->makeMarker();
 	gCamera.center(gPlayerEntity);
 }

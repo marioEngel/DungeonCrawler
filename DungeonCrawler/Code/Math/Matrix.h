@@ -17,7 +17,7 @@ public:
         mData(rows * cols) 
     { }
 
-    Matrix(int square) :
+    explicit Matrix(int square) :
         mRows(square),
         mCols(square),
         mData(square * square)
@@ -32,13 +32,13 @@ public:
         return mData[row * mCols + col];
     }
 
-    // Für Vector2D-Zugriff
+    // Fï¿½r Vector2D-Zugriff
     T& operator[](const Vector2D<int>& pos) {
         return mData[pos[1] * mCols + pos[0]];
     }
 
-    int rows() const { return mRows; }
-    int cols() const { return mCols; }
+    [[nodiscard]] int rows() const { return mRows; }
+    [[nodiscard]] int cols() const { return mCols; }
 
 private:
     int mRows, mCols;
@@ -51,7 +51,7 @@ private:
 void matrixPrint(const Matrix<int>& matrix);
 void matrixPrintColor(const Matrix<int>& matrix);
 
-void matrixCreate_Checkboard(Matrix<int>& matrix);
+void matrixCreate_Checkerboard(Matrix<int>& matrix);
 
 //void matrixCreate_Zero(Matrix& matrix, SDL_Rect& size);
 //void matrixCreate_Element(Matrix& matrix, SDL_Rect& size, int element);

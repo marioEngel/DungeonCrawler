@@ -5,10 +5,10 @@
 
 extern Coordinator gCoordinator;
 
-void printSDLRect(SDL_Rect rect, const char* text, Entity ent)
+void printSDLRect(SDL_Rect rect, const char* text, const Entity ent)
 {
 
-	std::cout << "Entity: " << int(ent) << '\n';
+	std::cout << "Entity: " << static_cast<int>(ent) << '\n';
 	
 	std::cout << "\033[1;32m" << "SDL Rect: " << "\033[0m" << text << '\n'
 		<< "\033[1;32m" << "SDL Rect x: " << "\033[0m" << rect.x << '\n'
@@ -19,27 +19,27 @@ void printSDLRect(SDL_Rect rect, const char* text, Entity ent)
 
 SDL_Rect rtnScreenRect()
 {
-	return SDL_Rect{ 0, 0, Game::screenWidth, Game::screenHeight };
+	return SDL_Rect{ .x = 0, .y = 0, .w = Game::screenWidth, .h = Game::screenHeight };
 }
 
-Vector2D<float> rtnCenter(Position& position, Texture& texture)
+Vector2D<float> rtnCenter(const Position& position, const Texture& texture)
 {
 	return position.vec + Vector2D<float>{float(texture.width) / 2.0f, float(texture.height) / 2.0f};
 }
 
-Vector2D<float> rtnCenter(Position& position, TextureLight& texture)
+Vector2D<float> rtnCenter(const Position& position, const TextureLight& texture)
 {
 	return position.vec + Vector2D<float>{float(texture.width) / 2.0f, float(texture.height) / 2.0f};
 }
 
-Vector2D<float> rtnCenterEntity(Entity entity)
+Vector2D<float> rtnCenterEntity(const Entity entity)
 {
-	auto position = gCoordinator.GetComponent<Position>(entity);
-	auto textur = gCoordinator.GetComponent<Texture>(entity);
+	const auto& position = gCoordinator.GetComponent<Position>(entity);
+	const auto& texture = gCoordinator.GetComponent<Texture>(entity);
 
 	return position.vec + Vector2D<float>{
-		float(textur.width) / 2.0f * float(textur.scale), 
-		float(textur.height) / 2.0f * float(textur.scale)
+		static_cast<float>(texture.width) / 2.0f * static_cast<float>(texture.scale),
+		static_cast<float>(texture.height) / 2.0f * static_cast<float>(texture.scale)
 	};
 }
 
@@ -84,7 +84,7 @@ void printColor()
 		<< "\033[1;47m" << "Color Test text what color ist that" << "\033[0m" << '\n';			// white
 }
 
-std::string getColoredText(const std::string& text, eConsoleTextColor  color)
+std::string getColoredText(const std::string& text, const eConsoleTextColor  color)
 {
 	switch (color)
 	{

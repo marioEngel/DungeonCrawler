@@ -14,7 +14,7 @@ Camera::Camera()
 	mCamera.h = 600.0f;
 
 	mEdgeWidth = 150.0f;
-	mEdgeHight = 150.0f;
+	mEdgeHeight = 150.0f;
 }
 
 Camera::~Camera()
@@ -36,13 +36,13 @@ void Camera::CheckCollision(Entity entity)
 			mCamera.x += (int(position.vec.x) - (mCamera.x + mCamera.w - mEdgeWidth));
 		}
 
-		if (int(position.vec.y) < (mCamera.y + mEdgeHight))
+		if (int(position.vec.y) < (mCamera.y + mEdgeHeight))
 		{
-			mCamera.y -= ((mCamera.y + mEdgeHight) - int(position.vec.y));
+			mCamera.y -= ((mCamera.y + mEdgeHeight) - int(position.vec.y));
 		}
-		else if (int(position.vec.y) > (mCamera.y + mCamera.h - mEdgeHight))
+		else if (int(position.vec.y) > (mCamera.y + mCamera.h - mEdgeHeight))
 		{
-			mCamera.y += (int(position.vec.y) - (mCamera.y + mCamera.h - mEdgeHight));
+			mCamera.y += (int(position.vec.y) - (mCamera.y + mCamera.h - mEdgeHeight));
 		}
 	}
 }
@@ -52,8 +52,8 @@ void Camera::center(Entity entity)
 	auto& pos = gCoordinator.GetComponent<Position>(entity);
 	auto& texture = gCoordinator.GetComponent<Texture>(entity);
 
-	float centerX = pos.vec.x + texture.width / 2;
-	float centerY = pos.vec.y + texture.height / 2;
+	const float centerX = pos.vec.x + texture.width / 2;
+	const float centerY = pos.vec.y + texture.height / 2;
 
 	mCamera.x = centerX - mCamera.w / 2;
 	mCamera.y = centerY - mCamera.h / 2;
@@ -61,6 +61,11 @@ void Camera::center(Entity entity)
 
 void Camera::transformToBaseCoord(Vector2D<float>& cameraCoord)
 {
-	Vector2D<float> camerePos{ mCamera.x, mCamera.y };
-	cameraCoord = cameraCoord + camerePos;
+	const Vector2D<float> cameraPos{ mCamera.x, mCamera.y };
+	cameraCoord = cameraCoord + cameraPos;
+}
+
+void Camera::printPos()
+{
+	std::cout << "(" << mCamera.x << ", " << mCamera.y << ", " << mCamera.w << ", " << mCamera.h << ")\n ";
 }

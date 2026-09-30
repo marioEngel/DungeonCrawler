@@ -8,7 +8,7 @@ public:
 
 	int range(int min, int max);
 	int range(int max);
-	int rangeEx(int maxExcludeded);
+	int rangeEx(int maxExcluded);
 	float range(float max, float min = 0);
 
 	bool oneIn(int n);

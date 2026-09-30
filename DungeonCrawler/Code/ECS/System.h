@@ -1,5 +1,6 @@
 #pragma once
 #include "ECS.h"
+#include <set>
 
 // set is a list with only unique members
 // searchin is much faster, but inserting is slower

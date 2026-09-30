@@ -5,10 +5,10 @@
 
 void matrixPrint(const Matrix<int>& matrix)
 {
-	for (size_t row = 0; row < matrix.rows(); row++)
+	for (int row = 0; row < matrix.rows(); row++)
 	{
 		std::cout << "| ";
-		for (size_t col = 0; col < matrix.cols(); col++)
+		for (int col = 0; col < matrix.cols(); col++)
 		{
 			if (col == (matrix.cols() - 1))
 			{
@@ -26,20 +26,20 @@ void matrixPrint(const Matrix<int>& matrix)
 
 void matrixPrintColor(const Matrix<int>& matrix)
 {
-	for (size_t row = 0; row < matrix.rows(); row++)
+	for (int row = 0; row < matrix.rows(); row++)
 	{
 		std::cout << "| ";
-		for (size_t col = 0; col < matrix.cols(); col++)
+		for (int col = 0; col < matrix.cols(); col++)
 		{
 			if (col == (matrix.cols() - 1))
 			{
-				int matVal = matrix(row, col);
+				const int matVal = matrix(row, col);
 				std::string appendString = " |\n";
 
 				switch (matVal)
 				{
 				case 0:
-					std::cout << getColoredText("00", eConsoleTextColor::GREY) << appendString;
+					std::cout << getColoredText("00", eConsoleTextColor::WHITE) << appendString;
 					break;
 				case 1:
 					std::cout << getColoredText("11", eConsoleTextColor::RED) << appendString;
@@ -75,13 +75,13 @@ void matrixPrintColor(const Matrix<int>& matrix)
 			}
 			else
 			{
-				int matVal = matrix(row, col);
+				const int matVal = matrix(row, col);
 				std::string appendString = ", ";
 
 				switch (matVal)
 				{
 				case 0:
-					std::cout << getColoredText("00", eConsoleTextColor::GREY) << appendString;
+					std::cout << getColoredText("00", eConsoleTextColor::WHITE) << appendString;
 					break;
 				case 1:
 					std::cout << getColoredText("11", eConsoleTextColor::RED) << appendString;
@@ -122,11 +122,11 @@ void matrixPrintColor(const Matrix<int>& matrix)
 
 // function to initialize a matrix with the wanted size/shape
 // chess board structur
-void matrixCreate_Checkboard(Matrix<int>& matrix)
+void matrixCreate_Checkerboard(Matrix<int>& matrix)
 {
-	for (size_t row = 0; row < matrix.rows(); row++)
+	for (int row = 0; row < matrix.rows(); row++)
 	{
-		for (size_t col = 0; col < matrix.cols(); col++)
+		for (int col = 0; col < matrix.cols(); col++)
 		{
 			matrix(row, col) = (row + col) % 2;
 		}
@@ -192,16 +192,14 @@ void matrixFillWithElement(Matrix<int>& matrix, int element)
 
 void matrixFillRectWithElement(Matrix<int>& matrix, SDL_Rect& rect, int element)
 {
+	for (int row = 0; row < matrix.rows(); row++)
 	{
-		for (int row = 0; row < matrix.rows(); row++)
+		for (int col = 0; col < matrix.cols(); col++)
 		{
-			for (int col = 0; col < matrix.cols(); col++)
+			if (col >= rect.x && col < rect.x + rect.w &&
+				row >= rect.y && row < rect.y + rect.h)
 			{
-				if (col >= rect.x && col < rect.x + rect.w &&
-					row >= rect.y && row < rect.y + rect.h)
-				{
-					matrix(row, col) = element;
-				}
+				matrix(row, col) = element;
 			}
 		}
 	}

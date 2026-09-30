@@ -13,6 +13,6 @@ public:
 
 	SDL_Texture* rtnRenderertex();
 private:
-	SDL_Texture* renderertex_map;
+	SDL_Texture* renderertex_map = nullptr;
 };
 

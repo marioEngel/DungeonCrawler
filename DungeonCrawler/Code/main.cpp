@@ -28,8 +28,8 @@ int main(int argc, char* arvg[])
 		if (FrameDelay > frameTime)
 		{
 			SDL_DelayNS((Uint32)(FrameDelay - frameTime));
-		}		
-		Uint64 now = SDL_GetTicksNS();
+		}
+		const Uint64 now = SDL_GetTicksNS();
 		gDeltaT = (now - lastTime) / 1'000'000'000.0f;
 		if(gDeltaT > 0.25f) gDeltaT = 0.25f;
 		lastTime = now;

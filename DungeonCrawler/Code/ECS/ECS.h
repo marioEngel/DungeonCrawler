@@ -1,11 +1,6 @@
 #pragma once
-#include <iostream>
 #include <bitset>
-#include <queue>
-#include <array>
-#include <unordered_map>
-#include <set>
-#include <assert.h>
+#include <cstdint>
 
 // Type alias
 using Entity = std::uint8_t;

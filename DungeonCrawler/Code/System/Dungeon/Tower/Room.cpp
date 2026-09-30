@@ -1,8 +1,8 @@
 #include "Room.h"
 
-Room::Room(int x, int y, int width, int height)
+Room::Room(const int inX, const int inY, const int inWidth, const int inHeight)
 {
-	geom = SDL_Rect{ x, y, width, height };
+	geom = SDL_Rect{ .x = inX, .y = inY, .w = inWidth, .h = inHeight };
 }
 
 Room::~Room()

@@ -3,14 +3,20 @@
 #include "Floor.h"
 #include "../../../Component/Comp_TileMap.h"
 #include "../../../Component/Comp_Position.h"
-
+#include "ObjectType.h"
 
 extern Coordinator gCoordinator;
 
 void SysTower::init()
 {
-	FloorGenerationData generationData{ 15, 2, 15, 5 };
-	int floorSize = 51;
+	const FloorGenerationData generationData{
+		.numRoomTries = 15,
+		.roomExtraSize = 2,
+		.windingPercent = 15,
+		.extraConnectorChance = 5
+	};
+
+	const int floorSize = 51;
 
 	//for (size_t i = 0; i < 50; i++)
 	//{
@@ -34,8 +40,8 @@ void SysTower::init()
 		"Picture/TileGround.png",
 		"Picture/FullPink.png"
 	};
-	std::vector<SDL_Texture*> emtpyTexture{};
-	Matrix<int> tmpMatrix = tmpFloor.getTileMap();
+	const std::vector<SDL_Texture*> emtpyTexture{};
+	const Matrix<int> tmpMatrix = tmpFloor.getTileMap();
 
 	matrixPrintColor(tmpMatrix);
 
@@ -45,9 +51,9 @@ void SysTower::init()
 		gCoordinator.AddComponent<TileMap>(
 			currentFloor,
 			TileMap{
-				tmpTileTextures,
-				emtpyTexture,
-				tmpMatrix
+				.paths = tmpTileTextures,
+				.textures = emtpyTexture,
+				.matrix = tmpMatrix
 			}
 		);
 	}
@@ -74,7 +80,7 @@ void SysTower::syncPlayer()
 			{
 				if (tmpObjectMap(row, col) == eObjectType::START_POSITION)
 				{
-					pos.vec = Vector2D<float>(float(row) * 32.0f, float(col) * 32.0f);
+					pos.vec = Vector2D<float>(static_cast<float>(row) * 32.0f, static_cast<float>(col) * 32.0f);
 				}
 			}
 		}

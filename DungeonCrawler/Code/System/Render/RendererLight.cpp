@@ -2,19 +2,16 @@
 #include "../../ECS/Coordinator.h"
 #include "../../Component/Comp_TextureLight.h"
 #include "../../Component/Comp_Position.h"
-#include "Misc/TextureFunc.h"
 #include "../../Game.h"
 #include "Camera/Camera.h"
 #include <filesystem>
 #include "../Collision/CollisionFunc.h"
 #include "../../Misc/MiscFunctions.h"
-#include "Misc/Misc.h"
-
 
 extern Coordinator gCoordinator;
 extern Camera gCamera;
 
-ColorValues gAmbientLight{ 10, 10, 10 };
+static ColorValues gAmbientLight{ 10, 10, 10 };
 SDL_BlendMode SDL_BLENDMODE_LIGHT = SDL_ComposeCustomBlendMode(
 	SDL_BLENDFACTOR_ONE,                 // src * 1
 	SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR, // dst * (1 - src)
@@ -28,7 +25,12 @@ void SysRendererLight::initRenderertex()
 {
 	if (renderertex_light == nullptr)
 	{
-		renderertex_light = SDL_CreateTexture(Game::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, Game::screenWidth, Game::screenHeight);
+		renderertex_light = SDL_CreateTexture(
+			Game::renderer,
+			SDL_PIXELFORMAT_RGBA8888,
+			SDL_TEXTUREACCESS_TARGET,
+			Game::screenWidth,
+			Game::screenHeight);
 		SDL_SetTextureBlendMode(renderertex_light, SDL_BLENDMODE_MOD);
 	}
 	SDL_SetRenderTarget(Game::renderer, renderertex_light);
@@ -45,7 +47,13 @@ void SysRendererLight::loadTexture()
 
 		if (texture.SDL == nullptr)
 		{	
-			texture.SDL = my_apply(texture.function, std::tuple_cat(std::make_tuple(Game::renderer), texture.functionParams));
+			texture.SDL = my_apply(
+				texture.function,
+				std::tuple_cat(
+					std::make_tuple(Game::renderer),
+					texture.functionParams
+					)
+				);
 		}
 	}
 }
@@ -92,9 +100,9 @@ void SysRendererLight::render()
 				destRec.y -= gCamera.mCamera.y;
 				SDL_SetTextureBlendMode(texture.SDL, SDL_BLENDMODE_LIGHT);
 				SDL_SetTextureColorMod(texture.SDL,
-					clamp((int)(texture.colorRGB.r * scale), 0, 255),
-					clamp((int)(texture.colorRGB.g * scale), 0, 255),
-					clamp((int)(texture.colorRGB.b * scale), 0, 255)
+					clamp(static_cast<int>(texture.colorRGB.r * scale), 0, 255),
+					clamp(static_cast<int>(texture.colorRGB.g * scale), 0, 255),
+					clamp(static_cast<int>(texture.colorRGB.b * scale), 0, 255)
 				);
 				 SDL_RenderTextureRotated(Game::renderer, texture.SDL, &srcRec, &destRec, texture.angle, NULL, SDL_FLIP_NONE);
 			}

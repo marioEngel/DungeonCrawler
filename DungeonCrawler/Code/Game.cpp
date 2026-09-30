@@ -1,26 +1,13 @@
 #include "Game.h"
-#include <map>
 #include "System/Render/Misc/TextureFunc.h"
 
 extern Coordinator gCoordinator;
 extern KeyboardInput gKeyboardInput;
 extern Entity gPlayerEntity;
-Camera gCamera{};
-Mouse gMouse;
+extern Camera gCamera;
+static Mouse gMouse;
 
-// systems forward declaration
-extern std::shared_ptr<SysRendererSprite> sysRendererSprite;
-extern std::shared_ptr<SysRendererTileMap> sysRendererTileMap;
-extern std::shared_ptr<SysRendererLight> sysRendererLight;
-extern std::shared_ptr<SysRendererUI> sysRendererUI;
-extern std::shared_ptr<SysMovementPlayer> sysMovementPlayer;
-extern std::shared_ptr<SysMovementPlayerDecision> sysMovementPlayerDecision;
-extern std::shared_ptr<SysDirectionPlayer> sysDirectionPlayer;
-extern std::shared_ptr<SysMovementObject> sysMovementObject;
-extern std::shared_ptr<SysMovementObjectAttached> sysMovementObjectAttached;
-extern std::shared_ptr<SysDisplayFPS> sysDisplayFPS;
-extern std::shared_ptr<SysMovementTile> sysMovementTile;
-extern std::shared_ptr<SysMovementTileDecision> sysMovementTileDecision;
+extern std::shared_ptr<SysMovementPlayerDecision> MovementPlayerDecision;
 
 void Game::update(float delta)
 {
@@ -32,18 +19,18 @@ void Game::update(float delta)
 			gMouse.printMousePosition_color();
 		}
 
-		sysMovementPlayerDecision->update();
-		sysMovementTileDecision->update();
+		sys::MovementPlayerDecision->update();
+		sys::MovementTileDecision->update();
 	}
 
 	// movement pipeline
 	{
 		// sysMovementPlayer->update();
-		sysMovementTile->update(delta);
-		sysDirectionPlayer->update();
+		sys::MovementTile->update(delta);
+		//sys::DirectionPlayer->update();
 
-		sysMovementObject->update();
-		sysMovementObjectAttached->update();
+		sys::MovementObject->update();
+		sys::MovementObjectAttached->update();
 	}
 	
 	// collision pipeline
@@ -59,7 +46,6 @@ void Game::update(float delta)
 
 		gCamera.CheckCollision(gPlayerEntity);
 
-
 	}
 
 	// Mouse test delete late
@@ -72,42 +58,42 @@ void Game::update(float delta)
 	}
 
 	{
-		sysDisplayFPS->update(delta);
+		sys::DisplayFPS->update(delta);
 	}
 
 	// render pipeline
 	{
-		sysRendererTileMap->loadTexture();
-		sysRendererTileMap->createTileMapRenderertex();
-		sysRendererTileMap->initRenderertex();
-		sysRendererTileMap->render();
+		sys::RendererTileMap->loadTexture();
+		sys::RendererTileMap->createTileMapRenderertex();
+		sys::RendererTileMap->initRenderertex();
+		sys::RendererTileMap->render();
 
-		sysRendererSprite->loadTexture();
-		sysRendererSprite->initRenderertex();
+		sys::RendererSprite->loadTexture();
+		sys::RendererSprite->initRenderertex();
 		//tmp for checking Hitboxes not working
 		//bool renderHitbox = true;
 		//if (renderHitbox) {
 		//	sysCollision->create_HitboxRender();
 		//	sysCollision->render_Hitbox();
 		//}
- 		sysRendererSprite->render();
+ 		sys::RendererSprite->render();
 			
 
-		sysRendererLight->loadTexture();
-		sysRendererLight->initRenderertex();
-		sysRendererLight->render();
+		sys::RendererLight->loadTexture();
+		sys::RendererLight->initRenderertex();
+		sys::RendererLight->render();
 
-		sysRendererUI->loadTexture();
-		sysRendererUI->initRenderertex();
-		sysRendererUI->render();
+		sys::RendererUI->loadTexture();
+		sys::RendererUI->initRenderertex();
+		sys::RendererUI->render();
 	}
 	
 	gKeyboardInput.getPrevKeys();
 	drawAndClear(
-		sysRendererTileMap->rtnRenderertex(),
-		sysRendererSprite->rtnRenderertex(),
-		sysRendererLight->rtnRenderertex(),
-		sysRendererUI->rtnRenderertex()
+		sys::RendererTileMap->rtnRenderertex(),
+		sys::RendererSprite->rtnRenderertex(),
+		sys::RendererLight->rtnRenderertex(),
+		sys::RendererUI->rtnRenderertex()
 	);
 }
 

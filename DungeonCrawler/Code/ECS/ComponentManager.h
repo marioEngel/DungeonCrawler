@@ -1,6 +1,9 @@
 #pragma once
 #include "ECS.h"
 #include "ComponentArray.h"
+#include <typeinfo>
+#include <unordered_map>
+#include  <memory>
 
 class ComponentManager
 {
@@ -33,9 +36,9 @@ public:
 
 	// add component to entity
 	template<typename T>
-	void AddComponent(Entity entitiy, T component)
+	void AddComponent(Entity entity, T component)
 	{
-		GetComponentArray<T>()->InsertData(entitiy, component);
+		GetComponentArray<T>()->InsertData(entity, component);
 	}
 
 	// removes component of entity

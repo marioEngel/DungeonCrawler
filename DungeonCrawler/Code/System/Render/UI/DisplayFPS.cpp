@@ -17,7 +17,7 @@ void SysDisplayFPS::update(float deltaT)
             fpsDisplay.updateTimer = 0.0f;
 
             auto& text = gCoordinator.GetComponent<Text>(entity);
-            int fps = (int)(1.0f / deltaT);
+            const int fps = static_cast<int>(1.0f / deltaT);
             text.text = std::to_string(fps); 
             text.reloadTexture = true;
         }

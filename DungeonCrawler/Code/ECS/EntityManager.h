@@ -1,5 +1,7 @@
 #pragma once
 #include "ECS.h"
+#include <array>
+#include <queue>
 
 class EntityManager
 {

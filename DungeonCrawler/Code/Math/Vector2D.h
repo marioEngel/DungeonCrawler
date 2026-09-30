@@ -1,9 +1,7 @@
 #pragma once
 #include <iostream>
-#include <array>
-#include <assert.h>
-
-# define M_PI 3.14159265358979323846f  /* pi */
+#include <cmath>
+#include <cassert>
 
 // all function have to be in the header file for reasons
 // otherwise linking error
@@ -115,48 +113,17 @@ T Vector2D<T>::calc_amount()
 template <typename T>
 float calc_angle(Vector2D<T> vectorStart, Vector2D<T> vectorEnd, bool flip)
 {
-	Vector2D<T> tmpUnitVec = vectorEnd - vectorStart;
-	tmpUnitVec.normalize();
-	float rtnAngle;
+	Vector2D<T> dir = vectorEnd - vectorStart;
 
-	if (flip)
-	{
-		tmpUnitVec[1] = -tmpUnitVec[1];
-	}
+	const auto y = static_cast<float>(flip ? -dir[1] : dir[1]);
+	const auto x = static_cast<float>(dir[0]);
 
-	if (tmpUnitVec[0] > 0.0)
+	float angle = std::atan2(y, x);   // Bereich (-pi, pi]
+	if (angle < 0.0f)
 	{
-		// unten rechts
-		if (tmpUnitVec[1] < 0.0)
-		{
-			rtnAngle = 2.0f * M_PI + std::atan(tmpUnitVec[1] / tmpUnitVec[0]);
-		}
-		// oben rechts
-		else
-		{
-			rtnAngle = std::atan(tmpUnitVec[1] / tmpUnitVec[0]);
-		}
+		angle += 2.0f * static_cast<float>(M_PI);
 	}
-	else
-	{
-		// unten links
-		if (tmpUnitVec[1] < 0.0)
-		{
-			rtnAngle = M_PI + std::atan(tmpUnitVec[1] / tmpUnitVec[0]);
-		}
-		// oben links
-		else
-		{
-			rtnAngle = M_PI + std::atan(tmpUnitVec[1] / tmpUnitVec[0]);
-		}
-	}
-
-	while (rtnAngle > 2.0f * M_PI)
-	{
-		rtnAngle -= 2.0f * M_PI;
-	}
-
-	return rtnAngle;
+	return angle;
 }
 
 // return vector with x-/y-values normalized to +1/-1
