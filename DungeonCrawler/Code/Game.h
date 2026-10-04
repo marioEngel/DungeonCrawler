@@ -45,43 +45,48 @@
 #include "System/Dungeon/Tower/Tower.h"
 
 namespace sys {
-	// systems forward declaration
-	extern std::shared_ptr<SysRendererSprite> RendererSprite;
-	extern std::shared_ptr<SysRendererTileMap> RendererTileMap;
-	extern std::shared_ptr<SysRendererLight> RendererLight;
-	extern std::shared_ptr<SysRendererUI> RendererUI;
-	extern std::shared_ptr<SysMovementPlayer> MovementPlayer;
-	extern std::shared_ptr<SysMovementPlayerDecision> MovementPlayerDecision;
-	extern std::shared_ptr<SysDirectionPlayer> DirectionPlayer;
-	extern std::shared_ptr<SysMovementObject> MovementObject;
-	extern std::shared_ptr<SysMovementObjectAttached> MovementObjectAttached;
-	extern std::shared_ptr<SysDisplayFPS> DisplayFPS;
-	extern std::shared_ptr<SysMovementTile> MovementTile;
-	extern std::shared_ptr<SysMovementTileDecision> MovementTileDecision;
-	extern std::shared_ptr<SysTower> Tower;
+    // systems forward declaration
+    extern std::shared_ptr<SysRendererSprite> RendererSprite;
+    extern std::shared_ptr<SysRendererTileMap> RendererTileMap;
+    extern std::shared_ptr<SysRendererLight> RendererLight;
+    extern std::shared_ptr<SysRendererUI> RendererUI;
+    extern std::shared_ptr<SysMovementPlayer> MovementPlayer;
+    extern std::shared_ptr<SysMovementPlayerDecision> MovementPlayerDecision;
+    extern std::shared_ptr<SysDirectionPlayer> DirectionPlayer;
+    extern std::shared_ptr<SysMovementObject> MovementObject;
+    extern std::shared_ptr<SysMovementObjectAttached> MovementObjectAttached;
+    extern std::shared_ptr<SysDisplayFPS> DisplayFPS;
+    extern std::shared_ptr<SysMovementTile> MovementTile;
+    extern std::shared_ptr<SysMovementTileDecision> MovementTileDecision;
+    extern std::shared_ptr<SysTower> Tower;
 }
 
-class Game
-{
+class Game {
 public:
-	Game();
-	~Game();
+    Game();
 
-	bool gameRunning();
-	void clean();
-	void initECS(const char* text, int width, int height, int flag = 0);
-	//void makeEnd();
+    ~Game();
 
-	void initEntities();
-	void update(float delta);
-	void handleEvents();
+    bool gameRunning();
 
-	static SDL_Renderer* renderer;
-	static SDL_Event event;
-	static int screenWidth;
-	static int screenHeight;
+    void clean();
+
+    void initECS(const char *text, int width, int height, int flag = 0);
+
+    //void makeEnd();
+
+    void initEntities();
+
+    void update(float delta);
+
+    void handleEvents();
+
+    static SDL_Renderer *renderer;
+    static SDL_Event event;
+    static int screenWidth;
+    static int screenHeight;
 
 private:
-	bool isRunning = true;
-	SDL_Window* window;
+    bool isRunning = true;
+    SDL_Window *window;
 };

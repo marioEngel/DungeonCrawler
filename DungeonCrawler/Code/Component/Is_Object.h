@@ -1,6 +1,5 @@
 #pragma once
 
-struct IsObject
-{
-	bool isObject;
+struct IsObject {
+    bool isObject;
 };

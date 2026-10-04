@@ -3,59 +3,57 @@
 #include <SDL3/SDL.h>
 #include "Vector2D.h"
 
-// x = row, y = col
-// Matrix mat
-// mat[row][col] = ele
-//using Matrix = std::vector<std::vector<int>>;
-
-template <typename T>
+//void matrixCreate_Zero(Matrix& matrix, SDL_Rect& size);
+template<typename T>
 class Matrix {
 public:
-    Matrix(int rows, int cols) : 
-        mRows(rows), 
-        mCols(cols), 
-        mData(rows * cols) 
-    { }
-
-    explicit Matrix(int square) :
-        mRows(square),
-        mCols(square),
-        mData(square * square)
-    { }
-
-    T& operator()(int row, int col) {
-        return mData[row * mCols + col];
-    } 
-
-    const T& operator()(int row, int col) const {
-        assert(row >= 0 && row < mRows && col >= 0 && col < mCols);
-        return mData[row * mCols + col];
+    Matrix(int xCols, int yRows) : mXcol(xCols),
+                                   mYrow(yRows),
+                                   mData(xCols * yRows) {
     }
 
-    // F�r Vector2D-Zugriff
-    T& operator[](const Vector2D<int>& pos) {
-        return mData[pos[1] * mCols + pos[0]];
+    explicit Matrix(int square) : Matrix(square, square) {
     }
 
-    [[nodiscard]] int rows() const { return mRows; }
-    [[nodiscard]] int cols() const { return mCols; }
+    [[nodiscard]] T index(int x, int y) const {
+        assert(x >= 0 && x < mXcol && y >= 0 && y < mYrow);
+        return static_cast<T>(y) * mXcol + x;
+    }
+
+    T &operator()(int xCol, int yRow) {
+        return mData[index(xCol, yRow)];
+    }
+
+    const T &operator()(int xCol, int yRow) const {
+        return mData[index(xCol, yRow)];
+    }
+
+    T &operator[](const Vector2D<int> &vec) {
+        return mData[index(vec.x, vec.y)];
+    }
+
+    const T &operator[](const Vector2D<int> &vec) const {
+        return mData[index(vec.x, vec.y)];
+    }
+
+
+    [[nodiscard]] int width() const { return mXcol; }
+    [[nodiscard]] int height() const { return mYrow; }
 
 private:
-    int mRows, mCols;
+    int mXcol, mYrow;
     std::vector<T> mData;
 };
 
-
-
-
-void matrixPrint(const Matrix<int>& matrix);
-void matrixPrintColor(const Matrix<int>& matrix);
-
-void matrixCreate_Checkerboard(Matrix<int>& matrix);
-
-//void matrixCreate_Zero(Matrix& matrix, SDL_Rect& size);
 //void matrixCreate_Element(Matrix& matrix, SDL_Rect& size, int element);
 //
 //void matrixFillEdge(Matrix& matrix, int element);
-void matrixFillWithElement(Matrix<int>& matrix, int element);
-void matrixFillRectWithElement(Matrix<int>& matrix, SDL_Rect& rect, int element);
+void matrixFillWithElement(Matrix<int> &matrix, int element);
+
+void matrixFillRectWithElement(Matrix<int> &matrix, SDL_Rect &rect, int element);
+
+void matrixPrint(const Matrix<int> &matrix);
+
+void matrixPrintColor(const Matrix<int> &matrix);
+
+void matrixCreate_Checkerboard(Matrix<int> &matrix);

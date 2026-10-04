@@ -4,10 +4,9 @@
 
 // set is a list with only unique members
 // searchin is much faster, but inserting is slower
-class Systems
-{
+class Systems {
 public:
-	std::set<Entity> mEntities;
+    std::set<Entity> mEntities;
 };
 
 /* example for system:

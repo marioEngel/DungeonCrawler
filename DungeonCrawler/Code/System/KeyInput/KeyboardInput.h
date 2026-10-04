@@ -2,23 +2,23 @@
 #include <cstdint>
 #include <SDL3/SDL.h>
 
-enum eButtonState
-{
-	NONE,
-	PRESSED,
-	RELEASED,
-	HELD,
+enum eButtonState {
+    NONE,
+    PRESSED,
+    RELEASED,
+    HELD,
 };
 
-class KeyboardInput
-{
+class KeyboardInput {
 public:
-	KeyboardInput();
-	void registerInput();
-	void getPrevKeys();
-	eButtonState getButtonState(int number);
+    KeyboardInput();
 
-	bool prevKeys[SDL_SCANCODE_COUNT];
-	const bool* currKeys;
+    void registerInput();
+
+    void getPrevKeys();
+
+    eButtonState getButtonState(int number);
+
+    bool prevKeys[SDL_SCANCODE_COUNT];
+    const bool *currKeys;
 };
-

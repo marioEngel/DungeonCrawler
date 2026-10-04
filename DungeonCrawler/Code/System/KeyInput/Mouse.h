@@ -1,20 +1,22 @@
 #pragma once
 #include "../../Math/Vector2D.h"
 
-class Mouse
-{
+class Mouse {
 public:
-	Mouse();
-	~Mouse();
+    Mouse();
 
-	void update();
-	void printMousePosition();
-	void printMousePosition_color();
-	void click();
+    ~Mouse();
+
+    void update();
+
+    void printMousePosition();
+
+    void printMousePosition_color();
+
+    void click();
 
 private:
-	Vector2D<float> mMousePosition;
-	int mMouseClickBuffer = 150;
-	int mMouseLastClickTime = 0;
+    Vector2D<float> mMousePosition;
+    int mMouseClickBuffer = 150;
+    int mMouseLastClickTime = 0;
 };
-

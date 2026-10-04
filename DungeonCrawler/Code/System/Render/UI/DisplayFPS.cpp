@@ -5,20 +5,17 @@
 
 extern Coordinator gCoordinator;
 
-void SysDisplayFPS::update(float deltaT)
-{
-    for (auto const& entity : mEntities)
-    {
-        auto& fpsDisplay = gCoordinator.GetComponent<DisplayFPS>(entity);
+void SysDisplayFPS::update(float deltaT) {
+    for (auto const &entity: mEntities) {
+        auto &fpsDisplay = gCoordinator.GetComponent<DisplayFPS>(entity);
         fpsDisplay.updateTimer += deltaT;
 
-        if (fpsDisplay.updateTimer >= fpsDisplay.updateInterval)
-        {
+        if (fpsDisplay.updateTimer >= fpsDisplay.updateInterval) {
             fpsDisplay.updateTimer = 0.0f;
 
-            auto& text = gCoordinator.GetComponent<Text>(entity);
+            auto &text = gCoordinator.GetComponent<Text>(entity);
             const int fps = static_cast<int>(1.0f / deltaT);
-            text.text = std::to_string(fps); 
+            text.text = std::to_string(fps);
             text.reloadTexture = true;
         }
     }

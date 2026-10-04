@@ -11,107 +11,97 @@
 extern Coordinator gCoordinator;
 extern Camera gCamera;
 
-static ColorValues gAmbientLight{ 10, 10, 10 };
+static ColorValues gAmbientLight{10, 10, 10};
 SDL_BlendMode SDL_BLENDMODE_LIGHT = SDL_ComposeCustomBlendMode(
-	SDL_BLENDFACTOR_ONE,                 // src * 1
-	SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR, // dst * (1 - src)
-	SDL_BLENDOPERATION_ADD,              // add them together
-	SDL_BLENDFACTOR_ONE,                 // alpha src
-	SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA, // alpha dst
-	SDL_BLENDOPERATION_ADD
+    SDL_BLENDFACTOR_ONE, // src * 1
+    SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR, // dst * (1 - src)
+    SDL_BLENDOPERATION_ADD, // add them together
+    SDL_BLENDFACTOR_ONE, // alpha src
+    SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA, // alpha dst
+    SDL_BLENDOPERATION_ADD
 );
 
-void SysRendererLight::initRenderertex()
-{
-	if (renderertex_light == nullptr)
-	{
-		renderertex_light = SDL_CreateTexture(
-			Game::renderer,
-			SDL_PIXELFORMAT_RGBA8888,
-			SDL_TEXTUREACCESS_TARGET,
-			Game::screenWidth,
-			Game::screenHeight);
-		SDL_SetTextureBlendMode(renderertex_light, SDL_BLENDMODE_MOD);
-	}
-	SDL_SetRenderTarget(Game::renderer, renderertex_light);
-	SDL_RenderClear(Game::renderer);
-	SDL_SetRenderDrawColor(Game::renderer, gAmbientLight.r, gAmbientLight.g, gAmbientLight.b, 255);
+void SysRendererLight::initRenderertex() {
+    if (renderertex_light == nullptr) {
+        renderertex_light = SDL_CreateTexture(
+            Game::renderer,
+            SDL_PIXELFORMAT_RGBA8888,
+            SDL_TEXTUREACCESS_TARGET,
+            Game::screenWidth,
+            Game::screenHeight);
+        SDL_SetTextureBlendMode(renderertex_light, SDL_BLENDMODE_MOD);
+    }
+    SDL_SetRenderTarget(Game::renderer, renderertex_light);
+    SDL_RenderClear(Game::renderer);
+    SDL_SetRenderDrawColor(Game::renderer, gAmbientLight.r, gAmbientLight.g, gAmbientLight.b, 255);
 }
 
 
-void SysRendererLight::loadTexture()
-{
-	for (const auto& entity : mEntities)
-	{
-		auto& texture = gCoordinator.GetComponent<TextureLight>(entity);
+void SysRendererLight::loadTexture() {
+    for (const auto &entity: mEntities) {
+        auto &texture = gCoordinator.GetComponent<TextureLight>(entity);
 
-		if (texture.SDL == nullptr)
-		{	
-			texture.SDL = my_apply(
-				texture.function,
-				std::tuple_cat(
-					std::make_tuple(Game::renderer),
-					texture.functionParams
-					)
-				);
-		}
-	}
+        if (texture.SDL == nullptr) {
+            texture.SDL = my_apply(
+                texture.function,
+                std::tuple_cat(
+                    std::make_tuple(Game::renderer),
+                    texture.functionParams
+                )
+            );
+        }
+    }
 }
 
-void SysRendererLight::render()
-{
-	SDL_RenderClear(Game::renderer);
-	for (const auto& entity : mEntities)
-	{	
-		auto& texture = gCoordinator.GetComponent<TextureLight>(entity);
-		auto& position = gCoordinator.GetComponent<Position>(entity);
+void SysRendererLight::render() {
+    SDL_RenderClear(Game::renderer);
+    for (const auto &entity: mEntities) {
+        auto &texture = gCoordinator.GetComponent<TextureLight>(entity);
+        auto &position = gCoordinator.GetComponent<Position>(entity);
 
-		if (texture.SDL != nullptr)
-		{
-			SDL_FRect srcRec;
-			SDL_FRect destRec;
+        if (texture.SDL != nullptr) {
+            SDL_FRect srcRec;
+            SDL_FRect destRec;
 
-			srcRec.x = 0;
-			srcRec.y = 0;
-			srcRec.w = texture.width;
-			srcRec.h = texture.height;
+            srcRec.x = 0;
+            srcRec.y = 0;
+            srcRec.w = texture.width;
+            srcRec.h = texture.height;
 
-			destRec.x = position.vec.x;
-			destRec.y = position.vec.y;
-			destRec.w = texture.width;
-			destRec.h = texture.height;
+            destRec.x = position.vec.x;
+            destRec.y = position.vec.y;
+            destRec.w = texture.width;
+            destRec.h = texture.height;
 
-			float scale = 1.0f;
+            float scale = 1.0f;
 
-			if (texture.hasNoise)
-			{
-				float t = SDL_GetTicks() * texture.flickerSpeed;
-				float flicker = std::sin(t * 7.0f) * 0.1f + std::sin(t * 17.0f) * 0.05f + std::sin(t * 31.0f) * 0.02f;
-				flicker *= texture.flickerAmount;
+            if (texture.hasNoise) {
+                float t = SDL_GetTicks() * texture.flickerSpeed;
+                float flicker = std::sin(t * 7.0f) * 0.1f + std::sin(t * 17.0f) * 0.05f + std::sin(t * 31.0f) * 0.02f;
+                flicker *= texture.flickerAmount;
 
-				scale += flicker;
-				destRec.x += std::sin(t * 13.0f) * 2.0f;
-				destRec.y += std::sin(t * 11.0f) * 1.0f;
-			}
+                scale += flicker;
+                destRec.x += std::sin(t * 13.0f) * 2.0f;
+                destRec.y += std::sin(t * 11.0f) * 1.0f;
+            }
 
-			if (check_RectVsRect(gCamera.mCamera, destRec))
-			{
-				destRec.x -= gCamera.mCamera.x;
-				destRec.y -= gCamera.mCamera.y;
-				SDL_SetTextureBlendMode(texture.SDL, SDL_BLENDMODE_LIGHT);
-				SDL_SetTextureColorMod(texture.SDL,
-					clamp(static_cast<int>(texture.colorRGB.r * scale), 0, 255),
-					clamp(static_cast<int>(texture.colorRGB.g * scale), 0, 255),
-					clamp(static_cast<int>(texture.colorRGB.b * scale), 0, 255)
-				);
-				 SDL_RenderTextureRotated(Game::renderer, texture.SDL, &srcRec, &destRec, texture.angle, NULL, SDL_FLIP_NONE);
-			}
-		}
-	}
-	SDL_SetRenderTarget(Game::renderer, NULL);
+            if (check_RectVsRect(gCamera.mCamera, destRec)) {
+                destRec.x -= gCamera.mCamera.x;
+                destRec.y -= gCamera.mCamera.y;
+                SDL_SetTextureBlendMode(texture.SDL, SDL_BLENDMODE_LIGHT);
+                SDL_SetTextureColorMod(texture.SDL,
+                                       clamp(static_cast<int>(texture.colorRGB.r * scale), 0, 255),
+                                       clamp(static_cast<int>(texture.colorRGB.g * scale), 0, 255),
+                                       clamp(static_cast<int>(texture.colorRGB.b * scale), 0, 255)
+                );
+                SDL_RenderTextureRotated(Game::renderer, texture.SDL, &srcRec, &destRec, texture.angle, NULL,
+                                         SDL_FLIP_NONE);
+            }
+        }
+    }
+    SDL_SetRenderTarget(Game::renderer, NULL);
 }
 
-SDL_Texture* SysRendererLight::rtnRenderertex()
-{
-	return renderertex_light;
+SDL_Texture *SysRendererLight::rtnRenderertex() {
+    return renderertex_light;
 }

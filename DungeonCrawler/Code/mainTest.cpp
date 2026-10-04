@@ -1,21 +1,17 @@
 #include <iostream>
-#include "Game.h"
 #include "Math/Vector2D.h"
-#include <SDL3_ttf/SDL_ttf.h>
-#include <SDL3/SDL.h>
-#include "System/Dungeon/Tower/Floor.h"
 #include "Math/Matrix.h"
 
-float gDeltaT{};
 
-int main(int argc, char* arvg[])
-{
+int main(int argc, char *arvg[]) {
+    Matrix<int> mat{3};
+    Vector2D<int> vec{2, 1};
+    Vector2D<int> vec2{0, 2};
 
-	Floor floor;
-	floor.init();
-	floor.generate();
+    mat[vec] = 1;
+    mat[vec2] = 3;
 
+    matrixPrintColor(mat);
 
-
-	return 0;
+    return 0;
 }

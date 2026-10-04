@@ -1,15 +1,17 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include "TileType.h"
+#include "../Enums/TileType.h"
 
-class Room
-{
+class Room {
 public:
-	Room(int inX, int inY, int inWidth, int inHeight);
-	~Room();
-	void setTileType();
+    Room(int inX, int inY, int inWidth, int inHeight);
 
-	SDL_Rect geom;
+    ~Room();
+
+    void setTileType();
+
+    SDL_Rect geom;
+
 private:
-	eTileType tileType;
+    eTileType tileType;
 };

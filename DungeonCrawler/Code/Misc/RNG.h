@@ -1,19 +1,21 @@
 #pragma once
 #include <random>
 
-class RNG
-{
+class RNG {
 public:
-	explicit RNG(uint64_t seed) : engine(seed) {};
+    explicit RNG(uint64_t seed) : engine(seed) {
+    };
 
-	int range(int min, int max);
-	int range(int max);
-	int rangeEx(int maxExcluded);
-	float range(float max, float min = 0);
+    int range(int min, int max);
 
-	bool oneIn(int n);
+    int range(int max);
+
+    int rangeEx(int maxExcluded);
+
+    float range(float max, float min = 0);
+
+    bool oneIn(int n);
 
 private:
-	std::mt19937_64 engine;
+    std::mt19937_64 engine;
 };
-

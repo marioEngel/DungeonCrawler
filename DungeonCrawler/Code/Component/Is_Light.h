@@ -1,6 +1,5 @@
 #pragma once
 
-struct IsLight
-{
-	bool isLight = true;
-}; 
+struct IsLight {
+    bool isLight = true;
+};

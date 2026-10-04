@@ -1,6 +1,5 @@
 #pragma once
 
-struct TileCollision
-{
-	bool isTileCollision = true;
+struct TileCollision {
+    bool isTileCollision = true;
 };

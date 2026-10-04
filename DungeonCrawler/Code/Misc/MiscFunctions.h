@@ -9,31 +9,34 @@
 
 
 void printColor();
-std::string getColoredText(const std::string& text, eConsoleTextColor  color);
-void printSDLRect(SDL_Rect rect, const char* text, Entity ent = 0);
+
+std::string getColoredText(const std::string &text, eConsoleTextColor color);
+
+void printSDLRect(SDL_Rect rect, const char *text, Entity ent = 0);
 
 SDL_Rect rtnScreenRect();
 
-Vector2D<float> rtnCenter(const Position& position, const Texture& texture);
-Vector2D<float> rtnCenter(const Position& position, const TextureLight& texture);
+Vector2D<float> rtnCenter(const Position &position, const Texture &texture);
+
+Vector2D<float> rtnCenter(const Position &position, const TextureLight &texture);
 
 Vector2D<float> rtnCenterEntity(Entity entity);
 
 
 template<typename T>
 T clamp(T val, T lo, T hi) {
-	return val < lo ? lo : (val > hi ? hi : val);
+    return val < lo ? lo : (val > hi ? hi : val);
 }
 
 
 // for rendering light doing ??
-template <typename Func, typename Tuple, std::size_t... I>
-auto apply_helper(Func&& f, Tuple&& t, std::index_sequence<I...>) {
-	return f(std::get<I>(std::forward<Tuple>(t))...);
+template<typename Func, typename Tuple, std::size_t... I>
+auto apply_helper(Func &&f, Tuple &&t, std::index_sequence<I...>) {
+    return f(std::get<I>(std::forward<Tuple>(t))...);
 }
 
-template <typename Func, typename Tuple>
-auto my_apply(Func&& f, Tuple&& t) {
-	constexpr std::size_t size = std::tuple_size<typename std::decay<Tuple>::type>::value;
-	return apply_helper(std::forward<Func>(f), std::forward<Tuple>(t), std::make_index_sequence<size>{});
+template<typename Func, typename Tuple>
+auto my_apply(Func &&f, Tuple &&t) {
+    constexpr std::size_t size = std::tuple_size<typename std::decay<Tuple>::type>::value;
+    return apply_helper(std::forward<Func>(f), std::forward<Tuple>(t), std::make_index_sequence<size>{});
 }

@@ -8,17 +8,15 @@
 extern Coordinator gCoordinator;
 extern float gDeltaT;
 
-void SysMovementObject::update()
-{
-	for (const auto& entity : mEntities)
-	{
-		auto& movement = gCoordinator.GetComponent<Movement>(entity);
-		auto& normalPos = gCoordinator.GetComponent<Position>(entity);
-		auto& direction = gCoordinator.GetComponent<FaceDirection>(entity);
+void SysMovementObject::update() {
+    for (const auto &entity: mEntities) {
+        auto &movement = gCoordinator.GetComponent<Movement>(entity);
+        auto &normalPos = gCoordinator.GetComponent<Position>(entity);
+        auto &direction = gCoordinator.GetComponent<FaceDirection>(entity);
 
-		normalPos.vec = normalPos.vec + Vector2D<float>(
-			std::cos(direction.angle) * movement.speed * gDeltaT, 
-			-std::sin(direction.angle) * movement.speed * gDeltaT
-		);
-	}
+        normalPos.vec = normalPos.vec + Vector2D<float>(
+                            std::cos(direction.angle) * movement.speed * gDeltaT,
+                            -std::sin(direction.angle) * movement.speed * gDeltaT
+                        );
+    }
 }

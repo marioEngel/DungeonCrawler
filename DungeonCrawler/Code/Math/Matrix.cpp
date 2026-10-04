@@ -3,134 +3,117 @@
 #include <random>
 #include "../Misc/MiscFunctions.h"
 
-void matrixPrint(const Matrix<int>& matrix)
-{
-	for (int row = 0; row < matrix.rows(); row++)
-	{
-		std::cout << "| ";
-		for (int col = 0; col < matrix.cols(); col++)
-		{
-			if (col == (matrix.cols() - 1))
-			{
-				std::cout << matrix(row, col) << " |\n";
-			}
-			else
-			{
-				std::cout << matrix(row, col) << " ,";
-			}
-		}
-	}
-	std::cout << ' ' << std::endl;
+void matrixPrint(const Matrix<int> &matrix) {
+    for (int yyy = 0; yyy < matrix.height(); yyy++) {
+        std::cout << "| ";
+        for (int xxx = 0; xxx < matrix.width(); xxx++) {
+            if (xxx == (matrix.width() - 1)) {
+                std::cout << matrix(xxx, yyy) << " |\n";
+            } else {
+                std::cout << matrix(xxx, yyy) << " ,";
+            }
+        }
+    }
+    std::cout << ' ' << std::endl;
 }
 
 
-void matrixPrintColor(const Matrix<int>& matrix)
-{
-	for (int row = 0; row < matrix.rows(); row++)
-	{
-		std::cout << "| ";
-		for (int col = 0; col < matrix.cols(); col++)
-		{
-			if (col == (matrix.cols() - 1))
-			{
-				const int matVal = matrix(row, col);
-				std::string appendString = " |\n";
+void matrixPrintColor(const Matrix<int> &matrix) {
+    for (int yyy = 0; yyy < matrix.height(); yyy++) {
+        std::cout << "| ";
+        for (int xxx = 0; xxx < matrix.width(); xxx++) {
+            if (xxx == (matrix.width() - 1)) {
+                const int matVal = matrix(xxx, yyy);
+                std::string appendString = " |\n";
 
-				switch (matVal)
-				{
-				case 0:
-					std::cout << getColoredText("00", eConsoleTextColor::WHITE) << appendString;
-					break;
-				case 1:
-					std::cout << getColoredText("11", eConsoleTextColor::RED) << appendString;
-					break;
-				case 2:
-					std::cout << getColoredText("22", eConsoleTextColor::BLUE) << appendString;
-					break;
-				case 3:
-					std::cout << getColoredText("33", eConsoleTextColor::GREEN) << appendString;
-					break;
-				case 4:
-					std::cout << getColoredText("44", eConsoleTextColor::PURPLE) << appendString;
-					break;
-				case 5:
-					std::cout << getColoredText("55", eConsoleTextColor::ORANGE) << appendString;
-					break;
-				case 6:
-					std::cout << getColoredText("66", eConsoleTextColor::CYAN) << appendString;
-					break;
-				case 7:
-					std::cout << getColoredText("77", eConsoleTextColor::YELLOW) << appendString;
-					break;
-				case 8:
-					std::cout << getColoredText("88", eConsoleTextColor::LIGHT_GREEN) << appendString;
-					break;
-				case 9:
-					std::cout << getColoredText("99", eConsoleTextColor::LIGHT_RED) << appendString;
-					break;
-				default:
-					std::cout << getColoredText("-1", eConsoleTextColor::WHITE) << appendString;
-					break;
-				}
-			}
-			else
-			{
-				const int matVal = matrix(row, col);
-				std::string appendString = ", ";
+                switch (matVal) {
+                    case 0:
+                        std::cout << getColoredText("00", eConsoleTextColor::WHITE) << appendString;
+                        break;
+                    case 1:
+                        std::cout << getColoredText("11", eConsoleTextColor::RED) << appendString;
+                        break;
+                    case 2:
+                        std::cout << getColoredText("22", eConsoleTextColor::BLUE) << appendString;
+                        break;
+                    case 3:
+                        std::cout << getColoredText("33", eConsoleTextColor::GREEN) << appendString;
+                        break;
+                    case 4:
+                        std::cout << getColoredText("44", eConsoleTextColor::PURPLE) << appendString;
+                        break;
+                    case 5:
+                        std::cout << getColoredText("55", eConsoleTextColor::ORANGE) << appendString;
+                        break;
+                    case 6:
+                        std::cout << getColoredText("66", eConsoleTextColor::CYAN) << appendString;
+                        break;
+                    case 7:
+                        std::cout << getColoredText("77", eConsoleTextColor::YELLOW) << appendString;
+                        break;
+                    case 8:
+                        std::cout << getColoredText("88", eConsoleTextColor::LIGHT_GREEN) << appendString;
+                        break;
+                    case 9:
+                        std::cout << getColoredText("99", eConsoleTextColor::LIGHT_RED) << appendString;
+                        break;
+                    default:
+                        std::cout << getColoredText("-1", eConsoleTextColor::WHITE) << appendString;
+                        break;
+                }
+            } else {
+                const int matVal = matrix(xxx, yyy);
+                std::string appendString = ", ";
 
-				switch (matVal)
-				{
-				case 0:
-					std::cout << getColoredText("00", eConsoleTextColor::WHITE) << appendString;
-					break;
-				case 1:
-					std::cout << getColoredText("11", eConsoleTextColor::RED) << appendString;
-					break;
-				case 2:
-					std::cout << getColoredText("22", eConsoleTextColor::BLUE) << appendString;
-					break;
-				case 3:
-					std::cout << getColoredText("33", eConsoleTextColor::GREEN) << appendString;
-					break;
-				case 4:
-					std::cout << getColoredText("44", eConsoleTextColor::PURPLE) << appendString;
-					break;
-				case 5:
-					std::cout << getColoredText("55", eConsoleTextColor::ORANGE) << appendString;
-					break;
-				case 6:
-					std::cout << getColoredText("66", eConsoleTextColor::CYAN) << appendString;
-					break;
-				case 7:
-					std::cout << getColoredText("77", eConsoleTextColor::YELLOW) << appendString;
-					break;
-				case 8:
-					std::cout << getColoredText("88", eConsoleTextColor::LIGHT_GREEN) << appendString;
-					break;
-				case 9:
-					std::cout << getColoredText("99", eConsoleTextColor::LIGHT_RED) << appendString;
-					break;
-				default:
-					std::cout << getColoredText("-1", eConsoleTextColor::WHITE) << appendString;
-					break;
-				}
-			}
-		}
-	}
-	std::cout << ' ' << std::endl;
+                switch (matVal) {
+                    case 0:
+                        std::cout << getColoredText("00", eConsoleTextColor::WHITE) << appendString;
+                        break;
+                    case 1:
+                        std::cout << getColoredText("11", eConsoleTextColor::RED) << appendString;
+                        break;
+                    case 2:
+                        std::cout << getColoredText("22", eConsoleTextColor::BLUE) << appendString;
+                        break;
+                    case 3:
+                        std::cout << getColoredText("33", eConsoleTextColor::GREEN) << appendString;
+                        break;
+                    case 4:
+                        std::cout << getColoredText("44", eConsoleTextColor::PURPLE) << appendString;
+                        break;
+                    case 5:
+                        std::cout << getColoredText("55", eConsoleTextColor::ORANGE) << appendString;
+                        break;
+                    case 6:
+                        std::cout << getColoredText("66", eConsoleTextColor::CYAN) << appendString;
+                        break;
+                    case 7:
+                        std::cout << getColoredText("77", eConsoleTextColor::YELLOW) << appendString;
+                        break;
+                    case 8:
+                        std::cout << getColoredText("88", eConsoleTextColor::LIGHT_GREEN) << appendString;
+                        break;
+                    case 9:
+                        std::cout << getColoredText("99", eConsoleTextColor::LIGHT_RED) << appendString;
+                        break;
+                    default:
+                        std::cout << getColoredText("-1", eConsoleTextColor::WHITE) << appendString;
+                        break;
+                }
+            }
+        }
+    }
+    std::cout << ' ' << std::endl;
 }
 
 // function to initialize a matrix with the wanted size/shape
 // chess board structur
-void matrixCreate_Checkerboard(Matrix<int>& matrix)
-{
-	for (int row = 0; row < matrix.rows(); row++)
-	{
-		for (int col = 0; col < matrix.cols(); col++)
-		{
-			matrix(row, col) = (row + col) % 2;
-		}
-	}
+void matrixCreate_Checkerboard(Matrix<int> &matrix) {
+    for (int xxx = 0; xxx < matrix.width(); xxx++) {
+        for (int yyy = 0; yyy < matrix.height(); yyy++) {
+            matrix(xxx, yyy) = (xxx + yyy) % 2;
+        }
+    }
 }
 
 //void matrixCreate_Zero(Matrix& matrix, SDL_Rect& size)
@@ -179,28 +162,21 @@ void matrixCreate_Checkerboard(Matrix<int>& matrix)
 //	}
 //}
 
-void matrixFillWithElement(Matrix<int>& matrix, int element)
-{
-	for (int row = 0; row < matrix.rows(); row++)
-	{
-		for (int col = 0; col < matrix.cols(); col++)
-		{
-			matrix(row, col) = element;
-		}
-	}
+void matrixFillWithElement(Matrix<int> &matrix, int element) {
+    for (int xxx = 0; xxx < matrix.width(); xxx++) {
+        for (int yyy = 0; yyy < matrix.height(); yyy++) {
+            matrix(xxx, yyy) = element;
+        }
+    }
 }
 
-void matrixFillRectWithElement(Matrix<int>& matrix, SDL_Rect& rect, int element)
-{
-	for (int row = 0; row < matrix.rows(); row++)
-	{
-		for (int col = 0; col < matrix.cols(); col++)
-		{
-			if (col >= rect.x && col < rect.x + rect.w &&
-				row >= rect.y && row < rect.y + rect.h)
-			{
-				matrix(row, col) = element;
-			}
-		}
-	}
+void matrixFillRectWithElement(Matrix<int> &matrix, SDL_Rect &rect, int element) {
+    for (int xxx = 0; xxx < matrix.width(); xxx++) {
+        for (int yyy = 0; yyy < matrix.height(); yyy++) {
+            if (xxx >= rect.x && xxx < rect.x + rect.w &&
+                yyy >= rect.y && yyy < rect.y + rect.h) {
+                matrix(xxx, yyy) = element;
+            }
+        }
+    }
 }

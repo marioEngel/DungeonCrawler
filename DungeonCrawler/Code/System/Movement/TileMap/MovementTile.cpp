@@ -8,35 +8,28 @@
 
 extern Coordinator gCoordinator;
 
-void SysMovementTile::update(float delta)
-{
-	for (const auto& entity : mEntities)
-	{
-		auto& movementTile = gCoordinator.GetComponent<MovementTile>(entity);
-		auto& pos = gCoordinator.GetComponent<Position>(entity);
+void SysMovementTile::update(float delta) {
+    for (const auto &entity: mEntities) {
+        auto &movementTile = gCoordinator.GetComponent<MovementTile>(entity);
+        auto &pos = gCoordinator.GetComponent<Position>(entity);
 
-		if (movementTile.onCooldown)
-		{
-			const Uint32 now = SDL_GetTicks();
-			float t = static_cast<float>(now - movementTile.timeStart) / static_cast<float>(movementTile.cooldown);
-			t = clamp(t, 0.0f, 1.0f);
+        if (movementTile.onCooldown) {
+            const Uint32 now = SDL_GetTicks();
+            float t = static_cast<float>(now - movementTile.timeStart) / static_cast<float>(movementTile.cooldown);
+            t = clamp(t, 0.0f, 1.0f);
 
-			pos.vec = movementTile.positionStart + (movementTile.positionEnd - movementTile.positionStart) * t;
+            pos.vec = movementTile.positionStart + (movementTile.positionEnd - movementTile.positionStart) * t;
 
-			if (t >= 1.0f)
-			{
-				pos.vec = movementTile.positionEnd; // guarantee exact landing
-				movementTile.onCooldown = false;
-				movementTile.onPause = true;
-				movementTile.timePause = now;
-			}
-		}
-		else if (movementTile.onPause)
-		{
-			if (SDL_GetTicks() - movementTile.timePause > movementTile.pause)
-			{
-				movementTile.onPause = false;
-			}
-		}
-	}
+            if (t >= 1.0f) {
+                pos.vec = movementTile.positionEnd; // guarantee exact landing
+                movementTile.onCooldown = false;
+                movementTile.onPause = true;
+                movementTile.timePause = now;
+            }
+        } else if (movementTile.onPause) {
+            if (SDL_GetTicks() - movementTile.timePause > movementTile.pause) {
+                movementTile.onPause = false;
+            }
+        }
+    }
 }

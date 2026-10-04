@@ -1,7 +1,6 @@
 #pragma once
 
-struct FaceDirection
-{
-	float angle;
-	int Entity;
+struct FaceDirection {
+    float angle;
+    int Entity;
 };

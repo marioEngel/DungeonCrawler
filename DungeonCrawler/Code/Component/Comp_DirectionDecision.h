@@ -18,7 +18,6 @@
 //	Vector2D<int> basicLeft;
 //};
 
-struct DirectionDecision
-{
-	Vector2D<float> direction{ 0, 0 };
+struct DirectionDecision {
+    Vector2D<float> direction{0, 0};
 };

@@ -5,488 +5,166 @@
 #include "../../../System/Collision/CollisionFunc.h"
 #include <algorithm>
 #include "../../../Misc/MiscFunctions.h"
-#include "ObjectType.h"
+#include "../Enums/ObjectType.h"
 
-void Floor::init()
-{
-	mFloorGenerationData.numRoomTries = 10;
-	mFloorGenerationData.roomExtraSize = 2;
-	mFloorGenerationData.windingPercent = 25;
-	mFloorGenerationData.extraConnectorChance = 10;
+void Floor::init() {
+    mFloorGenerationData.numRoomTries = 10;
+    mFloorGenerationData.roomExtraSize = 2;
+    mFloorGenerationData.windingPercent = 25;
+    mFloorGenerationData.extraConnectorChance = 10;
 
-	std::random_device rd;
-	uint64_t mSeed = rd();
-	// mSeed = 4190745237
-	mRNG = RNG(mSeed);
+    std::random_device rd;
+    uint64_t mSeed = rd();
+    //mSeed = 170038745;
+    mRNG = RNG(mSeed);
 }
 
-void Floor::init(const FloorGenerationData& inputData)
-{
-	mFloorGenerationData.extraConnectorChance = inputData.extraConnectorChance;
-	mFloorGenerationData.numRoomTries = inputData.numRoomTries;
-	mFloorGenerationData.roomExtraSize = inputData.roomExtraSize;
-	mFloorGenerationData.windingPercent = inputData.windingPercent;
+void Floor::init(const FloorGenerationData &inputData) {
+    mFloorGenerationData.extraConnectorChance = inputData.extraConnectorChance;
+    mFloorGenerationData.numRoomTries = inputData.numRoomTries;
+    mFloorGenerationData.roomExtraSize = inputData.roomExtraSize;
+    mFloorGenerationData.windingPercent = inputData.windingPercent;
 
-	std::random_device rd;
-	uint64_t mSeed = rd();
-	std::cout << mSeed << std::endl;
-	//mSeed = 3697648526;
-	mRNG = RNG(mSeed);
-
+    std::random_device rd;
+    uint64_t mSeed = rd();
+    std::cout << mSeed << std::endl;
+    //mSeed = 2576283255;
+    mRNG = RNG(mSeed);
 }
 
-void Floor::generate(int squareSize)
-{
-	mTileMap = Matrix<int>(squareSize);
-	mRegionMap = Matrix<int>(squareSize);
-	mObjectMap = Matrix<int>(squareSize);
+void Floor::setStartEndPoint() {
+    const SDL_Rect startRoom = mRoomVector[mRNG.rangeEx(mRoomVector.size())];
+    const SDL_Rect endRoom = chooseFarRoom(startRoom);
 
-	matrixFillWithElement(mTileMap, eTileType::ROCK);
-	matrixFillWithElement(mRegionMap, -1);
+    const Vector2D<int> startPos = getRandomPointInRoom(shrinkRoomByN(startRoom));
+    const Vector2D<int> endPos = getRandomPointInRoom(shrinkRoomByN(endRoom));
 
-	mCurrentRegion = -1;
-
-	mFloorSize.w = squareSize;
-	mFloorSize.h = squareSize;
-
-	rooms_add();
-	//matrixPrintColor(mTileMap);
-	//matrixPrintColor(mRegionMap);
-	maze_generate();
-	//matrixPrintColor(mTileMap);
-	//matrixPrintColor(mRegionMap);
-	regions_connect();
-	//matrixPrintColor(mTileMap);
-	//matrixPrintColor(mRegionMap);
-	deadEnds_remove();
-	//matrixPrintColor(mTileMap);
-	//matrixPrintColor(mRegionMap);
+    mMap_objects[startPos] = eObjectType::START_POSITION;
+    mMap_objects[endPos] = eObjectType::END_POSITION;
 }
 
+// ------------- private funcions ------------------------------
 
-void Floor::setTiles(SDL_Rect& room)
-{
-	for (int row = room.y; row < room.y + room.h; row++)
-	{
-		for (int col = room.x; col < room.x + room.w; col++)
-		{
-			if (row == room.y || row == (room.y + room.h - 1))
-			{
-				mTileMap(row, col) = eTileType::WALL;
-			}
-			else if (col == room.x || col == (room.x + room.w - 1))
-			{
-				mTileMap(row, col) = eTileType::WALL;
-			}
-			else
-			{
-				mTileMap(row, col) = eTileType::FLOOR;
-				mRegionMap(row, col) = mCurrentRegion;
-			}
-		}
-	}
+Matrix<int> Floor::getMap_tileTypes() {
+    return mMap_tileTypes;
 }
 
-void Floor::incrementCurrentRegion()
-{
-	mCurrentRegion++;
+Matrix<int> Floor::getMap_objects() {
+    return mMap_objects;
 }
 
-void Floor::carveFloor(Vector2D<int> pos)
-{
-	mTileMap[pos] = eTileType::FLOOR;
-	mRegionMap[pos] = mCurrentRegion;
+Matrix<int> Floor::getMap_collision() {
+    return mMap_collision;
 }
 
-bool Floor::canCarve(Vector2D<int> pos, Vector2D<int> dir)
-{
-	const Vector2D<int> target = pos + dir + dir;
-
-	if (target.x < 1 || target.x >= mFloorSize.w - 1 || 
-		target.y < 1 || target.y >= mFloorSize.h - 1)
-	{
-		return false;
-	}
-
-	return mTileMap[target] == eTileType::ROCK;
+void Floor::setTiles(SDL_Rect &room) {
+    for (int xxx = room.x; xxx < room.x + room.w; xxx++) {
+        for (int yyy = room.y; yyy < room.y + room.h; yyy++) {
+            if (xxx == room.x || xxx == (room.x + room.w - 1) ||
+                yyy == room.y || yyy == (room.y + room.h - 1)) {
+                mMap_tileTypes(xxx, yyy) = eTileType::WALL;
+            } else {
+                mMap_tileTypes(xxx, yyy) = eTileType::FLOOR;
+                mMap_regions(xxx, yyy) = mCurrentRegion;
+            }
+        }
+    }
 }
 
-Matrix<int> Floor::getTileMap()
-{
-	return mTileMap;
+void Floor::incrementCurrentRegion() {
+    mCurrentRegion++;
 }
 
-Matrix<int> Floor::getObjectMap()
-{
-	return mObjectMap;
+void Floor::carveFloor(Vector2D<int> pos) {
+    mMap_tileTypes[pos] = eTileType::FLOOR;
+    mMap_regions[pos] = mCurrentRegion;
 }
 
-void Floor::setStartEndPoint()
-{
-	const SDL_Rect startRoom = mRoomVector[mRNG.rangeEx(mRoomVector.size())];
-	const SDL_Rect endRoom = chooseFarRoom(startRoom);
+bool Floor::canCarve(Vector2D<int> pos, Vector2D<int> dir) {
+    const Vector2D<int> target = pos + dir + dir;
 
-	const Vector2D<int> startPos = getRandomPointInRoom(shrinkRoomByOne(startRoom));
-	const Vector2D<int> endPos = getRandomPointInRoom(shrinkRoomByOne(endRoom));
+    if (target.x < 1 || target.x >= mFloorSize.w - 1 ||
+        target.y < 1 || target.y >= mFloorSize.h - 1) {
+        return false;
+    }
 
-	mObjectMap[startPos] = eObjectType::START_POSITION;
-	mObjectMap[endPos] = eObjectType::END_POSITION;
+    return mMap_tileTypes[target] == eTileType::ROCK;
 }
 
-SDL_Rect Floor::chooseFarRoom(const SDL_Rect& startRoom)
-{
-	std::vector<float> weights;
-	float totalWeight = 0.0f;
+SDL_Rect Floor::chooseFarRoom(const SDL_Rect &startRoom) {
+    std::vector<float> weights;
+    float totalWeight = 0.0f;
 
-	for (const SDL_Rect& room : mRoomVector)
-	{
-		const float dist = roomDistance(startRoom, room);
-		float weight = dist * dist;
-		weights.push_back(weight);
-		totalWeight += weight;
-	}
+    for (const SDL_Rect &room: mRoomVector) {
+        const float dist = rectDistance(startRoom, room);
+        float weight = dist * dist;
+        weights.push_back(weight);
+        totalWeight += weight;
+    }
 
-	const float roll = mRNG.range(0.0f, totalWeight);
+    const float roll = mRNG.range(0.0f, totalWeight);
 
-	float cumulative = 0.0f;
-	for (size_t i = 0; i < mRoomVector.size(); i++)
-	{
-		cumulative += weights[i];
-		if (roll <= cumulative)
-		{
-			return mRoomVector[i];
-		}
-	}
+    float cumulative = 0.0f;
+    for (size_t i = 0; i < mRoomVector.size(); i++) {
+        cumulative += weights[i];
+        if (roll <= cumulative) {
+            return mRoomVector[i];
+        }
+    }
 
-	return mRoomVector.back();
+    return mRoomVector.back();
 }
 
-Vector2D<int> Floor::getRandomPointInRoom(const SDL_Rect& room)
-{
-	int randomCol = 0;
-	int randomRow = 0;
+Vector2D<int> Floor::getRandomPointInRoom(const SDL_Rect &room) {
+    int randomX = 0;
+    int randomY = 0;
 
-	if (room.w == 1)
-	{
-		randomCol = room.x;
-	}
-	else
-	{
-		randomCol = mRNG.range(room.x + 1, room.x + room.w - 1);	
-	}
-	if (room.h == 1)
-	{
-		randomRow = room.y;
-	}
-	else
-	{
-		randomRow = mRNG.range(room.y + 1, room.y + room.h - 1);
-	}
+    if (room.w == 1) {
+        randomX = room.x;
+    } else {
+        randomX = mRNG.range(room.x + 1, room.x + room.w - 1);
+    }
+    if (room.h == 1) {
+        randomY = room.y;
+    } else {
+        randomY = mRNG.range(room.y + 1, room.y + room.h - 1);
+    }
 
-	return Vector2D<int> {randomCol, randomRow};
-
+    return Vector2D<int>{randomX, randomY};
 }
 
-void Floor::rooms_add()
-{
-	for (size_t i = 0; i < mFloorGenerationData.numRoomTries; i++)
-	{
-		const int size = mRNG.range(1, 3 + mFloorGenerationData.roomExtraSize) * 2 + 1;
-		const int rectangularity = mRNG.range(0, 1 + size / 2) * 2 + 1;
-		int width = size;
-		int height = size;
-		if (mRNG.oneIn(2))
-		{
-			width += rectangularity;
-		}
-		else
-		{
-			height += rectangularity;
-		}
-
-		const int x = mRNG.range((mFloorSize.w - width) / 2) * 2;
-		const int y = mRNG.range((mFloorSize.h - height) / 2) * 2;
-
-		SDL_Rect tmpRoom{ .x = x, .y = y, .w = width, .h = height };
-		SDL_Rect tmpRoomWithBorder = addRoomBorder(tmpRoom);
-		SDL_Rect tmpRoomWithBorderAdditional = addRoomBorder_doubled(tmpRoom);
-
-		if (tmpRoomWithBorder.x < 0 || tmpRoomWithBorder.y < 0 ||
-			tmpRoomWithBorder.x + tmpRoomWithBorder.w > mFloorSize.w ||
-			tmpRoomWithBorder.y + tmpRoomWithBorder.h > mFloorSize.h)
-		{
-			continue;
-		}
-
-		bool overlaps = false;
-		for (const SDL_Rect& room : mRoomVector)
-		{
-			SDL_Rect roomWithBorderAdditional = addRoomBorder_doubled(room);
-
-			overlaps = check_RectVsRect(tmpRoomWithBorderAdditional, roomWithBorderAdditional);
-			if (overlaps)
-			{
-				break;
-			}
-		}
-		
-		if (!overlaps)
-		{
-			incrementCurrentRegion();
-			setTiles(tmpRoom);
-			mRoomVector.emplace_back(tmpRoom);
-		}
-	}
+void Floor::junction_add(Vector2D<int> &pos) {
+    mMap_tileTypes[pos] = eTileType::DOOR;
+    //if (mRNG.oneIn(4))
+    //{
+    //	if (mRNG.oneIn(3))
+    //	{
+    //		mTileMap[pos] = eTileType::DOOR;
+    //	}
+    //	else
+    //	{
+    //		mTileMap[pos] = eTileType::WALL;
+    //	}
+    //}
+    //else
+    //{
+    //	mTileMap[pos] = eTileType::DOOR;
+    //}
 }
 
-void Floor::maze_generate()
-{
-	for (int row = 1; row < mFloorSize.h; row += 2)
-	{
-		for (int col = 1; col < mFloorSize.w; col += 2)
-		{
-			Vector2D<int> pos{ row, col };
-			if (mTileMap[pos] != eTileType::ROCK)
-			{
-				continue;
-			}
-
-			maze_grow(pos);
-		}
-	}
+void Floor::createCollisionMap() {
+    for (int xxx = 0; xxx < mMap_tileTypes.width(); xxx++) {
+        for (int yyy = 0; yyy < mMap_tileTypes.height(); yyy++) {
+            if (mMap_tileTypes(xxx, yyy) == eTileType::WALL ||
+                mMap_tileTypes(xxx, yyy) == eTileType::ROCK) {
+                mMap_collision(xxx, yyy) = 1;
+            }
+        }
+    }
 }
 
-void Floor::maze_grow(Vector2D<int> start)
-{
-	std::vector<Vector2D<int>> cells{};
-	Vector2D<int> lastDir{ 0, 0 };
-
-	incrementCurrentRegion();
-	carveFloor(start);
-
-	cells.push_back(start);
-
-	while (!cells.empty())
-	{
-		Vector2D<int> cell = cells.back();
-
-		std::vector < Vector2D<int>> unmadeCells{ };
-		for (const Vector2D<int>& dir : mCompass.directions)
-		{
-			if (canCarve(cell, dir))
-			{
-				unmadeCells.push_back(dir);
-			}
-		}
-
-		if (!unmadeCells.empty())
-		{
-			Vector2D<int> dir;
-
-			if (std::find(unmadeCells.begin(), unmadeCells.end(), lastDir) != unmadeCells.end() 
-				&& mRNG.range(100) > mFloorGenerationData.windingPercent)
-			{
-				dir = lastDir;
-			}
-			else
-			{
-				dir = unmadeCells[mRNG.rangeEx(static_cast<int>(unmadeCells.size()))];
-			}
-
-			const Vector2D<int> doorPos = cell + dir;
-			Vector2D<int> nextCell = cell + dir + dir;
-
-			carveFloor(doorPos);
-			carveFloor(nextCell);
-
-			cells.push_back(nextCell);
-			lastDir = dir;
-		}
-		else
-		{
-			cells.pop_back();
-			lastDir = Vector2D<int>{ 0, 0 };
-		}
-	}
+Floor::Floor() {
 }
 
-void Floor::regions_connect() 
-{
-	//Matrix<int> test{ mFloorSize.w };
-	//matrixFillWithElement(test, 0);
-
-	std::vector<ConnectorInfo> connectorRegions{};
-	for (int row = mFloorSize.y + 1; row < mFloorSize.y + mFloorSize.w - 1; row++)
-	{
-		for (int col = mFloorSize.x + 1; col < mFloorSize.x + mFloorSize.h - 1; col++)
-		{
-			Vector2D<int> pos{ row, col };
-
-			if (mTileMap[pos] != eTileType::WALL)
-			{
-				continue;
-			}
-
-			std::set<int> surroundingRegions{};
-			for (const Vector2D<int>& direction : mCompass.directions)
-			{
-				int region = mRegionMap[pos + direction];
-				if (region != -1)
-				{
-					surroundingRegions.insert(region);
-				}
-			}
-
-			if (surroundingRegions.size() < 2)
-			{
-				continue;
-			}
-
-			connectorRegions.push_back({ pos, surroundingRegions });
-			//test[pos] = 1;
-		}
-	}
-
-	//matrixPrintColor(test);
-
-	std::vector<int> merged;
-	std::set<int> openRegions;
-	for (int i = 0; i <= mCurrentRegion; i++)
-	{
-		merged.push_back(i);
-		openRegions.insert(i);
-	}
-
-	while (openRegions.size() > 1)
-	{
-		ConnectorInfo chosenConnector = connectorRegions[mRNG.rangeEx(connectorRegions.size())];
-		junction_add(chosenConnector.pos);
-
-		std::set<int> mappedRegions{};
-		for (const int region : chosenConnector.regions)
-		{
-			mappedRegions.insert(merged[region]);
-		}
-
-		const int dest = *mappedRegions.begin();
-		std::vector<int> sources(std::next(mappedRegions.begin()), mappedRegions.end());
-
-		for (size_t i = 0; i <= mCurrentRegion; i++)
-		{
-			if (std::find(sources.begin(), sources.end(), merged[i]) != sources.end())
-			{
-				merged[i] = dest;
-			}
-
-		}
-		for (int source : sources)
-		{
-			openRegions.erase(source);
-		}
-		connectorRegions.erase(
-			std::remove_if(connectorRegions.begin(), connectorRegions.end(),
-				[&](ConnectorInfo& c)
-				{
-					std::set<int> cMappedRegions{};
-					for (const int region : c.regions)
-					{
-						cMappedRegions.insert(merged[region]);
-					}
-
-					if (cMappedRegions.size() > 1)
-					{
-						return false;
-					}
-
-					if ((chosenConnector.pos - c.pos).calc_amountSquared() < 4)
-					{
-						return true;
-					}
-
-					if (mRNG.oneIn(mFloorGenerationData.extraConnectorChance))
-					{
-						junction_add(c.pos);
-					}
-
-					return true;
-				}),
-			connectorRegions.end()
-		);
-	}
-}
-
-void Floor::junction_add(Vector2D<int>& pos)
-{
-	mTileMap[pos] = eTileType::DOOR;
-	//if (mRNG.oneIn(4))
-	//{
-	//	if (mRNG.oneIn(3))
-	//	{
-	//		mTileMap[pos] = eTileType::DOOR;
-	//	}
-	//	else
-	//	{
-	//		mTileMap[pos] = eTileType::WALL;
-	//	}
-	//}
-	//else
-	//{
-	//	mTileMap[pos] = eTileType::DOOR;
-	//}
-}
-
-void Floor::deadEnds_remove()
-{
-	bool done = false;
-
-	while (!done)
-	{
-		done = true;
-
-		std::vector<Vector2D<int>> rectToPos = getPosListFromRect(
-			SDL_Rect{ mFloorSize.x + 1, mFloorSize.y + 1, mFloorSize.w - 2, mFloorSize.h - 2 });
-		for (const Vector2D<int>& pos : rectToPos)
-		{
-
-			if (mTileMap[pos] == eTileType::ROCK ||
-				mTileMap[pos] == eTileType::WALL ||
-				mTileMap[pos] == eTileType::DOOR)
-			{
-				continue;
-			}
-
-			int exits = 0;
-			int roomNr = 0;
-			for (const Vector2D<int>& dir : mCompass.directions)
-			{
-				if (mTileMap[pos+dir] == eTileType::FLOOR || 
-					mTileMap[pos+dir] == eTileType::DOOR)
-				{
-					exits++;
-				}
-				if (mTileMap[pos+dir] == eTileType::WALL)
-				{
-					roomNr++;
-				}
-			}
-
-			if (exits != 1 || roomNr == 3)
-			{
-				continue;
-			}
-
-
-			done = false;
-			mTileMap[pos] = eTileType::ROCK;
-		}
-	}
-}
-
-
-Floor::Floor()
-{
-}
-
-Floor::~Floor()
-{
+Floor::~Floor() {
 }

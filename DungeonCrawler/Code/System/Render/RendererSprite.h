@@ -2,14 +2,16 @@
 #include "Render.h"
 #include <SDL3/SDL.h>
 
-class SysRendererSprite : public SysRenderer
-{
+class SysRendererSprite : public SysRenderer {
 public:
-	void initRenderertex() override;
-	void loadTexture() override;
-	void render() override;
+    void initRenderertex() override;
 
-	SDL_Texture* rtnRenderertex();
+    void loadTexture() override;
+
+    void render() override;
+
+    SDL_Texture *rtnRenderertex();
+
 private:
-	SDL_Texture* renderertex_sprite = nullptr;
+    SDL_Texture *renderertex_sprite = nullptr;
 };

@@ -1,8 +1,7 @@
 #pragma once
 #include "../../../ECS/System.h"
 
-class SysMovementTile : public Systems
-{
+class SysMovementTile : public Systems {
 public:
-	void update(float delta);
+    void update(float delta);
 };

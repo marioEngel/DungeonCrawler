@@ -7,3 +7,4 @@ Entity gPlayerEntity{};
 Coordinator gCoordinator{};
 Camera gCamera{};
 KeyboardInput gKeyboardInput{};
+float gDeltaT{};

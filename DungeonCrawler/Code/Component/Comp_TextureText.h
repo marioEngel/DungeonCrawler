@@ -3,7 +3,6 @@
 
 // ??? unnoetig
 
-struct TextureText
-{
-	SDL_Texture* SDL = nullptr;
+struct TextureText {
+    SDL_Texture *SDL = nullptr;
 };

@@ -1,15 +1,16 @@
 #pragma once
 #include "../../../ECS/System.h"
-#include "Floor.h"	
+#include "Floor.h"
 
-class SysTower : public Systems
-{
+class SysTower : public Systems {
 public:
-	void init();
-	void syncPlayer();
+    void init();
+
+    void syncPlayer();
 
 private:
-	std::vector<Entity> floorEntityList;
-	std::vector<Floor> floorList;
-	int currentFloorIndex = -1;
+    std::vector<Entity> floorEntityList;
+    std::vector<Floor> floorList;
+    int currentFloorIndex = -1;
+    Matrix<int> mCollisionMap{1};
 };

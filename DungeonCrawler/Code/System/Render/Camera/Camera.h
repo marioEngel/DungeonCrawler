@@ -3,18 +3,21 @@
 #include "../../../ECS/ECS.h"
 #include "../../../Math/Vector2D.h"
 
-class Camera
-{
+class Camera {
 public:
-	Camera();
-	~Camera();
+    Camera();
 
-	void CheckCollision(Entity entity);
-	void center(Entity entity);
-	void transformToBaseCoord(Vector2D<float>& cameraCoord);
-	void printPos();
+    ~Camera();
 
-	SDL_FRect mCamera;
-	float mEdgeWidth;
-	float mEdgeHeight;
+    void CheckCollision(Entity entity);
+
+    void center(Entity entity);
+
+    void transformToBaseCoord(Vector2D<float> &cameraCoord);
+
+    void printPos();
+
+    SDL_FRect mCamera;
+    float mEdgeWidth;
+    float mEdgeHeight;
 };

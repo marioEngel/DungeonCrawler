@@ -8,17 +8,15 @@
 extern Coordinator gCoordinator;
 extern float gDeltaT;
 
-void SysMovementPlayer::update()
-{
-	for (const auto& entity : mEntities)
-	{
-		auto& decision = gCoordinator.GetComponent<DirectionDecision>(entity);
-		auto& movement = gCoordinator.GetComponent<Movement>(entity);
-		auto& normalPos = gCoordinator.GetComponent<Position>(entity);
+void SysMovementPlayer::update() {
+    for (const auto &entity: mEntities) {
+        auto &decision = gCoordinator.GetComponent<DirectionDecision>(entity);
+        auto &movement = gCoordinator.GetComponent<Movement>(entity);
+        auto &normalPos = gCoordinator.GetComponent<Position>(entity);
 
-		// ??? print pos
-		// std::cout << "Position: " << normalPos.pos << '\n';
+        // ??? print pos
+        // std::cout << "Position: " << normalPos.pos << '\n';
 
-		normalPos.vec = normalPos.vec + decision.direction * movement.speed * gDeltaT;
-	}
+        normalPos.vec = normalPos.vec + decision.direction * movement.speed * gDeltaT;
+    }
 }

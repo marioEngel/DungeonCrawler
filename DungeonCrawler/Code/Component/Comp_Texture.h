@@ -3,15 +3,14 @@
 #include <vector>
 
 // simple Texture
-struct Texture
-{
-	const char* path {};
-	float width = 32.0f;
-	float height = 32.0f;
-	float scale = 1.0f;
-	double angle = 0.0f;
+struct Texture {
+    const char *path{};
+    float width = 32.0f;
+    float height = 32.0f;
+    float scale = 1.0f;
+    double angle = 0.0f;
 
-	SDL_Texture* SDL = nullptr;
+    SDL_Texture *SDL = nullptr;
 };
 
 

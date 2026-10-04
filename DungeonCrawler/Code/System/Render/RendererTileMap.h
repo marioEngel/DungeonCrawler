@@ -2,17 +2,18 @@
 #include "Render.h"
 #include <SDL3/SDL.h>
 
-class SysRendererTileMap : public SysRenderer
-{
+class SysRendererTileMap : public SysRenderer {
 public:
-	void initRenderertex() override;
-	void loadTexture() override;
-	void render() override;
+    void initRenderertex() override;
 
-	void createTileMapRenderertex(bool forceUpdate = false);
+    void loadTexture() override;
 
-	SDL_Texture* rtnRenderertex();
+    void render() override;
+
+    void createTileMapRenderertex(bool forceUpdate = false);
+
+    SDL_Texture *rtnRenderertex();
+
 private:
-	SDL_Texture* renderertex_map = nullptr;
+    SDL_Texture *renderertex_map = nullptr;
 };
-
